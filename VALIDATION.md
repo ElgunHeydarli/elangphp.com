@@ -4,8 +4,8 @@ These are observed development checks, not an independent security audit, bankin
 
 | Check | Observed result |
 | --- | --- |
-| PHP 8.3.30 + PostgreSQL 16.15 + Redis + real S3 service | 180 tests, 5,822 assertions; the MySQL-specific snapshot regression is intentionally skipped |
-| PHP 8.4.24 + MariaDB 11.4.9 + Redis + real S3 service | 180 tests, 5,828 assertions, no skipped tests |
+| PHP 8.3.30 + PostgreSQL 16.15 + Redis + real S3 service | 182 tests, 5,866 assertions; the MySQL-specific snapshot regression is intentionally skipped |
+| PHP 8.4.24 + MariaDB 11.4.9 + Redis + real S3 service | 182 tests, 5,872 assertions, no skipped tests |
 | Shared Redis | Cache, lock exclusion, session persistence, strict shared limits, SQL rollback/outbox deduplication, and stale session write/delete rejection passed |
 | SQL concurrency | Four competing queue workers, fenced lease recovery, committed channel ordering, current membership/audit reads under MySQL REPEATABLE READ passed |
 | Real SMTP | Encrypted queued message delivered through a private loopback SMTP capture; no external recipient contacted |
@@ -20,10 +20,12 @@ These are observed development checks, not an independent security audit, bankin
 | Real-time transport | Live SSE, idempotent API writes, WebSocket command/result/broadcast, denied write scope/Origin, and active socket credential revocation passed |
 | Authenticated load | 320 SQL-backed project requests, eight concurrent clients, four tenants, 80 expected cross-tenant denials, zero unexpected errors; 50/50 socket subscribers received a real event |
 | Multilingual content | Nine new chapters per language; executable fences, inline identifiers, localized search, reciprocal canonical/hreflang, metadata, feeds, and sitemap checks passed |
+| Live documentation | All 210 public indexable pages checked at 390 px without horizontal overflow; official MCP SDK verified EN/AZ/RU documentation and localized citation URLs over public HTTPS |
+| Live distribution | All 18 HTTPS package archive checksums verified; isolated global Composer installation and a SaaS project created from the public repository passed doctor |
 | Private integration UI | EN/AZ/RU account/security/publishing/operations layouts at 390/1440; encrypted Packagist token storage and Authorization-header transport tested with a mock API |
 | Deployment boundaries | Only public assets/front controller published; source, credentials, databases, runtime data, and developer Studio remain private |
 
-Hosted [GitHub Actions run 40842095232](https://github.com/ElgunHeydarli/elangphp.com/actions/runs/40842095232) passed all nine jobs: PHP 8.3/8.4, Redis, MySQL 8.4/PostgreSQL 17, minimum/latest dependency resolution, React/Next contracts/builds, and the complete Docker development stack with private S3 integration. The additional secret-file unit check passed after that development work.
+Hosted [GitHub Actions run 40845236003](https://github.com/ElgunHeydarli/elangphp.com/actions/runs/40845236003), at source commit `4e433973e8c88e722de2699e2259ea66eda5b1d7`, passed all nine jobs: PHP 8.3/8.4, Redis, MySQL 8.4/PostgreSQL 17, minimum/latest dependency resolution, React/Next contracts/builds, and the complete Docker development stack with private S3 integration. The 182-test suite includes secret-file configuration and localized MCP citation regressions.
 
 The sanitized [load result](benchmarks/results/2026-10-29-runtime.json) records the exact local workload: PHP 8.4.24, MariaDB 11.4.9, Redis 7.0.15, four PHP HTTP workers, two socket workers, CLI OPcache off, a deliberately raised test limiter, operations collection enabled. Its roughly 153 HTTP requests/second and 154 ms p95 describe only this short loopback experiment. Socket delivery p95 was about 467 ms for 50 local connections. These are not sustained capacity limits or a Laravel comparison.
 
