@@ -32,3 +32,9 @@ Set `APP_ENV=production`, `APP_DEBUG=false`, and the canonical HTTPS `APP_URL`. 
 ## Request limits
 
 The site sets `max_body_bytes` to 16 KiB and `rate_limit` to 120 API requests per minute per detected client IP. Set appropriate limits for your own application. Reverse-proxy trust must be configured explicitly when needed; arbitrary forwarded headers are not trusted by default.
+
+## Container secret files
+
+`APP_KEY_FILE` and `MAILER_DSN_FILE` can reference absolute, readable private files instead of exposing their values in container configuration. An explicit nonempty `APP_KEY` or `MAILER_DSN` takes precedence. Files are limited to 8192 bytes; a missing or invalid configured file fails configuration rather than silently switching keys. Keep permissions restricted and retain the same application key across HTTP, CLI, queue, and socket processes.
+
+The local Compose stack persists its development key in private storage and declares `APP_KEY_FILE`, so `docker compose exec app php elang doctor` sees the same key as the web process. `key:generate` refuses to create a competing `.env` key while a secret-file source is configured. Manage production key files through your deployment secret manager; do not rotate keys as an ordinary update.

@@ -44,13 +44,13 @@ final class Application
             'environment' => Config::env('APP_ENV', 'production'),
             'debug' => filter_var(Config::env('APP_DEBUG', 'false'), FILTER_VALIDATE_BOOL),
             'url' => Config::env('APP_URL', 'http://localhost:8000'),
-            'key' => Config::env('APP_KEY', ''),
+            'key' => Config::secret('APP_KEY', ''),
             'database' => ['url' => Config::env('DATABASE_URL', 'sqlite:///'. $basePath.'/database/database.sqlite')],
             'redis'=>['url'=>Config::env('REDIS_URL','')],
             'telemetry'=>['enabled'=>filter_var(Config::env('OTEL_ENABLED','false'),FILTER_VALIDATE_BOOL),'endpoint'=>Config::env('OTEL_EXPORTER_OTLP_TRACES_ENDPOINT','http://127.0.0.1:4318/v1/traces'),'service_name'=>Config::env('OTEL_SERVICE_NAME','elang'),'sample_rate'=>(float)Config::env('OTEL_SAMPLE_RATE','0.1')],
             'operations'=>['enabled'=>filter_var(Config::env('OPERATIONS_ENABLED','false'),FILTER_VALIDATE_BOOL)],
             'files'=>['disk'=>Config::env('FILES_DISK','local'),'s3'=>['bucket'=>Config::env('S3_BUCKET',''),'region'=>Config::env('S3_REGION','us-east-1'),'endpoint'=>Config::env('S3_ENDPOINT',''),'key'=>Config::env('S3_KEY',''),'secret'=>Config::env('S3_SECRET',''),'path_style'=>filter_var(Config::env('S3_PATH_STYLE','false'),FILTER_VALIDATE_BOOL)]],
-            'mail' => ['dsn' => Config::env('MAILER_DSN', 'null://null'), 'from' => Config::env('MAIL_FROM','noreply@localhost')],
+            'mail' => ['dsn' => Config::secret('MAILER_DSN', 'null://null'), 'from' => Config::env('MAIL_FROM','noreply@localhost')],
         ], $values);
         $storage = $values['paths']['storage'] ?? $basePath.'/storage';
         $values['paths'] = array_replace(['base' => $basePath, 'storage' => $storage, 'views' => $basePath.'/resources/views'], $values['paths'] ?? []);

@@ -1,0 +1,15 @@
+.git
+.github
+vendor
+**/node_modules
+**/.next
+**/dist
+**/coverage
+storage
+.phpstan
+.phpunit.cache
+**/.env
+**/.env.*
+!**/.env.example
+**/*.sqlite*
+**/*.log

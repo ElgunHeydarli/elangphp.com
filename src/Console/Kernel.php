@@ -34,6 +34,7 @@ final class Kernel
             (new Table($output))->setHeaders(['Method', 'Path', 'Name'])->setRows($rows)->render(); return 0;
         }));
         $console->add((new Command('key:generate'))->setDescription('Generate and save an application encryption key.')->addOption('force', null, InputOption::VALUE_NONE, 'Replace an existing key (old ciphertext will become unreadable).')->setCode(function ($input, $output) {
+            if(\Elang\Support\Config::env('APP_KEY_FILE','')!=='') { $output->writeln('<error>APP_KEY_FILE is configured. Manage the existing secret file instead of generating a competing .env key.</error>');return 1; }
             $path = $this->app->basePath.'/.env';
             $env = is_file($path) ? file_get_contents($path) : (is_file($this->app->basePath.'/.env.example') ? file_get_contents($this->app->basePath.'/.env.example') : '');
             if (preg_match('/^APP_KEY=(.+)$/m', $env) && !$input->getOption('force')) { $output->writeln('<error>An application key already exists. Keep it safe; use --force only to rotate it.</error>'); return 1; }

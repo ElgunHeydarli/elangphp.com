@@ -11,6 +11,7 @@ x-runtime: &runtime
   environment: &environment
     APP_ENV: local
     APP_DEBUG: 'false'
+    APP_KEY_FILE: /app/storage/dev/app.key
     APP_URL: http://localhost:8000
     DATABASE_URL: postgresql://elang:development-only@postgres:5432/elang_dev
     REDIS_URL: redis://redis:6379/0

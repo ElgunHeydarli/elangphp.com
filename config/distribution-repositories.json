@@ -1,0 +1,110 @@
+[
+  {
+    "name": "elang/framework",
+    "repository": "https://github.com/ElgunHeydarli/elang-framework",
+    "commit": "ee304247016c42e283bb35e1bd0938ed40937151",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/elang",
+    "repository": "https://github.com/ElgunHeydarli/elang-elang",
+    "commit": "7b8ff857790895cf391d1825489fb8392c692926",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/task-board",
+    "repository": "https://github.com/ElgunHeydarli/elang-task-board",
+    "commit": "0367e01b95646eb03b9fad33e3432ff0c61234ec",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/auth-starter",
+    "repository": "https://github.com/ElgunHeydarli/elang-auth-starter",
+    "commit": "c175e6ac866a78c42b7bd8bdd0b4cc6aad515194",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/blog",
+    "repository": "https://github.com/ElgunHeydarli/elang-blog",
+    "commit": "476e9fd3dd3061eb5e5f58a1a5319e0afce198b3",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/dashboard",
+    "repository": "https://github.com/ElgunHeydarli/elang-dashboard",
+    "commit": "390302372a326f8624e700dbfd17e68bec4d23f0",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/api",
+    "repository": "https://github.com/ElgunHeydarli/elang-api",
+    "commit": "2171a0103661306b319c62f1d7717c90e4938a90",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/react",
+    "repository": "https://github.com/ElgunHeydarli/elang-react",
+    "commit": "9ad306dd17dd187ccfdb3c892d0df89f21e863f0",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/next",
+    "repository": "https://github.com/ElgunHeydarli/elang-next",
+    "commit": "62a508a0ee719b26ec81a63c01ac337019e38224",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/saas",
+    "repository": "https://github.com/ElgunHeydarli/elang-saas",
+    "commit": "096b554968e685cc2d1807e64d9b2fa3bf118943",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/realtime",
+    "repository": "https://github.com/ElgunHeydarli/elang-realtime",
+    "commit": "1078cff8c6188397fdfbdf6f05be2c937a11d5dd",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/installer",
+    "repository": "https://github.com/ElgunHeydarli/elang-installer",
+    "commit": "b2f36c74da746b1f967889e45e6bff4174ac3d91",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/redis",
+    "repository": "https://github.com/ElgunHeydarli/elang-redis",
+    "commit": "248241039f7b5f4fe2e5aaef9ed503f60e705f3d",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/security",
+    "repository": "https://github.com/ElgunHeydarli/elang-security",
+    "commit": "e77625a7a3706de73ea311404e17757d07627124",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/tenancy",
+    "repository": "https://github.com/ElgunHeydarli/elang-tenancy",
+    "commit": "9b7ab787d5b92a06010d575bd455753e8c974ab5",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/storage",
+    "repository": "https://github.com/ElgunHeydarli/elang-storage",
+    "commit": "904edca4a3f8dfa226d054532621fcd7498b3159",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/notifications",
+    "repository": "https://github.com/ElgunHeydarli/elang-notifications",
+    "commit": "84c2ede3a60d0b64e22152f6a5e13bd4ba63c1bf",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  },
+  {
+    "name": "elang/observability",
+    "repository": "https://github.com/ElgunHeydarli/elang-observability",
+    "commit": "1b984333449e0d0f17cdfc9bf710b795c3c3d191",
+    "source_commit": "7461e774e7de280bfdc393b275fed85ee3c90251"
+  }
+]

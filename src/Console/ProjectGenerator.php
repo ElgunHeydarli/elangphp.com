@@ -23,7 +23,7 @@ final class ProjectGenerator
     }
     private function stageFramework(string $source,string $destination): void
     {
-        mkdir($destination,0770,true);$files=['composer.json','.env.example','LICENSE','README.md','bin/elang','compose.yaml','public/.htaccess','public/router.php'];
+        mkdir($destination,0770,true);$files=['composer.json','.env.example','LICENSE','README.md','bin/elang','compose.yaml','.dockerignore','public/.htaccess','public/router.php'];
         foreach(['src','resources/elang','examples','devkit'] as $folder) foreach($this->files($source.'/'.$folder) as $relative) $files[]=$folder.'/'.$relative;
         foreach(['task-board.css','favicon.svg'] as $file) $files[]='public/assets/'.$file;
         $this->copy($source,$destination,$files);
@@ -54,7 +54,7 @@ final class ProjectGenerator
         if(in_array($example,['react','next','saas'],true)) { $source=dirname(__DIR__,2).'/examples/api';$this->copy($source,$directory,$this->files($source)); }
         if(in_array($example,['react','next'],true)) { $source=dirname(__DIR__,2).'/examples/frontend-'.$example;$this->copy($source,$directory.'/frontend',$this->files($source)); }
         if($example!==null&&!in_array($example,['react','next'],true)) { $source=dirname(__DIR__,2).'/examples/'.$example;$this->copy($source,$directory,$this->files($source)); }
-        if(in_array($example,['react','next','saas'],true)) { $this->copy(dirname(__DIR__,2).'/devkit',$directory.'/devkit',$this->files(dirname(__DIR__,2).'/devkit'));copy(dirname(__DIR__,2).'/compose.yaml',$directory.'/compose.yaml'); }
+        if(in_array($example,['react','next','saas'],true)) { $this->copy(dirname(__DIR__,2).'/devkit',$directory.'/devkit',$this->files(dirname(__DIR__,2).'/devkit'));copy(dirname(__DIR__,2).'/compose.yaml',$directory.'/compose.yaml');copy(dirname(__DIR__,2).'/.dockerignore',$directory.'/.dockerignore'); }
         chmod($directory.'/elang',0755);
     }
 }
