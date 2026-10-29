@@ -1301,5 +1301,8 @@
   "Packagist rejected the account token or permission. Use the main API token.": "Packagist rejected the account token or permission. Use the main API token.",
   "Packagist did not accept this package. Check namespace ownership and the repository manifest.": "Packagist did not accept this package. Check namespace ownership and the repository manifest.",
   "Packagist could not complete the request. Check the connection and try again.": "Packagist could not complete the request. Check the connection and try again.",
-  "Elang": "Elang"
+  "Elang": "Elang",
+  "Submit all prepared packages": "Submit all prepared packages",
+  "Submitting prepared packages one at a time…": "Submitting prepared packages one at a time…",
+  "Submission finished. Review each package status.": "Submission finished. Review each package status."
 }

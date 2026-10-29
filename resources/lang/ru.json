@@ -1301,5 +1301,8 @@
   "Packagist rejected the account token or permission. Use the main API token.": "Packagist отклонил токен или права учётной записи. Используйте основной API-токен.",
   "Packagist did not accept this package. Check namespace ownership and the repository manifest.": "Packagist не принял этот пакет. Проверьте владение пространством имён и манифест репозитория.",
   "Packagist could not complete the request. Check the connection and try again.": "Не удалось выполнить запрос к Packagist. Проверьте подключение и повторите попытку.",
-  "Elang": "Elang"
+  "Elang": "Elang",
+  "Submit all prepared packages": "Отправить все подготовленные пакеты",
+  "Submitting prepared packages one at a time…": "Подготовленные пакеты отправляются по одному…",
+  "Submission finished. Review each package status.": "Отправка завершена. Проверьте состояние каждого пакета."
 }

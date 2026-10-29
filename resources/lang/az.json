@@ -1301,5 +1301,8 @@
   "Packagist rejected the account token or permission. Use the main API token.": "Packagist hesab tokenini və ya icazəsini rədd etdi. Əsas API tokenindən istifadə edin.",
   "Packagist did not accept this package. Check namespace ownership and the repository manifest.": "Packagist bu paketi qəbul etmədi. Ad məkanına sahibliyi və repozitoriya manifestini yoxlayın.",
   "Packagist could not complete the request. Check the connection and try again.": "Packagist sorğunu tamamlaya bilmədi. Bağlantını yoxlayın və yenidən cəhd edin.",
-  "Elang": "Elang"
+  "Elang": "Elang",
+  "Submit all prepared packages": "Hazırlanmış bütün paketləri göndər",
+  "Submitting prepared packages one at a time…": "Hazırlanmış paketlər bir-bir göndərilir…",
+  "Submission finished. Review each package status.": "Göndəriş bitdi. Hər paketin vəziyyətini yoxlayın."
 }
