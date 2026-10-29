@@ -4,6 +4,22 @@ namespace Tests;
 use Symfony\Component\HttpFoundation\Request;
 final class PackageRepositoryTest extends TestCase
 {
+    public function testPackagistExportsNeverInheritPrivateBuildRepositories(): void
+    {
+        $output = $this->temporary.'/export';
+        $process = proc_open([PHP_BINARY, dirname(__DIR__).'/bin/export-packages', '--output='.$output], [0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']], $pipes);
+        fclose($pipes[0]);$stdout=stream_get_contents($pipes[1]);$stderr=stream_get_contents($pipes[2]);fclose($pipes[1]);fclose($pipes[2]);
+        self::assertSame(0,proc_close($process),$stdout.$stderr);
+        $manifest=json_decode(file_get_contents($output.'/manifest.json'),true,512,JSON_THROW_ON_ERROR);
+        self::assertCount(18,$manifest);
+        foreach($manifest as $package) {
+            $composer=json_decode(file_get_contents($output.'/'.$package['directory'].'/composer.json'),true,512,JSON_THROW_ON_ERROR);
+            self::assertArrayNotHasKey('repositories',$composer,$package['name']);
+            self::assertArrayNotHasKey('version',$composer);
+            self::assertSame('0.1.x-dev',$composer['extra']['branch-alias']['dev-main']);
+            if(isset($composer['require']['elang/framework'])) self::assertSame('^0.1@dev',$composer['require']['elang/framework']);
+        }
+    }
     public function testComposerDistributionsAreCompleteAndExcludeRuntimeSecrets(): void
     {
         $output = $this->temporary.'/storage/distribution';
