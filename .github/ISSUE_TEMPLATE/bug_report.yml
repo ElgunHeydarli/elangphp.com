@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible framework or documentation problem.
+body:
+  - type: markdown
+    attributes:
+      value: Do not include real credentials, keys, private data, or vulnerability exploit details. Use private security reporting for sensitive issues.
+  - type: input
+    id: revision
+    attributes:
+      label: Elang version or commit
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: PHP, operating system, database, Redis/runtime versions, and starter. Exclude DSNs and secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Complete commands or a small public example using dummy data.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+    validations:
+      required: true

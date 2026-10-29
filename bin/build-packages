@@ -35,7 +35,7 @@ function archivePackage(string $source, string $destination, ?array $composerOve
 $framework = json_decode(file_get_contents($base.'/composer.json'), true, 512, JSON_THROW_ON_ERROR);
 unset($framework['require-dev'], $framework['autoload-dev'], $framework['scripts'], $framework['extra']);
 $framework['version'] = $version;
-$allow = ['composer.json','.env.example', 'LICENSE', 'README.md','compose.yaml','.dockerignore', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg', 'bin/elang'];
+$allow = ['composer.json','.env.example', 'LICENSE', 'README.md','ROADMAP.md','SECURITY.md','CONTRIBUTING.md','CHANGELOG.md','THIRD_PARTY_NOTICES.md','compose.yaml','.dockerignore', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg', 'bin/elang'];
 foreach (['src', 'examples', 'resources/elang','devkit'] as $folder) foreach (new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(new RecursiveDirectoryIterator($base.'/'.$folder, FilesystemIterator::SKIP_DOTS),fn($file)=>!$file->isDir()||!in_array($file->getFilename(),['vendor','storage','node_modules','.next','.vite','dist','coverage','.git'],true))) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($base) + 1);
 $existing = is_file($output.'/packages.json') ? json_decode(file_get_contents($output.'/packages.json'), true, 512, JSON_THROW_ON_ERROR) : [];
 $packages = $existing['packages'] ?? [];

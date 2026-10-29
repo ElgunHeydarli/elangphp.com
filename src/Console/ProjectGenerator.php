@@ -23,7 +23,7 @@ final class ProjectGenerator
     }
     private function stageFramework(string $source,string $destination): void
     {
-        mkdir($destination,0770,true);$files=['composer.json','.env.example','LICENSE','README.md','bin/elang','compose.yaml','.dockerignore','public/.htaccess','public/router.php'];
+        mkdir($destination,0770,true);$files=['composer.json','.env.example','LICENSE','README.md','ROADMAP.md','SECURITY.md','CONTRIBUTING.md','CHANGELOG.md','THIRD_PARTY_NOTICES.md','bin/elang','compose.yaml','.dockerignore','public/.htaccess','public/router.php'];
         foreach(['src','resources/elang','examples','devkit'] as $folder) foreach($this->files($source.'/'.$folder) as $relative) $files[]=$folder.'/'.$relative;
         foreach(['task-board.css','favicon.svg'] as $file) $files[]='public/assets/'.$file;
         $this->copy($source,$destination,$files);
