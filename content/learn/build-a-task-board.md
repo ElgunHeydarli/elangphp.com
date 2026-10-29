@@ -15,7 +15,7 @@ You can [try the live task board](/demo/task-board) before reading the code. Eac
 From the parent directory where you want the project, run:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+composer create-project elang/task-board task-board dev-main
 cd task-board
 php elang doctor
 php elang serve

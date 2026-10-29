@@ -2,62 +2,62 @@
   {
     "name": "elang/framework",
     "repository": "https://github.com/ElgunHeydarli/elang-framework",
-    "commit": "ac2cbdf6ce76eb80405417ee6eac8901b0f4b8a8",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "8692012b61dcfc8803e1ad731f62f63035478a95",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/elang",
     "repository": "https://github.com/ElgunHeydarli/elang-elang",
-    "commit": "bc0d8d4f23ed3cc50e0cb146c95e66d17aec7495",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "13fdcc9edf06d7cb16dd08212aa5764b0248bd1b",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/task-board",
     "repository": "https://github.com/ElgunHeydarli/elang-task-board",
-    "commit": "db5df4a5c68f02631b583660b782561bbce8d242",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "25d618c212aeb784629b78964d467aef10ef8b9e",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/auth-starter",
     "repository": "https://github.com/ElgunHeydarli/elang-auth-starter",
-    "commit": "e63f82e81f52b523e1b2680d14e01d302d05bec4",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "062abc4c7b440f68ea2bd946c64af5f15aa8234c",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/blog",
     "repository": "https://github.com/ElgunHeydarli/elang-blog",
-    "commit": "a6c7a56d7557b0b6f5efd8bd6d126f0b2702fde1",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "a5cf56503b1d37fad745c44221a58945c7c0392b",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/dashboard",
     "repository": "https://github.com/ElgunHeydarli/elang-dashboard",
-    "commit": "ab2d98754542d09d1072f28341b894680db749e5",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "d6b15eb0191b01baae2709dad8751dd725b0ab38",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/api",
     "repository": "https://github.com/ElgunHeydarli/elang-api",
-    "commit": "005a5aa3bb47602539b02dad4df7154f98599b3f",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "0d99aa078f25a495c4184af765a0689521f7e168",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/react",
     "repository": "https://github.com/ElgunHeydarli/elang-react",
-    "commit": "90f3e7ebbaffb0aea51b710abf5b0c8febee09e0",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "36ac5492572a901e2b6d7279cab31455fd69ca1e",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/next",
     "repository": "https://github.com/ElgunHeydarli/elang-next",
-    "commit": "07f1fe388924713dfb0a4209d9e390b6876c4e91",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "f0bab6137a19e66ed34464109d93b4683da9713b",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/saas",
     "repository": "https://github.com/ElgunHeydarli/elang-saas",
-    "commit": "0c04511cd5429baddce67d2a331f9c6541255818",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "06129da29e91fc6c44f4f08cf1b410e26c15a27e",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/realtime",
@@ -68,8 +68,8 @@
   {
     "name": "elang/installer",
     "repository": "https://github.com/ElgunHeydarli/elang-installer",
-    "commit": "b2f36c74da746b1f967889e45e6bff4174ac3d91",
-    "source_commit": "68449ae9d3e071b268eee6e243b60fa1c63a90ea"
+    "commit": "2c0f08972fdbbef2eefc880af5f4d0b68fc7c506",
+    "source_commit": "1baa39c4f7267d2c8b707bcc3334c1e1f318f13f"
   },
   {
     "name": "elang/redis",

@@ -18,7 +18,7 @@ You need PHP 8.3+ within PHP 8.x, Composer 2, the required PHP extensions, a ter
 
 ## Is there a stable release on Packagist?
 
-Not yet. The current version is a 0.1 development preview. Install from the terminal using Elang’s Composer repository. The installation guide explains both the website application and a separate generated application. Do not assume `composer require elang/framework` works from Packagist today.
+There is no stable release yet. The eighteen development packages are available on Packagist as `dev-main` (alias `0.1.x-dev`). Install with the commands in [installation](/docs/v0.1/installation); a custom repository is not required. APIs may change before a stable release.
 
 ## Can I use existing Composer packages?
 

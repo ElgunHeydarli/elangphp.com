@@ -53,7 +53,7 @@ Gözlənilən nəticə: PHP 8.x daxilində PHP 8.3+, oxuna bilən CLI konfiquras
 Layihənizi istədiyiniz ana qovluqda terminal açın. Yerinə yetirin:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang doctor
 php elang serve
@@ -61,7 +61,7 @@ php elang serve
 
 Composer layihəni yaradır, asılılıqları quraşdırır, onun açarını yaradır və mühiti yoxlayır. Server bu ünvanı göstərdikdə `http://127.0.0.1:8000` açın. Lokal saytdan istifadə edərkən terminalı işlək saxlayın; dayandırmaq üçün Ctrl+C basın.
 
-Paketlər hələ Packagist-də dərc edilmədiyi üçün ilkin versiyanın işlək əmrinə Elang-ın Composer repozitoriyası daxildir. Git işçi nüsxəsi və ya əl ilə çıxarılmış arxiv lazım deyil.
+İnkişaf paketləri Packagist-də mövcuddur. Yoxlanılmış bu əmr standart Composer repozitoriyasını və `dev-main` budağını istifadə edir. Git işçi nüsxəsi və ya əl ilə çıxarılmış arxiv lazım deyil.
 
 ## Birdəfəlik hazırlıqdan sonra daha qısa əmr
 

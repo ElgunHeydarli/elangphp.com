@@ -1,6 +1,6 @@
 # Elang-ı terminaldan quraşdırın
 
-Elang tətbiqləri Composer ilə quraşdırılır. Cari ilkin inkişaf versiyası Elang-ın Composer repozitoriyası vasitəsilə paylanır, buna görə repozitoriya seçimi işlək əmrin bir hissəsidir. Mənbəni əl ilə endirmək və ya arxivdən çıxarmaq lazım deyil.
+İlkin inkişaf versiyasını Composer vasitəsilə birbaşa Packagist-dən quraşdırın. Aşağıdakı əmrlər xüsusi repozitoriya əlavə edilmədən təmiz Composer mühitində yoxlanılıb. Mənbəni əl ilə endirmək və ya arxivdən çıxarmaq lazım deyil.
 
 ## Başlamazdan əvvəl
 
@@ -11,7 +11,7 @@ PHP 8.x daxilində PHP 8.3+ və Composer 2 quraşdırın. Onları yoxlamaq üç�
 Yeni layihənin yerləşməsini istədiyiniz ana qovluqda bunu yerinə yetirin:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang serve
 ```
@@ -24,11 +24,10 @@ Yeni və ya boş qovluq istifadə edin. `my-app` artıq fayllar ehtiva edirsə, 
 
 ## Elang CLI-ni bir dəfə quraşdırın
 
-`elang new` əmrinə üstünlük verirsinizsə, Composer repozitoriyasını qeydiyyata alın və CLI-ni qlobal quraşdırın:
+Könüllü qlobal `elang new` əmri üçün inkişaf versiyasındakı installer-i birbaşa Packagist-dən quraşdırın:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 ```
 
 İcra fayllarının qovluğunu bu əmrlə tapın:
@@ -54,7 +53,7 @@ Quraşdırıcı tətbiqi yaratmaq üçün Composer-i çağırır. Freymvork mən
 Tapşırıq lövhəsini birbaşa Composer vasitəsilə yaradın:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+composer create-project elang/task-board task-board dev-main
 cd task-board
 php elang serve
 ```
@@ -79,9 +78,9 @@ php elang make:controller HelloController
 
 ## İlkin versiyanın paylanması və Packagist
 
-Paylanma on səkkiz paket müəyyən edir: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications` və `elang/observability`. Quraşdırma `https://elangphp.com/packages` ünvanında öz serverində yerləşdirilən Composer repozitoriyasından istifadə edir.
+[Packagist-də](https://packagist.org/packages/elang/) on səkkiz inkişaf paketi indekslənib: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/installer`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications`, `elang/observability`. Standart Composer repozitoriyasından `dev-main` ilə quraşdırın.
 
-Hələ ictimai Packagist buraxılışı dərc edilməyib, buna görə adi Composer quraşdırmasında repozitoriya seçimini buraxmaq hazırda dəstəklənmir. Bu dərc baş verməmiş yalnız Packagist-ə əsaslanan qısa əmrin işləyəcəyini fərz etməyin. Cari versiya dəyişməkdə olan ilkin inkişaf versiyası olaraq qalır.
+Packagist `dev-main` və onun `0.1.x-dev` budaq ləqəbini təqdim edir. Bunlar dəyişən inkişaf versiyalarıdır, stabil buraxılış deyil. Tətbiqin lockfile faylını Git-də saxlayın və yeniləmədən əvvəl dəyişiklikləri nəzərdən keçirin.
 
 ## Quraşdırma dayanarsa
 

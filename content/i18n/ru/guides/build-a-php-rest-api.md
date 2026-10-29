@@ -7,7 +7,7 @@
 Выполните команды в родительском каталоге нового приложения:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang catalog-api 0.1.0-dev
+composer create-project elang/elang catalog-api dev-main
 cd catalog-api
 php elang doctor
 ```

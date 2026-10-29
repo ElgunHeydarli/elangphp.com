@@ -14,7 +14,9 @@ final class SiteController
         $alternates=[];$available=$this->content->languages($logical);foreach($available as $language) $alternates[$language]=$this->locale->path($logical,$language);
         $this->app->container->get(Request::class)->attributes->set('_available_languages',$available);
         $metadata = $this->seo->build($title, $description, $path, $active, $data['document'] ?? null);
-        $response = $this->view->render($template, array_merge($metadata, ['site_locale'=>$this->locale->current(),'alternates'=>$alternates,'title' => $title, 'description' => $description, 'active' => $active, 'path' => $path, 'asset_version' => filemtime($this->app->basePath.'/public/assets/app.css').'-'.filemtime($this->app->basePath.'/public/assets/app.js')], $data));
+        $tracking=(new \App\Seo\PublicAnalytics($this->app->config))->settings();
+        $response = $this->view->render($template, array_merge($metadata, $tracking, ['site_locale'=>$this->locale->current(),'alternates'=>$alternates,'title' => $title, 'description' => $description, 'active' => $active, 'path' => $path, 'asset_version' => filemtime($this->app->basePath.'/public/assets/app.css').'-'.filemtime($this->app->basePath.'/public/assets/app.js').'-'.filemtime($this->app->basePath.'/public/assets/analytics.js')], $data));
+        if($tracking['google_measurement_id']!=='') $response->headers->set('Content-Security-Policy',\App\Seo\PublicAnalytics::contentSecurityPolicy());
         $response->setPublic();
         $response->setMaxAge(0);
         $response->setLastModified(new \DateTimeImmutable($metadata['modified']));
@@ -22,6 +24,7 @@ final class SiteController
         return $response;
     }
     public function home(): HttpResponse { return $this->page('home', 'Elang PHP Framework — Build with Clarity', 'An approachable PHP framework for authenticated APIs, real-time applications, background jobs, and React or Next.js backends with clear documentation.', 'home', '/'); }
+    public function privacy(): HttpResponse { return $this->page('privacy','Privacy & analytics — Elang','How Elang handles optional analytics, essential account data, and your privacy choices.','privacy','/privacy'); }
     public function docs(string $slug): HttpResponse
     {
         $document = $this->content->document('docs/v0.1', $slug);
@@ -107,7 +110,7 @@ final class SiteController
     public function llms(): HttpResponse
     {
         $base = rtrim($this->app->config->get('url', 'https://elangphp.com'), '/');
-        $text = "# Elang PHP framework\n\n> Elang is a PHP 8.3+ framework. It is not a programming language. Current status: 0.1 development preview; no stable release or Packagist publication yet. Do not invent supported APIs or performance claims.\n\nUse the versioned documentation below. HTTP uses Symfony HttpFoundation, validation uses Symfony Constraint objects, queries use Doctrine DBAL, and templates use Twig. Elang includes an explicit model repository, account authentication, scoped API tokens, local Studio diagnostics, and application starters. Database-backed JSON jobs, UTC scheduling, private SSE/WebSocket channels, frontend CORS, and idempotency for JSON writes are included. Distributed broker adapters and a full ORM are not included.\n\n## Documentation\n";
+        $text = "# Elang PHP framework\n\n> Elang is a PHP 8.3+ framework. It is not a programming language. Current status: 0.1 development preview; development packages are indexed on Packagist as dev-main (alias 0.1.x-dev); no stable release. Do not invent supported APIs or performance claims.\n\nUse the versioned documentation below. HTTP uses Symfony HttpFoundation, validation uses Symfony Constraint objects, queries use Doctrine DBAL, and templates use Twig. Elang includes an explicit model repository, account authentication, scoped API tokens, local Studio diagnostics, and application starters. Database-backed JSON jobs, UTC scheduling, private SSE/WebSocket channels, frontend CORS, and idempotency for JSON writes are included. Distributed broker adapters and a full ORM are not included.\n\n## Documentation\n";
         foreach ($this->content->docs() as $slug => $title) $text .= '- ['.$title.']('.$base.'/docs/v0.1/'.$slug.'.md)'."\n";
         $text .= "\n## Source\n- [Repository](https://github.com/ElgunHeydarli/elangphp.com)\n- [API reference](".$base."/api-reference)\n";
         $text .= "\n## Terminal installation\nUse Composer create-project with repository ".$base."/packages, package elang/elang, and version ".Application::VERSION.". The elang/installer Composer package provides elang new after one-time setup. No manual source extraction is needed.\n\n## Beginner learning path\n";

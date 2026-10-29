@@ -1,21 +1,22 @@
 # Paketlər, yeniləmələr və buraxılışların hazırlanması
 
-Elang hazırda `0.1.0-dev` istifadə edir. Öz serverində yerləşdirilən rəsmi Composer repozitoriyası terminaldan quraşdırmanı dəstəkləyir. Repozitoriya qeydi Packagist nəşri, sabit uyğunluq zəmanəti və ya uzunmüddətli dəstək elanı deyil. Versiyanı qəbul etməzdən əvvəl faktiki paket indeksini və buraxılış qeydlərini yoxlayın.
+Elang 0.1 ilkin inkişaf versiyasıdır. On səkkiz inkişaf paketinin hamısı Packagist-də `dev-main` və `0.1.x-dev` budaq ləqəbi ilə indekslənib. Doqquz tətbiq paketinin və qlobal installer-in təmiz quraşdırılması yoxlanılıb. Bu, stabil buraxılış və ya uzunmüddətli dəstək vədi deyil.
+
+On səkkiz rəsmi paylama repozitoriyasının hamısında Packagist-ə aktiv və imzalanmış GitHub push bağlantıları var. Real push-dan sonra yenilənmələr Composer inkişaf metadatası ilə yoxlanılıb; webhook URL-lərində giriş məlumatları yoxdur. Əvvəllər öz serverində yerləşdirilən mənbəni qlobal əlavə etmisinizsə, Packagist installer-ini yeniləməzdən əvvəl köhnə ayarı `composer global config --unset repositories.elang` ilə çıxarın.
 
 ## Terminaldan quraşdırılan paketlər
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang app 0.1.0-dev
-composer create-project --repository=https://elangphp.com/packages elang/saas workspace 0.1.0-dev
+composer create-project elang/elang app dev-main
+composer create-project elang/saas workspace dev-main
 ```
 
 Paylanmaya freymvork, tətbiq skeleti, quraşdırıcı, tapşırıq lövhəsi nümunəsi, autentifikasiya/bloq/idarəetmə paneli/API başlanğıc layihələri, React/Next tam stek başlanğıc layihələri, SaaS iş sahəsi və istəyə bağlı Workerman icra mühiti paketi daxildir. Composer daxildə arxivlər endirə bilər; istifadəçilər adi terminal əmrləri və asılılıqların həlli vasitəsilə quraşdırır.
 
-Qlobal quraşdırıcı istəyə bağlıdır. Əvvəlcə öz serverində yerləşdirilən Composer mənbəyini qeydiyyata alın, sonra onu quraşdırın:
+Könüllü qlobal `elang new` əmri üçün inkişaf versiyasındakı installer-i birbaşa Packagist-dən quraşdırın:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 elang new my-app --starter=saas
 ```
 
@@ -37,7 +38,7 @@ Rəsmi sayt şəxsi yaddaşdan paket metadatasını və icazə verilmiş arxiv a
 
 Packagist hər mənbə repozitoriyası üçün bir kök Composer paketi siyahılayır. Buna görə çoxpaketli mənbə ağacı nəzərdən keçirilmiş paylanma repozitoriyaları və ya sənədləşdirilmiş bölmə prosesi tələb edir. Təmizlənmiş paket ağaclarını hazırlayın, Composer manifestlərini yoxlayın, nəzərdən keçirilmiş Git teqlərini dərc edin, sonra nəzərdə tutulan hər repozitoriyanı səlahiyyətli Packagist hesabı vasitəsilə təqdim edin. Bundan sonra GitHub webhook/yeniləmə inteqrasiyasını konfiqurasiya edin.
 
-Paket adları əlçatan olmalı və layihəni müşayiət edən şəxsin nəzarətində olmalıdır. Xarici ad məkanına sahibliyi və hesab səlahiyyətini GitHub repozitoriyasından çıxarmaq olmaz. Packagist həmin adı həqiqətən həll edənədək xüsusi repozitoriyasız `composer require elang/framework` reklam etməyin. Layihəni müşayiət edən şəxs xarici hesab/ad məkanı mərhələsini tamamlamalıdır; giriş məlumatları mənbədə və ya söhbətdə deyil, qorunan CI sirlərində saxlanmalıdır.
+Rəsmi `elang/*` ad məkanı və on səkkiz paylama repozitoriyası layihənin sahibinin nəzarətindədir. Onların `dev-main` versiyaları Composer metadatası və real quraşdırmalarla yoxlanılıb. Yeni adlar və gələcək buraxılışlar yenə də layihə sahibinin açıq icazəsini tələb edir. Hesab məlumatlarını mənbəyə, URL-lərə və jurnallara yazmayın.
 
 ## Administrator paneli vasitəsilə dərc edin
 
@@ -51,7 +52,7 @@ Layihəni müşayiət edənlər təmizlənmiş mənbə ağaclarını bu əmrlə 
 php bin/export-packages --output=/absolute/private/release-trees
 ```
 
-Ayrı inkişaf repozitoriyaları `dev-main` təqdim edir və onun üçün `0.1.x-dev` budaq ləqəbindən istifadə edir. Bunlar sabit buraxılışlar deyil. Xarici indekslənmə gözlənilərkən öz serverində yerləşdirilən repozitoriya sənədləşdirilmiş `0.1.0-dev` əmrlərini həll etməyə davam edir. Şəxsi tokenlər, icra vaxtı məlumatları və tətbiq açarları ayrı repozitoriyaya daxil edilməməlidir.
+Packagist `dev-main` və onun `0.1.x-dev` ləqəbini həll edir. `https://elangphp.com/packages` öz serverində yerləşdirilən repozitoriya `0.1.0-dev` nüsxələri üçün açıq şəkildə seçilən alternativ olaraq qalır; bu etiketi Packagist budaq versiyaları ilə qarışdırmayın. Packagist üçün ixrac olunan manifestlərdə şəxsi qurma repozitoriyası yoxdur. Tokenləri, icra vaxtı məlumatlarını və tətbiq açarlarını ayrıca repozitoriyaya daxil etməyin.
 
 ## Uyğunluq siyasəti
 

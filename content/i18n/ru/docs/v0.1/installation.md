@@ -1,6 +1,6 @@
 # Установка Elang из терминала
 
-Приложения Elang устанавливаются с помощью Composer. Текущая предварительная версия распространяется через репозиторий Composer Elang, поэтому параметр репозитория является частью рабочей команды. Вручную скачивать или распаковывать исходный код не нужно.
+Установите предварительную версию непосредственно из Packagist через Composer. Приведённые команды проверены в чистом окружении без пользовательского репозитория. Ручная загрузка исходников или распаковка архива не требуется.
 
 ## Перед началом
 
@@ -11,7 +11,7 @@
 Выполните команды в родительском каталоге, где хотите разместить новый проект:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang serve
 ```
@@ -24,11 +24,10 @@ Composer создаёт `my-app`, устанавливает Elang и его з�
 
 ## Один раз установите Elang CLI
 
-Если предпочитаете команду `elang new`, зарегистрируйте репозиторий Composer и установите CLI глобально:
+Для необязательной глобальной команды `elang new` установите версию установщика для разработки непосредственно из Packagist:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 ```
 
 Найдите каталог исполняемых файлов командой:
@@ -54,7 +53,7 @@ php elang serve
 Создайте доску задач непосредственно через Composer:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+composer create-project elang/task-board task-board dev-main
 cd task-board
 php elang serve
 ```
@@ -79,9 +78,9 @@ php elang make:controller HelloController
 
 ## Распространение предварительной версии и Packagist
 
-Дистрибутив определяет восемнадцать пакетов: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications` и `elang/observability`. Установка использует собственный репозиторий Composer по адресу `https://elangphp.com/packages`.
+В [Packagist](https://packagist.org/packages/elang/) индексируются восемнадцать пакетов для разработки: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/installer`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications`, `elang/observability`. Устанавливайте их из стандартного репозитория Composer с версией `dev-main`.
 
-Публичный выпуск в Packagist пока не опубликован, поэтому обычная установка Composer без параметра репозитория сейчас не поддерживается. До такой публикации не рассчитывайте, что сокращённая команда только для Packagist будет работать. Текущая версия остаётся изменяющейся предварительной версией для разработчиков.
+Packagist предоставляет `dev-main` с псевдонимом ветки `0.1.x-dev`. Это изменяемые версии для разработки, а не стабильный выпуск. Сохраняйте lockfile приложения в Git и проверяйте изменения перед обновлением.
 
 ## Если установка остановилась
 

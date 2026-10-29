@@ -1,21 +1,22 @@
 # Packages, upgrades, and release engineering
 
-Elang currently uses `0.1.0-dev`. The official self-hosted Composer repository supports terminal installation. A repository entry is not a Packagist publication, a stable compatibility guarantee, or a long-term-support announcement. Check the actual package index and release notes before adopting a version.
+Elang is a 0.1 development preview. All eighteen development packages are indexed in Packagist as `dev-main`, with the `0.1.x-dev` branch alias. Clean installs of all nine application packages and the global installer have been verified. No stable release or long-term-support commitment is implied.
+
+All eighteen official distribution repositories have active signed GitHub push hooks to Packagist. Updates were verified against Composer development metadata after real pushes; credentials are not present in webhook URLs. If you previously registered the self-hosted source globally, remove that old configuration with `composer global config --unset repositories.elang` before upgrading the Packagist installer.
 
 ## Terminal packages
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang app 0.1.0-dev
-composer create-project --repository=https://elangphp.com/packages elang/saas workspace 0.1.0-dev
+composer create-project elang/elang app dev-main
+composer create-project elang/saas workspace dev-main
 ```
 
 The distribution includes framework, application skeleton, installer, task-board example, auth/blog/dashboard/API starters, React/Next fullstack starters, SaaS workspace, and an optional Workerman runtime package. Composer may internally download archives; users install through normal terminal commands and dependency resolution.
 
-A global installer is optional. First register the self-hosted Composer source, then install it:
+For the optional global `elang new` command, install the development installer directly from Packagist:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 elang new my-app --starter=saas
 ```
 
@@ -37,7 +38,7 @@ The official website exposes package metadata and allowed archive names from pri
 
 Packagist lists one root Composer package per source repository. A multi-package source tree therefore needs reviewed distribution repositories or a documented split workflow. Prepare sanitized package trees, validate their Composer manifests, publish reviewed Git tags, then submit each intended repository through an authorized Packagist account. Configure the GitHub webhook/update integration afterward.
 
-Package names must be available and controlled by the project's maintainer. External namespace ownership and account authorization cannot be inferred from a GitHub repository. Do not advertise `composer require elang/framework` without a custom repository until Packagist actually resolves that name. A maintainer must complete the external account/namespace step; credentials belong in protected CI secrets, never the source or chat.
+The official `elang/*` namespace and the eighteen distribution repositories are controlled by the project maintainer. Their `dev-main` versions have been verified through Composer metadata and real installations. New names and future releases still require explicit maintainer authorization. Keep account credentials out of source code, URLs, and logs.
 
 ## Publish through the administrator panel
 
@@ -51,7 +52,7 @@ Maintainers can prepare sanitized source trees with:
 php bin/export-packages --output=/absolute/private/release-trees
 ```
 
-Development split repositories expose `dev-main` with a `0.1.x-dev` branch alias. They are not stable releases. The self-hosted repository continues to resolve the documented `0.1.0-dev` commands while external indexing is pending. No private token, runtime data, or application key belongs in a split repository.
+Packagist resolves `dev-main` and its `0.1.x-dev` alias. The self-hosted repository at `https://elangphp.com/packages` remains an explicit alternative for `0.1.0-dev` snapshots; do not mix that snapshot label with Packagist branch versions. Exported Packagist manifests contain no private build repository. Never include tokens, runtime data, or application keys in a split repository.
 
 ## Compatibility policy
 

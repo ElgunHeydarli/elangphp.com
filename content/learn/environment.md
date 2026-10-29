@@ -53,7 +53,7 @@ Expected result: PHP 8.3+ within PHP 8.x, a readable CLI configuration path, the
 Open a terminal in the parent directory where you want your project. Run:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang doctor
 php elang serve
@@ -61,7 +61,7 @@ php elang serve
 
 Composer creates the project, installs dependencies, generates its key, and checks the environment. Open `http://127.0.0.1:8000` when the server prints that address. Keep the terminal running while using the local site; press Ctrl+C to stop it.
 
-The working preview command includes Elang's Composer repository because the packages have not yet been published to Packagist. You do not need a Git checkout or a manually extracted archive.
+The development packages are available from Packagist. This verified command uses the default Composer repository and the `dev-main` branch. You do not need a Git checkout or a manually extracted archive.
 
 ## A shorter command after one-time setup
 

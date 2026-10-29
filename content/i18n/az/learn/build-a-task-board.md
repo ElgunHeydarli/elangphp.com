@@ -15,7 +15,7 @@ Kodu oxumazdan əvvəl [canlı tapşırıq lövhəsini sınaya bilərsiniz](/dem
 Layihəni istədiyiniz ana qovluqdan yerinə yetirin:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+composer create-project elang/task-board task-board dev-main
 cd task-board
 php elang doctor
 php elang serve

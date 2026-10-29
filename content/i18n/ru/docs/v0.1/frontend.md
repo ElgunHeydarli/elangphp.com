@@ -5,7 +5,7 @@ Elang может отдавать HTML или выступать серверн�
 ## Начните с приложения API
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/api my-api 0.1.0-dev
+composer create-project elang/api my-api dev-main
 cd my-api
 php elang serve
 ```

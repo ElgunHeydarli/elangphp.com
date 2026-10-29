@@ -5,7 +5,7 @@
 ## Установка и запуск
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/saas workspace 0.1.0-dev
+composer create-project elang/saas workspace dev-main
 cd workspace
 php elang doctor
 php elang serve

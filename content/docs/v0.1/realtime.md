@@ -5,9 +5,9 @@ Use server-sent events for one-way updates and WebSockets for a persistent two-w
 ## Install and run
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/api my-api 0.1.0-dev
+composer create-project elang/api my-api dev-main
 cd my-api
-composer require elang/realtime:0.1.0-dev
+composer require elang/realtime:dev-main
 php elang serve
 ```
 

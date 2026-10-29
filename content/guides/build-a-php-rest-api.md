@@ -7,7 +7,7 @@ This guide builds a small read-only catalog API and a separate input-validation 
 Run this from the parent directory for the new application:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang catalog-api 0.1.0-dev
+composer create-project elang/elang catalog-api dev-main
 cd catalog-api
 php elang doctor
 ```

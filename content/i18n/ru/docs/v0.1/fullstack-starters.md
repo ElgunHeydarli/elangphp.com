@@ -4,12 +4,12 @@ Elang — серверная часть на PHP. Его официальный 
 
 ## Создание полного проекта с интерфейсом и сервером
 
-Собственный репозиторий Composer предоставляет установку из терминала. Это пакеты разработки, а не заявленный стабильный выпуск или публикация в Packagist.
+Устанавливайте версии React и Next.js для разработки непосредственно из Packagist. Проверены установка обоих PHP-приложений, зависимости, doctor и тесты API. Пакеты остаются предварительными версиями для разработки, а не стабильными выпусками.
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/react my-react-app 0.1.0-dev
+composer create-project elang/react my-react-app dev-main
 # Alternatively:
-composer create-project --repository=https://elangphp.com/packages elang/next my-next-app 0.1.0-dev
+composer create-project elang/next my-next-app dev-main
 ```
 
 Настроенный глобальный установщик также принимает `elang new my-app --starter=react` или `--starter=next`. Composer подготавливает PHP-приложение. Исходный код интерфейса находится в `frontend/`; вручную скачивать ZIP не нужно. Требования: PHP 8.3+, Composer 2 и Node 22.12+ для этих стартовых проектов интерфейса.

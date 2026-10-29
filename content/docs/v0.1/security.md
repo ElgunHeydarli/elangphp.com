@@ -37,3 +37,8 @@ The kernel sets a restrictive Content Security Policy, frame denial, MIME sniffi
 ## Report an issue
 
 Do not post credentials or exploit details in a public issue. See SECURITY.md in the repository for the current reporting guidance. This preview has not undergone an independent security audit.
+
+
+### Application-specific Content Security Policy
+
+The framework supplies a restrictive same-origin CSP by default. An application may set an explicit `Content-Security-Policy` response header before the default headers are applied. Keep that policy server-controlled and limited to the route that needs it; never derive it from untrusted request headers. The official documentation site permits its configured analytics hosts only on public pages, after visitor consent; account and administrator pages keep the restrictive default.

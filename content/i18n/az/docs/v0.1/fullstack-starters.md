@@ -4,12 +4,12 @@ Elang PHP arxa tərəfidir. Onun rəsmi sənədləşdirmə saytı serverdə yara
 
 ## Tam ön tərəf/arxa tərəf layihəsi yaradın
 
-Öz serverində yerləşdirilən Composer repozitoriyası terminaldan quraşdırmanı təmin edir. Bunlar inkişaf paketləridir; sabit buraxılış olduqları və ya Packagist-də dərc edildikləri iddia olunmur.
+React və Next.js inkişaf starterlərini birbaşa Packagist-dən quraşdırın. Hər iki PHP tətbiqinin quraşdırılması, asılılıqları, doctor yoxlamaları və backend API sınaqları yoxlanılıb. Paketlər stabil buraxılış deyil, ilkin inkişaf versiyası olaraq qalır.
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/react my-react-app 0.1.0-dev
+composer create-project elang/react my-react-app dev-main
 # Alternatively:
-composer create-project --repository=https://elangphp.com/packages elang/next my-next-app 0.1.0-dev
+composer create-project elang/next my-next-app dev-main
 ```
 
 Konfiqurasiya edilmiş qlobal quraşdırıcı həmçinin `elang new my-app --starter=react` və ya `--starter=next` qəbul edir. Composer PHP tətbiqini hazırlayır. Ön tərəfin mənbələri `frontend/` altında yerləşir; ZIP-i əl ilə endirmək tələb olunmur. Tələblər: bu ön tərəf başlanğıc layihələri üçün PHP 8.3+, Composer 2 və Node 22.12+.

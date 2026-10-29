@@ -4,6 +4,7 @@ use App\Controllers\{SiteController, PlaygroundController};
 use Elang\Http\Response;
 use Elang\Http\Middleware\RateLimitMiddleware;
 $router->get('/', [SiteController::class, 'home'], 'home');
+$router->get('/privacy', [SiteController::class, 'privacy'], 'privacy');
 $router->get('/docs', fn () => Response::redirect('/docs/v0.1/introduction'), 'docs');
 $router->get('/docs/v0.1', fn () => Response::redirect('/docs/v0.1/introduction'));
 $router->get('/docs/v0.1/{slug}.md', [SiteController::class, 'markdown'], 'docs.markdown')->where('slug', '[a-z0-9-]+');

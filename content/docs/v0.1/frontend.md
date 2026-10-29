@@ -5,7 +5,7 @@ Elang can serve HTML or act as an API backend for React, Next.js, Vue, native mo
 ## Start with the API application
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/api my-api 0.1.0-dev
+composer create-project elang/api my-api dev-main
 cd my-api
 php elang serve
 ```

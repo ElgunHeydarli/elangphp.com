@@ -135,7 +135,7 @@ final class ContentRepository
     }
     public function urls(?string $locale = null): array
     {
-        $urls = ['/', '/learn', '/examples', '/ecosystem', '/updates', '/roadmap', '/community', '/api-reference', '/guides'];
+        $urls = ['/', '/learn', '/examples', '/ecosystem', '/updates', '/roadmap', '/community', '/api-reference', '/guides', '/privacy'];
         foreach ($this->catalog($locale) as $section=>$items) foreach(array_keys($items) as $slug) $urls[]='/'.$section.'/'.$slug;
         return $urls;
     }

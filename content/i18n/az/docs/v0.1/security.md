@@ -37,3 +37,8 @@ Nüvə məhdudlaşdırıcı Məzmun Təhlükəsizliyi Siyasəti, çərçivədə 
 ## Problem bildirin
 
 İctimai problem qeydində giriş məlumatları və ya boşluqdan istifadə təfərrüatları paylaşmayın. Cari bildiriş qaydaları üçün repozitoriyadakı SECURITY.md faylına baxın. Bu ilkin versiya müstəqil təhlükəsizlik auditindən keçməyib.
+
+
+### Tətbiqə məxsus Content Security Policy
+
+Framework standart olaraq yalnız öz mənbələrinə icazə verən məhdudlaşdırıcı CSP təqdim edir. Tətbiq standart başlıqlar tətbiq olunmazdan əvvəl cavabda ayrıca `Content-Security-Policy` başlığı təyin edə bilər. Siyasəti serverdə idarə edin və yalnız ehtiyacı olan marşrutla məhdudlaşdırın; etibar edilməyən sorğu başlıqlarından yaratmayın. Rəsmi sənədləşmə saytı sazlanmış analitika domenlərinə yalnız açıq səhifələrdə və ziyarətçinin icazəsindən sonra müraciət edir; hesab və administrator səhifələri məhdudlaşdırıcı standart siyasəti saxlayır.

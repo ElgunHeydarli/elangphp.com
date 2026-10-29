@@ -1,6 +1,6 @@
 # Install Elang from your terminal
 
-Elang applications are installed with Composer. The current development preview is distributed through Elang's Composer repository, so the repository option is part of the working command. No manual source download or extraction is needed.
+Install the development preview directly from Packagist using Composer. The commands below were verified in a clean Composer environment without a custom repository. No manual source download or extraction is needed.
 
 ## Before you start
 
@@ -11,7 +11,7 @@ Install PHP 8.3+ within PHP 8.x and Composer 2. Run `php -v` and `composer --ver
 Run this in the parent directory where you want the new project:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang serve
 ```
@@ -24,11 +24,10 @@ Use a new or empty directory. If `my-app` already has files, choose another name
 
 ## Install the Elang CLI once
 
-If you prefer an `elang new` command, register the Composer repository and install the CLI globally:
+For the optional global `elang new` command, install the development installer directly from Packagist:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 ```
 
 Find the executable directory with:
@@ -54,7 +53,7 @@ The installer calls Composer to create the application. It does not require the 
 Create the task board directly through Composer:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+composer create-project elang/task-board task-board dev-main
 cd task-board
 php elang serve
 ```
@@ -79,9 +78,9 @@ php elang make:controller HelloController
 
 ## Preview distribution and Packagist
 
-The distribution defines eighteen packages: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications`, and `elang/observability`. Installation uses the self-hosted Composer repository at `https://elangphp.com/packages`.
+Eighteen development packages are indexed in [Packagist](https://packagist.org/packages/elang/): `elang/framework`, `elang/elang`, `elang/task-board`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/installer`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications`, `elang/observability`. Install them from the default Composer repository using `dev-main`.
 
-A public Packagist release has not been published yet, so omitting the repository option from an ordinary Composer installation is not supported today. Do not assume a short Packagist-only command works before that publication. The current version remains a changing development preview.
+Packagist provides `dev-main` with the `0.1.x-dev` branch alias. These are changing development versions, not a stable release. Commit your application lockfile and review changes before upgrading.
 
 ## If installation stops
 

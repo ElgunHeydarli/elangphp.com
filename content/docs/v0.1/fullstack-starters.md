@@ -4,12 +4,12 @@ Elang is a PHP backend. Its official documentation website stays server-rendered
 
 ## Create a complete frontend/backend project
 
-The self-hosted Composer repository provides terminal installation. These are development packages, not a claimed stable release or a Packagist listing.
+Install the React and Next.js development starters directly from Packagist. Both PHP application installs, their dependencies, doctor checks, and backend API smoke tests have been verified. The packages remain development previews, not stable releases.
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/react my-react-app 0.1.0-dev
+composer create-project elang/react my-react-app dev-main
 # Alternatively:
-composer create-project --repository=https://elangphp.com/packages elang/next my-next-app 0.1.0-dev
+composer create-project elang/next my-next-app dev-main
 ```
 
 A configured global installer also accepts `elang new my-app --starter=react` or `--starter=next`. Composer prepares the PHP application. The frontend sources live under `frontend/`; no manual ZIP download is required. Requirements: PHP 8.3+, Composer 2, and Node 22.12+ for these frontend starters.

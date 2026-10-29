@@ -51,18 +51,17 @@ Visit http://127.0.0.1:8000. No JavaScript dependency installation or frontend c
 ## Create an application from your terminal
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+composer create-project elang/elang my-app dev-main
 cd my-app
 php elang serve
 ```
 
-Composer installs dependencies, generates the key, and runs doctor. The preview uses Elang's own HTTPS Composer repository; a Packagist release is not published yet.
+Composer installs dependencies from Packagist, generates the key, and runs doctor. All eighteen development packages are indexed; clean installs of all nine applications and the global installer have passed. Use `dev-main` (alias `0.1.x-dev`), not a stable-release constraint.
 
 For a reusable CLI:
 
 ```bash
-composer global config repositories.elang composer https://elangphp.com/packages
-composer global require elang/installer:0.1.0-dev
+composer global require elang/installer:dev-main
 ```
 
 Add the directory printed by `composer global config bin-dir --absolute` to your user PATH before using the global command. Then run `elang new my-app`.
@@ -71,9 +70,9 @@ Fullstack and team starters: `elang new my-react --starter=react`, `elang new my
 
 Application starters: `elang new my-blog --starter=blog`, `elang new my-api --starter=api`, `elang new my-workspace --starter=dashboard`, and `elang new my-auth --starter=auth`. Composer packages are `elang/blog`, `elang/api`, `elang/dashboard`, and `elang/auth-starter`.
 
-For WebSockets in a generated project: `composer require elang/realtime:0.1.0-dev`, then `php elang realtime:serve`. Keep the daemon behind a TLS reverse proxy in production. The default SQL event store polls; load-test its database demand for your workload.
+For WebSockets in a generated project: `composer require elang/realtime:dev-main`, then `php elang realtime:serve`. Keep the daemon behind a TLS reverse proxy in production. The default SQL event store polls; load-test its database demand for your workload.
 
-Create the complete learning example with `elang new task-board --example=task-board`, or use Composer create-project with package `elang/task-board` and the same repository and version.
+Create the complete learning example with `elang new task-board --example=task-board`, or use Composer create-project with package `elang/task-board` with version `dev-main` from Packagist.
 
 Framework contributors can still use `php elang new ../my-app --local` to test a sanitized source snapshot.
 

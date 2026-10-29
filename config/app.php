@@ -2,6 +2,10 @@
 declare(strict_types=1);
 use Elang\Support\Config;
 return [
+    'site_analytics'=>[
+        'measurement_id'=>Config::env('GOOGLE_ANALYTICS_ID',''),
+        'verification'=>Config::env('GOOGLE_SITE_VERIFICATION',''),
+    ],
     'name' => 'Elang', 'url' => Config::env('APP_URL', 'http://localhost:8000'),
     'environment' => Config::env('APP_ENV', 'production'),
     'debug' => filter_var(Config::env('APP_DEBUG', 'false'), FILTER_VALIDATE_BOOL),

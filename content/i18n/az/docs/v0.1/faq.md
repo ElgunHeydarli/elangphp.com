@@ -18,7 +18,7 @@ Sizə PHP 8.x daxilində PHP 8.3+, Composer 2, tələb olunan PHP genişlənməl
 
 ## Packagist-də stabil buraxılış varmı?
 
-Hələ yoxdur. Cari versiya 0.1 ilkin inkişaf versiyasıdır. Elang-ın Composer repozitoriyasından istifadə edərək terminaldan quraşdırın. Quraşdırma təlimatı həm veb-sayt tətbiqini, həm də ayrıca yaradılmış tətbiqi izah edir. `composer require elang/framework` əmrinin hazırda Packagist-dən işlədiyini fərz etməyin.
+Hələ stabil buraxılış yoxdur. On səkkiz inkişaf paketi Packagist-də `dev-main` (`0.1.x-dev` ləqəbi) ilə mövcuddur. [Quraşdırma](/docs/v0.1/installation) əmrlərindən istifadə edin; xüsusi repozitoriya lazım deyil. Stabil buraxılışa qədər API-lər dəyişə bilər.
 
 ## Mövcud Composer paketlərindən istifadə edə bilərəm?
 

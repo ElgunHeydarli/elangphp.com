@@ -7,7 +7,7 @@ Bu təlimat kiçik, yalnız oxumağa imkan verən kataloq API-si və ayrıca gir
 Yeni tətbiq üçün ana qovluqdan bunu yerinə yetirin:
 
 ```bash
-composer create-project --repository=https://elangphp.com/packages elang/elang catalog-api 0.1.0-dev
+composer create-project elang/elang catalog-api dev-main
 cd catalog-api
 php elang doctor
 ```
