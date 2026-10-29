@@ -13,7 +13,7 @@ final class SiteProvider implements ServiceProvider
         $container->singleton(Html::class,fn(Container $c)=>new Html($c->get(Locale::class)));
         $container->singleton(ContentStore::class,fn(Container $c)=>new ContentStore($c->get(\Elang\Database\Database::class),$c->get(\Elang\Validation\Validator::class)));
         $container->singleton(ContentRepository::class,fn(Container $c)=>new ContentRepository($c->get(Application::class)->basePath.'/content',$c->get(ContentStore::class),$c->get(Locale::class)));
-        $container->singleton(\Elang\Ai\DocumentSource::class,fn(Container $c)=>new \App\AiDocuments($c->get(ContentRepository::class),$c->get(\Elang\Support\Config::class)));
+        $container->singleton(\Elang\Ai\DocumentSource::class,fn(Container $c)=>new \App\AiDocuments($c->get(ContentRepository::class),$c->get(\Elang\Support\Config::class),$c->get(Locale::class)));
     }
     public function boot(Application $app): void
     {

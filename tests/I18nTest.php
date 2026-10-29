@@ -23,6 +23,11 @@ final class I18nTest extends TestCase
         $app=$this->site();$ru=$app->handle(Request::create('/api/search?lang=ru&q='.rawurlencode('маршрут')));$results=json_decode($ru->getContent(),true)['results'];self::assertNotEmpty($results);foreach($results as $result) self::assertStringStartsWith('/ru/',$result['url']);self::assertSame(400,$app->handle(Request::create('/api/search?lang=fr&q=routing'))->getStatusCode());
         self::assertSame('/az/docs/v0.1/introduction',$app->handle(Request::create('/az/docs'))->headers->get('Location'));$error=$app->handle(Request::create('/ru/not-a-page'));self::assertSame(404,$error->getStatusCode());self::assertSame('ru',$error->headers->get('Content-Language'));self::assertStringContainsString('lang="ru"',$error->getContent());
     }
+    public function testLocalizedMcpDocumentsPointBackToTheirOwnLanguage():void
+    {
+        $app=$this->site();$payload=json_encode(['jsonrpc'=>'2.0','id'=>1,'method'=>'tools/call','params'=>['name'=>'read_doc','arguments'=>['path'=>'docs/v0.1/tenancy']]]);
+        foreach(['az','ru'] as $language) { $request=Request::create('https://elangphp.com/'.$language.'/mcp','POST',[],[],[],['CONTENT_TYPE'=>'application/json'],$payload);$response=$app->handle($request);self::assertSame(200,$response->getStatusCode());$data=json_decode($response->getContent(),true);self::assertSame('https://elangphp.com/'.$language.'/docs/v0.1/tenancy',$data['result']['structuredContent']['url']); }
+    }
     public function testTranslatedCodeExamplesStayExact():void
     {
         $root=dirname(__DIR__).'/content';foreach(['az','ru'] as $locale) foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root.'/i18n/'.$locale,\FilesystemIterator::SKIP_DOTS)) as $file) {
