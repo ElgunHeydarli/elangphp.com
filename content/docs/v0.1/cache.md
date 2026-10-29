@@ -1,6 +1,6 @@
 # Cache
 
-The container binds PSR-16 CacheInterface to a filesystem-backed Symfony cache. Inject the interface rather than a concrete implementation.
+The container binds PSR-16 CacheInterface to a Symfony cache pool. Configuring REDIS_URL selects Redis; otherwise the pool uses private filesystem storage. Inject the interface rather than a concrete implementation.
 
 ## Store and retrieve
 
@@ -28,4 +28,4 @@ $router->get('/summary', function (CacheInterface $cache) {
 php elang cache:clear
 ```
 
-The command clears the application cache pool. Twig's compiled templates are separate and automatically reload when source files change. Multi-server applications should bind a suitable shared cache adapter.
+The command clears the application cache pool. Twig's compiled templates are separate and automatically reload when source files change. For multiple application hosts, configure the same Redis endpoint and application prefix; custom cache bindings remain available for other backends.

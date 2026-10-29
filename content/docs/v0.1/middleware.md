@@ -40,4 +40,4 @@ Session middleware must run before CSRF middleware. Unsafe methods then require 
 
 ## Rate limiting
 
-Attach `RateLimitMiddleware` to public API groups. It uses a shared filesystem cache and process locks on one host. Multi-server deployments need a shared limiter store and lock backend.
+Attach `RateLimitMiddleware` to public API groups. With REDIS_URL, it uses strict Redis-backed limiter storage and distributed locks. Without Redis, it uses filesystem storage and process locks on one host. Redis failures are surfaced rather than silently falling back to independent local limits.

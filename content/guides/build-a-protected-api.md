@@ -14,7 +14,7 @@ Register and verify your account using the local development mailbox. Open the a
 
 ## Read and write scopes
 
-GET collection and item endpoints require notes:read. POST, PUT, and DELETE require notes:write. A read-only token cannot create or delete records. The server ignores submitted owner IDs and derives ownership from the authenticated token.
+GET collection and item endpoints require notes:read. POST, PUT, and DELETE require notes:write. A read-only token cannot create or delete records. The server ignores submitted owner IDs and derives ownership from the authenticated user.
 
 ```bash
 curl http://127.0.0.1:8000/api/notes \
@@ -27,7 +27,7 @@ Replace YOUR_TOKEN in your own terminal. Do not publish real tokens in examples 
 
 A successful create returns 201 and Location. A successful delete returns 204. An invalid token returns 401, insufficient scope returns 403, and another user's record returns 404. Invalid JSON returns 400; invalid fields return 422; unsupported content types return 415.
 
-The API does not use browser cookies as authentication. Browser account forms separately use session and CSRF protection.
+The API accepts scoped bearer tokens or a verified browser session. Cookie-authenticated writes require X-CSRF-Token; supplying an invalid Authorization header does not fall back to session authentication.
 
 ## Test the boundaries
 

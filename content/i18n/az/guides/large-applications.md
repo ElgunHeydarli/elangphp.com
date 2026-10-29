@@ -28,7 +28,7 @@ Cari real vaxt nəqli SQL hadisə tarixçəsini oxuyur. Onun dövri sorğu təl�
 
 ## Bir neçə nüsxəni idarə edin
 
-Ortaq istehsal verilənlər bazası, mərkəzləşdirilmiş sirlər, sinxronlaşdırılmış saatlar və HTTPS istifadə edin. Standart keş, sorğu tezliyi sayğacları, kilidlər və sessiyalar fayl sisteminə əsaslanır. Bir neçə host düşünülmüş şəkildə konfiqurasiya edilmiş ortaq saxlama və ya tətbiqə xas paylanmış adapterlər tələb edir; Elang bu xidmətləri avtomatik olaraq Redis əsaslı infrastruktura çevirmir.
+Ortaq istehsal verilənlər bazası, mərkəzləşdirilmiş sirlər, sinxronlaşdırılmış saatlar və HTTPS istifadə edin. Keş, sessiyalar, ciddi sorğu tezliyi limitləri və paylanmış kilidlər üçün REDIS_URL vasitəsilə ortaq Redis konfiqurasiya edin. Redis olmadan bu xidmətlər bir hostun fayl sistemi yaddaşından istifadə edir. Təsdiqlənmiş Redis bildirişləri üçün SQL çıxış qutusu ötürücüsünü işlədin və sessiya, limitləyici, kilid və ötürücü nasazlıqlarını izləyin.
 
 Növbə və WebSocket işçilərini proses nəzarətçisi altında, imtiyazsız istifadəçi ilə işlədin. Kodun və qeydiyyatların aktual qalması üçün yerləşdirmə zamanı işçiləri yenidən başladın. Miqrasiyaları həm köhnə, həm də yeni tətbiq versiyaları ilə uyğun şəkildə yerləşdirin. Şəxsi məlumatların ehtiyat nüsxəsini çıxarın və bərpanı yoxlayın; saxlanmış məlumatların şifrəsini açmaq üçün tətbiq açarlarını əlçatan saxlayın.
 

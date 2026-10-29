@@ -1,0 +1,10 @@
+{
+    "name": "elang/notifications",
+    "description": "Private inbox notifications and encrypted queued email delivery.",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "elang/framework": "0.1.0-dev"
+    }
+}

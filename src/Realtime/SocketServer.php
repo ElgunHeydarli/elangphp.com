@@ -6,11 +6,12 @@ use Workerman\{Worker,Timer,Connection\TcpConnection,Protocols\Http\Request};
 final class SocketServer
 {
     public function __construct(private Application $app,private Events $events,private SocketTokens $tokens,private Messages $messages,private Users $users) {}
+    private function requireFunctions(array $functions):void { foreach($functions as $function) if(!function_exists($function)) throw new \RuntimeException('WebSocket CLI requires enabled process-control functions. Use a dedicated CLI PHP configuration; do not change your web pool settings.'); }
     public function run(string $host='127.0.0.1',int $port=8081,int $workers=1):void
     {
         if(!class_exists(Worker::class)) throw new \RuntimeException('Install elang/realtime to enable the WebSocket server.');
         if(!extension_loaded('pcntl')||!extension_loaded('posix')) throw new \RuntimeException('The WebSocket server requires Linux/macOS CLI PHP with pcntl and posix.');
-        foreach(['pcntl_signal','pcntl_signal_dispatch','pcntl_fork','pcntl_wait','pcntl_alarm','posix_getpid'] as $function) if(!function_exists($function)) throw new \RuntimeException('WebSocket CLI requires enabled process-control functions. Use a dedicated CLI PHP configuration; do not change your web pool settings.');
+        $this->requireFunctions(['pcntl_signal','pcntl_signal_dispatch','pcntl_fork','pcntl_wait','pcntl_alarm','posix_getpid']);
         if(!filter_var($host,FILTER_VALIDATE_IP)||$port<1024||$port>65535||$workers<1||$workers>32) throw new \InvalidArgumentException('Choose an IP, a port from 1024–65535, and 1–32 workers.');
         $storage=$this->app->config->get('paths.storage');Worker::$pidFile=$storage.'/realtime.pid';Worker::$logFile=$storage.'/logs/realtime.log';
         $worker=new Worker('websocket://'.(str_contains($host,':')?'['.$host.']':$host).':'.$port);$worker->name='Elang Realtime';$worker->count=$workers;$connections=[];
@@ -27,7 +28,7 @@ final class SocketServer
                 $claims=$this->tokens->verify($token);if(!$claims) throw new \RuntimeException('Invalid token.');
                 $after=$request->get('after');if($after!==null&&(!is_string($after)||!ctype_digit($after)||strlen($after)>15)) throw new \RuntimeException('Invalid replay cursor.');
                 $connection->context->elangClaims=$claims;$connection->context->elangToken=$token;$connection->context->elangCursor=$after===null?$this->events->latest($claims['channel']):(int)$after;
-                $connection->context->elangAccepted=true;$connection->context->elangChecked=time();$connection->context->elangWindow=time();$connection->context->elangMessages=0;$connection->headers=['Sec-WebSocket-Protocol: elang'];
+                $connection->context->elangReplay=$after!==null;$connection->context->elangAccepted=true;$connection->context->elangChecked=time();$connection->context->elangWindow=time();$connection->context->elangMessages=0;$connection->headers=['Sec-WebSocket-Protocol: elang'];
             } catch(\Throwable) { $connection->close("HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\nConnection: close\r\n\r\n",true); }
         };
         $worker->onMessage=function(TcpConnection $connection,string $message):void {
@@ -47,14 +48,35 @@ final class SocketServer
         $worker->onClose=function(TcpConnection $connection)use(&$connections):void { unset($connections[$connection->id]); };
         $worker->onWorkerStart=function()use(&$connections):void {
             $this->app->container->get(\Elang\Database\Database::class)->connection()->close();
-            Timer::add(0.5,function()use(&$connections):void {
+            $broker=$this->app->container->get(Broker::class);$dirty=[];$lastSweep=0.0;$offset=0;
+            Timer::add(0.25,function()use(&$connections,$broker,&$dirty,&$lastSweep,&$offset):void {
+                try { $dirty+=$broker->changes(); }catch(\Throwable) { /* SQL reconciliation preserves progress while Redis is unavailable. */ }
+                $sweep=microtime(true)-$lastSweep>=2;if($sweep) $lastSweep=microtime(true);$groups=[];
                 foreach($connections as $connection) {
                     if(!$connection->context->elangAccepted) { if(time()>$connection->context->elangDeadline) $connection->close();continue; }
                     try {
                         if(time()-$connection->context->elangChecked>=5) { if(!$this->tokens->verify($connection->context->elangToken)) { $connection->close();continue; }$connection->context->elangChecked=time(); }
-                        foreach($this->events->after($connection->context->elangClaims['channel'],$connection->context->elangCursor) as $event) { if($connection->send(json_encode(['type'=>'event']+$event,JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR))===false) { $connection->close();break; }$connection->context->elangCursor=$event['id']; }
+                        $channel=$connection->context->elangClaims['channel'];
+                        if(!$sweep&&!isset($dirty[$channel])&&!($connection->context->elangReplay??false)) continue;
+                        $key=$channel.'|'.$connection->context->elangCursor;$groups[$key]['channel']=$channel;$groups[$key]['cursor']=$connection->context->elangCursor;$groups[$key]['connections'][]=$connection;
                     }catch(\Throwable) { $connection->close(); }
                 }
+                // One page per channel/cursor group, bounded and rotated so a lagging subscriber cannot starve live clients.
+                $keys=array_keys($groups);$count=count($keys);if(!$count) return;$selected=[];
+                for($i=0;$i<min(20,$count);$i++) $selected[]=$keys[($offset+$i)%$count];$offset=($offset+count($selected))%$count;
+                foreach($selected as $key) {
+                    $group=$groups[$key];
+                    try {
+                        $rows=$this->events->after($group['channel'],$group['cursor']);
+                        foreach($group['connections'] as $connection) {
+                            foreach($rows as $event) { if($connection->send(json_encode(['type'=>'event']+$event,JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR))===false) { $connection->close();break; }$connection->context->elangCursor=$event['id']; }
+                            $connection->context->elangReplay=count($rows)===100;
+                        }
+                    }catch(\Throwable) { foreach($group['connections'] as $connection) $connection->close(); }
+                }
+                // Unselected groups keep a pending replay flag across the next event-loop turn.
+                foreach(array_diff($keys,$selected) as $key) foreach($groups[$key]['connections'] as $connection) $connection->context->elangReplay=true;
+                $dirty=[];
             });
         };
         $_SERVER['argv']=$GLOBALS['argv']=['elang-realtime','start'];$_SERVER['argc']=$GLOBALS['argc']=2;Worker::runAll();

@@ -1,25 +1,13 @@
 #!/usr/bin/env php
 <?php
 declare(strict_types=1);
-// This publisher is specific to the existing Hestia host. It never copies private code.
-$base = dirname(__DIR__);
-$domainRoot = dirname($base, 2);
-$public = $domainRoot.'/public_html';
-if (basename(dirname($base)) !== 'private' || basename($domainRoot) !== 'elangphp.com' || !is_dir($public)) {
-    fwrite(STDERR, "This publisher requires the documented elangphp.com private/elang layout.\n"); exit(1);
+// Host-specific atomic release pointer. Only reviewed public assets are copied into the web root.
+$base=dirname(__DIR__);$private=dirname($base);$domainRoot=dirname($base,2);$public=$domainRoot.'/public_html';$options=getopt('',['release::']);$name=$options['release']??basename($base);
+if(basename($private)!=='private'||basename($domainRoot)!=='elangphp.com'||!is_dir($public)||!is_string($name)||!preg_match('/^elang(?:-[a-z0-9-]+)?$/D',$name)) throw new RuntimeException('Use the documented private/elang host layout and a reviewed release name.');
+$release=realpath($private.'/'.$name);if($release===false||dirname($release)!==$private||!is_file($release.'/vendor/autoload.php')||!is_file($release.'/public/index.php')) throw new RuntimeException('Release source or dependencies are missing.');
+$source=$release.'/public';foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source,FilesystemIterator::SKIP_DOTS)) as $file) {
+    if(!$file->isFile()||$file->getFilename()==='router.php') continue;$relative=substr($file->getPathname(),strlen($source)+1);$target=$public.'/'.$relative;if(!is_dir(dirname($target))) mkdir(dirname($target),0755,true);$temporary=$target.'.'.bin2hex(random_bytes(6)).'.tmp';if(!copy($file->getPathname(),$temporary)) throw new RuntimeException('Could not stage '.$relative);chmod($temporary,0644);if(!rename($temporary,$target)) throw new RuntimeException('Could not publish '.$relative);
 }
-$source = $base.'/public';
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS));
-foreach ($iterator as $file) {
-    if (!$file->isFile() || $file->getFilename() === 'router.php') continue;
-    $relative = substr($file->getPathname(), strlen($source) + 1);
-    $target = $public.'/'.$relative;
-    if (!is_dir(dirname($target))) mkdir(dirname($target), 0755, true);
-    if (!copy($file->getPathname(), $target)) throw new RuntimeException('Could not publish '.$relative);
-    chmod($target, 0644);
-}
-if (is_file($public.'/index.html')) {
-    $backup = dirname($base).'/placeholder-'.date('Ymd-His').'.html';
-    if (!rename($public.'/index.html', $backup)) throw new RuntimeException('Could not preserve the existing placeholder.');
-}
-echo "Public front controller and assets published. Private source remains outside public_html.\n";
+if(is_file($public.'/index.html')&&!rename($public.'/index.html',$private.'/placeholder-'.date('Ymd-His').'.html')) throw new RuntimeException('Could not preserve the placeholder.');
+$pointer=$private.'/.current-'.bin2hex(random_bytes(6));if(!symlink($name,$pointer)||!rename($pointer,$private.'/current')) throw new RuntimeException('Could not switch the release pointer.');
+echo 'Published '.$name.'. Private source remains outside public_html. Previous releases remain available for a reviewed rollback.'.PHP_EOL;

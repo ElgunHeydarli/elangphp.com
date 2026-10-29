@@ -40,4 +40,4 @@ Sessiya aralıq proqram təminatı CSRF aralıq proqram təminatından əvvəl i
 
 ## Sorğu tezliyinin məhdudlaşdırılması
 
-İctimai API qruplarına `RateLimitMiddleware` qoşun. O, bir host üzərində ortaq fayl sistemi keşi və proses kilidləri istifadə edir. Çoxserverli yerləşdirmələrə ortaq limit saxlanma yeri və kilidləmə arxa sistemi lazımdır.
+İctimai API qruplarına `RateLimitMiddleware` qoşun. REDIS_URL ilə o, Redis-ə əsaslanan ciddi limit yaddaşından və paylanmış kilidlərdən istifadə edir. Redis olmadan bir hostda fayl sistemi yaddaşı və proses kilidlərindən istifadə edir. Redis nasazlıqları müstəqil lokal limitlərə səssiz keçidlə gizlədilmir, açıq bildirilir.

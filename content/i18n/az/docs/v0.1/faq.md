@@ -50,7 +50,7 @@ Adətən veb kök qovluğu, yenidənyazma qaydası, PHP versiyası, genişlənm�
 
 ## Elang artıq giriş sistemi, növbələr və ya ORM ehtiva edirmi?
 
-Autentifikasiya, təsdiqlənmiş hesablar, parol bərpası, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model repozitoriyaları və tam başlanğıc layihələri mövcuddur. Verilənlər bazasına əsaslanan tapşırıqlar, UTC üzrə planlaşdırma, SSE, WebSockets, ön tərəf üçün CORS və təhlükəsiz təkrar cəhd edilə bilən JSON yazma əməliyyatları da mövcuddur. Tam ORM və paylanmış broker adapterləri daxil deyil. Funksiyadan asılı olmamışdan əvvəl [yol xəritəsini](/roadmap) yoxlayın.
+Autentifikasiya, təsdiqlənmiş hesablar, parol bərpası, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model repozitoriyaları və tam başlanğıc layihələri mövcuddur. Verilənlər bazasına əsaslanan tapşırıqlar, UTC üzrə planlaşdırma, SSE, WebSockets, ön tərəf üçün CORS və təhlükəsiz təkrar cəhd edilə bilən JSON yazma əməliyyatları da mövcuddur. Redis-ə əsaslanan keş, sessiyalar, ciddi sorğu tezliyi limitləri, kilidlər və tranzaksiyalı bildirişlər də mövcuddur. Tam ORM və əlavə broker inteqrasiyaları cari reallaşdırmaya daxil deyil. Funksiyadan asılı olmamışdan əvvəl [yol xəritəsini](/roadmap) yoxlayın.
 
 ## Nümunələr istehsal tətbiqləridirmi?
 

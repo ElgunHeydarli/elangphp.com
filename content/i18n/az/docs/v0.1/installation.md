@@ -79,7 +79,7 @@ php elang make:controller HelloController
 
 ## İlkin versiyanın paylanması və Packagist
 
-Hazırda doqquz paket var: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api` və `elang/realtime`. Bunlar `https://elangphp.com/packages` ünvanında yerləşdirilmiş Composer paketləridir.
+Paylanma on səkkiz paket müəyyən edir: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications` və `elang/observability`. Quraşdırma `https://elangphp.com/packages` ünvanında öz serverində yerləşdirilən Composer repozitoriyasından istifadə edir.
 
 Hələ ictimai Packagist buraxılışı dərc edilməyib, buna görə adi Composer quraşdırmasında repozitoriya seçimini buraxmaq hazırda dəstəklənmir. Bu dərc baş verməmiş yalnız Packagist-ə əsaslanan qısa əmrin işləyəcəyini fərz etməyin. Cari versiya dəyişməkdə olan ilkin inkişaf versiyası olaraq qalır.
 

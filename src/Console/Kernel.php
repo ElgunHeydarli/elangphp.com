@@ -77,7 +77,7 @@ final class Kernel
             file_put_contents($directory.'/'.$file, "<?php\ndeclare(strict_types=1);\nuse Doctrine\\DBAL\\Connection;\nuse Elang\\Database\\Migration;\nreturn new class implements Migration {\n    public function up(Connection \$database): void {}\n    public function down(Connection \$database): void {}\n};\n");
             $output->writeln('<info>Created '.$file.'</info>'); return 0;
         }));
-        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Include a sanitized local framework source snapshot.')->addOption('example', null, InputOption::VALUE_REQUIRED, 'Include a complete example or starter.')->addOption('starter',null,InputOption::VALUE_REQUIRED,'auth, blog, dashboard, or api')->setCode(function ($input, $output) {
+        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Include a sanitized local framework source snapshot.')->addOption('example', null, InputOption::VALUE_REQUIRED, 'Include a complete example or starter.')->addOption('starter',null,InputOption::VALUE_REQUIRED,'auth, blog, dashboard, api, react, next, or saas')->setCode(function ($input, $output) {
             $path = $input->getArgument('directory');
             if (!str_starts_with($path, '/')) $path = getcwd().'/'.$path;
             if($input->getOption('example')&&$input->getOption('starter')) throw new \InvalidArgumentException('Choose --example or --starter.');
@@ -123,6 +123,9 @@ final class Kernel
                 catch(\JsonException) { $response=['jsonrpc'=>'2.0','id'=>null,'error'=>['code'=>-32700,'message'=>'Parse error.']]; }
                 if($response!==null) fwrite(STDOUT,json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)."\n");
             }return 0;
+        }));
+        $console->add((new Command('api:types'))->setDescription('Generate a typed TypeScript client from a local OpenAPI 3.1 PHP document.')->addOption('schema',null,InputOption::VALUE_REQUIRED,'Trusted local schema file','resources/openapi.php')->addOption('output',null,InputOption::VALUE_REQUIRED,'Generated TypeScript output','resources/elang-api.ts')->setCode(function($input,$output):int {
+            $schema=$input->getOption('schema');$destination=$input->getOption('output');foreach(['schema','destination'] as $name) if(!str_starts_with($$name,'/')) $$name=$this->app->basePath.'/'.$$name;if(!is_file($schema)) throw new \InvalidArgumentException('OpenAPI schema file not found.');$document=require $schema;if(!is_array($document)) throw new \InvalidArgumentException('The schema must return an OpenAPI array.');$source=(new \Elang\OpenApi\TypeScript())->generate($document);if(!is_dir(dirname($destination))) mkdir(dirname($destination),0770,true);file_put_contents($destination,$source);$output->writeln('TypeScript client generated.');return 0;
         }));
         QueueCommands::register($console,$this->app);
         return $console->run();

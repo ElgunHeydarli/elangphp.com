@@ -10,10 +10,11 @@ final class Installer
     public function run(): int
     {
         $version = \Composer\InstalledVersions::getPrettyVersion('elang/installer') ?? '0.1.0-dev';
+        if(str_starts_with($version,'dev-')) $version='0.1.0-dev';
         $console = new Application('Elang Installer', $version);
         $console->add((new Command('new'))->setDescription('Create an Elang PHP application and install its dependencies.')
             ->addArgument('directory', InputArgument::REQUIRED, 'A new or empty application directory')
-            ->addOption('starter', null, InputOption::VALUE_REQUIRED, 'Application starter: auth, blog, dashboard, api')
+            ->addOption('starter', null, InputOption::VALUE_REQUIRED, 'Application starter: auth, blog, dashboard, api, react, next, saas')
             ->addOption('example', null, InputOption::VALUE_REQUIRED, 'Optional complete example: task-board')
             ->addOption('repository', null, InputOption::VALUE_REQUIRED, 'Composer repository URL', 'https://elangphp.com/packages')
             ->setCode(function ($input, $output) use ($version): int {
@@ -22,7 +23,7 @@ final class Installer
                 $example = $input->getOption('example');
                 if ($example !== null && $example !== 'task-board') throw new \InvalidArgumentException('Available example: task-board.');
                 $starter=$input->getOption('starter');
-                if($starter!==null&&!in_array($starter,['auth','blog','dashboard','api'],true)) throw new \InvalidArgumentException('Available starters: auth, blog, dashboard, api.');
+                if($starter!==null&&!in_array($starter,['auth','blog','dashboard','api','react','next','saas'],true)) throw new \InvalidArgumentException('Available starters: auth, blog, dashboard, api, react, next, saas.');
                 if($starter!==null&&$example!==null) throw new \InvalidArgumentException('Choose a starter or an example.');
                 $repository = $input->getOption('repository');
                 if (!str_starts_with($repository, 'https://') && !str_starts_with($repository, 'file://')) throw new \InvalidArgumentException('Use an HTTPS repository URL. A file:// repository is supported for local verification.');

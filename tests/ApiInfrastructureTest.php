@@ -11,6 +11,10 @@ final class ApiInfrastructureTest extends TestCase
         $request=Request::create('/api/private','OPTIONS');$request->headers->add(['Origin'=>'https://frontend.example','Access-Control-Request-Method'=>'POST','Access-Control-Request-Headers'=>'authorization, content-type, idempotency-key']);$response=$app->handle($request);self::assertSame(204,$response->getStatusCode());self::assertSame('https://frontend.example',$response->headers->get('Access-Control-Allow-Origin'));self::assertFalse($response->headers->has('Access-Control-Allow-Credentials'));
         $request=Request::create('/api/private');$request->headers->set('Origin','https://frontend.example');$response=$app->handle($request);self::assertSame(401,$response->getStatusCode());self::assertSame('https://frontend.example',$response->headers->get('Access-Control-Allow-Origin'));$request->headers->set('Origin','https://evil.example');$response=$app->handle($request);self::assertSame(403,$response->getStatusCode());self::assertFalse($response->headers->has('Access-Control-Allow-Origin'));
     }
+    public function testSameOriginBrowserFormsDoNotNeedACrossOriginAllowlist():void
+    {
+        $app=$this->application();$app->middleware(Cors::class);$app->router->post('/login',fn()=>['accepted'=>true]);$request=Request::create('http://localhost/login','POST');$request->headers->set('Origin','http://localhost');self::assertSame(200,$app->handle($request)->getStatusCode());$request->headers->set('Origin','http://other.example');self::assertSame(403,$app->handle($request)->getStatusCode());
+    }
     public function testIdempotencyReplaysOnlyMatchingWritesAndRollsBackFailures():void
     {
         $app=$this->application();$db=$app->container->get(Database::class)->connection();\Elang\Http\Idempotency\Schema::up($db);$db->executeStatement('CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)');$middleware=$app->container->get(Idempotency::class);

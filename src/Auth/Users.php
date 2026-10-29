@@ -33,9 +33,15 @@ final class Users
         $connection->transactional(function() use($connection,$user,$password):void {
             $connection->executeStatement('UPDATE auth_users SET password = ?, auth_version = auth_version + 1, must_change_password = ? WHERE id = ?',[$this->passwords->hash($password),0,$user->id]);
             $connection->delete('auth_api_tokens',['user_id'=>$user->id]);
-            $connection->delete('auth_tokens',['user_id'=>$user->id]);
+            $connection->delete('auth_tokens',['user_id'=>$user->id]);$connection->delete('auth_devices',['user_id'=>$user->id]);
         });
         return $this->find($user->id) ?? throw new \RuntimeException('User no longer exists.');
+    }
+    public function revokeCredentials(User $user):User
+    {
+        $connection=$this->database->connection();$connection->transactional(function()use($connection,$user):void {
+            $connection->executeStatement('UPDATE auth_users SET auth_version = auth_version + 1 WHERE id = ?',[$user->id]);foreach(['auth_api_tokens','auth_tokens','auth_devices'] as $table) $connection->delete($table,['user_id'=>$user->id]);
+        });return $this->find($user->id)??throw new \RuntimeException('User no longer exists.');
     }
     public function updateProfile(User $user,string $name): User
     {

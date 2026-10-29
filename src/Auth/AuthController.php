@@ -30,6 +30,7 @@ final class AuthController
     }
     private function destination(Request $request): HttpResponse
     {
+        if($this->auth->pending($request)) return Response::redirect('/two-factor',303);
         $user=$this->auth->user($request);
         if($user?->mustChangePassword) return Response::redirect('/password',303);
         $path=$request->getSession()->remove('_auth_intended')??$this->config->get('auth.home','/dashboard');

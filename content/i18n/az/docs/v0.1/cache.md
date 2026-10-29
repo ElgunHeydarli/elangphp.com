@@ -1,6 +1,6 @@
 # Keş
 
-Konteyner PSR-16 CacheInterface interfeysini fayl sisteminə əsaslanan Symfony keşinə bağlayır. Konkret reallaşdırma əvəzinə interfeysi yeridin.
+Konteyner PSR-16 CacheInterface interfeysini Symfony keş hovuzuna bağlayır. REDIS_URL konfiqurasiyası Redis-i seçir; əks halda hovuz şəxsi fayl sistemi yaddaşından istifadə edir. Konkret reallaşdırma əvəzinə interfeysi yeridin.
 
 ## Saxlayın və əldə edin
 
@@ -28,4 +28,4 @@ $router->get('/summary', function (CacheInterface $cache) {
 php elang cache:clear
 ```
 
-Əmr tətbiqin keş hovuzunu təmizləyir. Twig-in kompilyasiya edilmiş şablonları ayrıdır və mənbə faylları dəyişdikdə avtomatik yenidən yüklənir. Çoxserverli tətbiqlər uyğun ortaq keş adapteri bağlamalıdır.
+Əmr tətbiqin keş hovuzunu təmizləyir. Twig-in kompilyasiya edilmiş şablonları ayrıdır və mənbə faylları dəyişdikdə avtomatik yenidən yüklənir. Bir neçə tətbiq hostu üçün eyni Redis son nöqtəsini və tətbiq prefiksini konfiqurasiya edin; digər arxa sistemlər üçün xüsusi keş bağlamaları mövcud olaraq qalır.

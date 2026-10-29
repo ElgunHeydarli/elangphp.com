@@ -11,7 +11,7 @@ final class PackageRepositoryTest extends TestCase
         fclose($pipes[0]); $stdout = stream_get_contents($pipes[1]); $stderr = stream_get_contents($pipes[2]); fclose($pipes[1]); fclose($pipes[2]);
         self::assertSame(0, proc_close($process), $stdout.$stderr);
         $metadata = json_decode(file_get_contents($output.'/packages.json'), true, 512, JSON_THROW_ON_ERROR);
-        self::assertSame(['elang/framework','elang/elang','elang/task-board','elang/auth-starter','elang/blog','elang/dashboard','elang/api','elang/realtime','elang/installer'], array_keys($metadata['packages']));
+        self::assertSame(['elang/framework','elang/elang','elang/task-board','elang/auth-starter','elang/blog','elang/dashboard','elang/api','elang/react','elang/next','elang/saas','elang/realtime','elang/installer','elang/redis','elang/security','elang/tenancy','elang/storage','elang/notifications','elang/observability'], array_keys($metadata['packages']));
         foreach ($metadata['packages'] as $name => $versions) {
             $package = $versions['0.1.0-dev']; $file = parse_url($package['dist']['url'], PHP_URL_PATH);
             self::assertSame($package['dist']['shasum'], sha1_file($file));
@@ -19,12 +19,12 @@ final class PackageRepositoryTest extends TestCase
             $archive = new \ZipArchive(); self::assertTrue($archive->open($file));
             self::assertFalse($archive->getFromName('package/.env'), $name);
             for ($index = 0; $index < $archive->numFiles; $index++) {
-                $path = $archive->getNameIndex($index); self::assertStringNotContainsString('/vendor/', $path); self::assertStringNotContainsString('/storage/', $path); self::assertStringNotContainsString('.sqlite', $path);
+                $path = $archive->getNameIndex($index); self::assertStringNotContainsString('/vendor/', $path); self::assertStringNotContainsString('/storage/', $path); self::assertStringNotContainsString('.sqlite', $path);self::assertDoesNotMatchRegularExpression('~/(?:node_modules|\.next|dist|coverage)/~',$path);
             }
             $composer = json_decode($archive->getFromName('package/composer.json'), true, 512, JSON_THROW_ON_ERROR);
             self::assertSame($name, $composer['name']);
             if ($name === 'elang/framework') { self::assertArrayNotHasKey('App\\', $composer['autoload']['psr-4']); self::assertArrayNotHasKey('require-dev', $composer); }
-            if (!in_array($name,['elang/framework','elang/installer','elang/realtime'],true)) {
+            if (($composer['type']??'')==='project') {
                 self::assertStringContainsString('APP_KEY=', $archive->getFromName('package/.env.example'));
                 self::assertContains('@php elang key:generate',$composer['scripts']['post-create-project-cmd']);self::assertContains('@php elang doctor',$composer['scripts']['post-create-project-cmd']);if(!in_array($name,['elang/elang','elang/task-board'],true)) self::assertContains('@php elang migrate',$composer['scripts']['post-create-project-cmd']);
             }

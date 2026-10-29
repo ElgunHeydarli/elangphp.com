@@ -62,7 +62,7 @@ export function Notes({ token }) {
 }
 ```
 
-Nümunə tokeni tətbiqinizin giriş inteqrasiyasından alır. Həqiqi tokeni mənbə kodunda sabit yazıb versiya nəzarətinə daxil etməyin, yığımla yayımlamayın və ya URL-ə qoymayın. Başlanğıc layihəsinin hesab interfeysi şəxsi API tokenləri yaradır; o, OAuth təminatçısı və ya tam SPA giriş protokolu deyil.
+Nümunə tokeni tətbiqinizin giriş inteqrasiyasından alır. Həqiqi tokeni mənbə kodunda sabit yazıb versiya nəzarətinə daxil etməyin, yığımla yayımlamayın və ya URL-ə qoymayın. Hesab interfeysi bu bearer tokeni nümunəsi üçün şəxsi API tokenləri yaradır. Brauzerdə tam giriş, qeydiyyat, CSRF və MFA prosesləri üçün React/Next tam stek başlanğıc layihələrindən və sessiya API-sindən istifadə edin. Elang OAuth təminatçısı deyil.
 
 ## Serverdə Next.js-dən Elang-ı çağırın
 

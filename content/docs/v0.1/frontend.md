@@ -62,7 +62,7 @@ export function Notes({ token }) {
 }
 ```
 
-The example receives a token from your application's sign-in integration. Do not hardcode a real token in source control, publish it in a bundle, or put it in a URL. The starter account UI creates personal API tokens; it is not an OAuth provider or a complete SPA login protocol.
+The example receives a token from your application's sign-in integration. Do not hardcode a real token in source control, publish it in a bundle, or put it in a URL. The account UI creates personal API tokens for this bearer-token example. For complete browser sign-in, registration, CSRF, and MFA flows, use the React/Next fullstack starters and session API. Elang is not an OAuth provider.
 
 ## Call Elang from Next.js on the server
 

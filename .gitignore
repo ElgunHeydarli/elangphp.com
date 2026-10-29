@@ -17,3 +17,10 @@
 /benchmarks/laravel/storage/*
 
 /packages/installer/vendor/
+
+**/node_modules/
+**/.next/
+**/dist/
+**/.vite/
+**/coverage/
+**/tsconfig.tsbuildinfo

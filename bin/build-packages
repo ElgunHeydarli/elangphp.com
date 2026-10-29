@@ -17,14 +17,17 @@ function archivePackage(string $source, string $destination, ?array $composerOve
     if ($archive->open($destination.'.tmp', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) throw new RuntimeException('Cannot create package archive.');
     if ($allow === null) {
         $allow = [];
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS)) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($source) + 1);
+        foreach (new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS),fn($file)=>!$file->isDir()||!in_array($file->getFilename(),['vendor','storage','node_modules','.next','.vite','dist','coverage','.git'],true))) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($source) + 1);
     }
+    $allow=array_values(array_unique($allow));sort($allow,SORT_STRING);
     foreach ($allow as $relative) {
-        if (str_contains($relative, '..') || $relative !== '.env.example' && preg_match('~(^|/)(?:vendor|storage|\.git)(/|$)|(^|/)\.env($|\.)~', $relative)) continue;
+        if (str_contains($relative, '..') || basename($relative) !== '.env.example' && preg_match('~(^|/)(?:vendor|storage|node_modules|\.next|\.vite|dist|coverage|\.git)(/|$)|(^|/)\.env($|\.)~', $relative)) continue;
         if ($relative === 'composer.json' && $composerOverride) continue;
         if (is_file($source.'/'.$relative)) $archive->addFile($source.'/'.$relative, 'package/'.$relative);
+        if(is_file($source.'/'.$relative)) $archive->setMtimeName('package/'.$relative,946684800);
     }
     if ($composerOverride) $archive->addFromString('package/composer.json', json_encode($composerOverride, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n");
+    if($composerOverride) $archive->setMtimeName('package/composer.json',946684800);
     $archive->close();
     if (!rename($destination.'.tmp', $destination)) throw new RuntimeException('Cannot finalize package archive.');
     return sha1_file($destination);
@@ -32,12 +35,12 @@ function archivePackage(string $source, string $destination, ?array $composerOve
 $framework = json_decode(file_get_contents($base.'/composer.json'), true, 512, JSON_THROW_ON_ERROR);
 unset($framework['require-dev'], $framework['autoload-dev'], $framework['scripts'], $framework['extra']);
 $framework['version'] = $version;
-$allow = ['composer.json', 'LICENSE', 'README.md', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg', 'bin/elang'];
-foreach (['src', 'examples', 'resources/elang'] as $folder) foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base.'/'.$folder, FilesystemIterator::SKIP_DOTS)) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($base) + 1);
+$allow = ['composer.json','.env.example', 'LICENSE', 'README.md','compose.yaml', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg', 'bin/elang'];
+foreach (['src', 'examples', 'resources/elang','devkit'] as $folder) foreach (new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(new RecursiveDirectoryIterator($base.'/'.$folder, FilesystemIterator::SKIP_DOTS),fn($file)=>!$file->isDir()||!in_array($file->getFilename(),['vendor','storage','node_modules','.next','.vite','dist','coverage','.git'],true))) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($base) + 1);
 $existing = is_file($output.'/packages.json') ? json_decode(file_get_contents($output.'/packages.json'), true, 512, JSON_THROW_ON_ERROR) : [];
 $packages = $existing['packages'] ?? [];
 $entries = [['elang/framework', 'elang-framework', $base, $framework, $allow]];
-foreach (['elang/elang'=>null,'elang/task-board'=>'task-board','elang/auth-starter'=>'auth','elang/blog'=>'blog','elang/dashboard'=>'dashboard','elang/api'=>'api'] as $name => $example) {
+foreach (['elang/elang'=>null,'elang/task-board'=>'task-board','elang/auth-starter'=>'auth','elang/blog'=>'blog','elang/dashboard'=>'dashboard','elang/api'=>'api','elang/react'=>'react','elang/next'=>'next','elang/saas'=>'saas'] as $name => $example) {
     $directory = $temporary.'/'.str_replace('/', '-', $name);
     (new Elang\Console\ProjectGenerator())->generate($directory, null, $example);
     if (!$example) file_put_contents($directory.'/README.md', "# Your Elang application\n\nComposer has installed your dependencies and generated your application key. Run `php elang doctor`, then `php elang serve`. Open http://127.0.0.1:8000.\n\nRoutes: routes/web.php. Controllers: app/Controllers/. Templates: resources/views/. Public web root: public/.\n\nDocumentation: https://elangphp.com/docs/v0.1/introduction\n");
@@ -46,7 +49,7 @@ foreach (['elang/elang'=>null,'elang/task-board'=>'task-board','elang/auth-start
     $composer['description'] = $example ? 'A complete Elang '.$example.' application starter.' : 'A clean Elang PHP application skeleton.';
     $composer['require']['elang/framework'] = $version;
     $composer['repositories'] = [['type' => 'composer', 'url' => $url]];
-    $commands=['@php elang key:generate'];if(in_array($example,['auth','blog','dashboard','api'],true)) $commands[]='@php elang migrate';$commands[]='@php elang doctor';
+    $commands=['@php elang key:generate'];if(in_array($example,['auth','blog','dashboard','api','react','next','saas'],true)) $commands[]='@php elang migrate';$commands[]='@php elang platform:setup';$commands[]='@php elang doctor';
     $composer['scripts'] = ['post-create-project-cmd' => $commands];
     $composer['config'] = ['allow-plugins' => false, 'sort-packages' => true];
     $entries[] = [$name, $example ? 'elang-'.($example==='auth'?'auth-starter':$example) : 'elang-project', $directory, $composer, null];
@@ -55,6 +58,7 @@ $installer = json_decode(file_get_contents($base.'/packages/installer/composer.j
 $realtime=json_decode(file_get_contents($base.'/packages/realtime/composer.json'),true,512,JSON_THROW_ON_ERROR);$realtime['version']=$version;
 $entries[]=['elang/realtime','elang-realtime',$base.'/packages/realtime',$realtime,null];
 $entries[] = ['elang/installer', 'elang-installer', $base.'/packages/installer', $installer, null];
+foreach(['redis','security','tenancy','storage','notifications','observability'] as $profile) { $manifest=json_decode(file_get_contents($base.'/packages/'.$profile.'/composer.json'),true,512,JSON_THROW_ON_ERROR);$manifest['version']=$version;$entries[]=['elang/'.$profile,'elang-'.$profile,$base.'/packages/'.$profile,$manifest,null]; }
 foreach ($entries as [$name, $filename, $source, $composer, $allow]) {
     $file = $filename.'-'.$version.'.zip';
     $sha = archivePackage($source, $output.'/dist/'.$file, $composer, $allow);

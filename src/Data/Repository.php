@@ -10,9 +10,10 @@ final class Repository
     /** @param class-string<Model> $class */
     public function __construct(private Database $database, private string $class)
     {
-        if (!is_subclass_of($class, Model::class)) throw new \InvalidArgumentException('Repositories require an Elang Model class.');
+        $this->validateClass($class);
         $this->identifier($class::table());
     }
+    private function validateClass(string $class):void { if(!is_subclass_of($class,Model::class)) throw new \InvalidArgumentException('Repositories require an Elang Model class.'); }
     private function identifier(string $value): string
     {
         if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/D', $value)) throw new \InvalidArgumentException('Use a simple, application-controlled SQL identifier.');

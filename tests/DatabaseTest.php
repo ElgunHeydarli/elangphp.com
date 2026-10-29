@@ -21,11 +21,15 @@ final class DatabaseTest extends TestCase
     }
     public function testMigrationsAreIdempotentAndRollbackLatestBatch(): void
     {
-        $db = new Database('sqlite:///:memory:'); $directory = dirname(__DIR__).'/database/migrations';
+        $db = new Database('sqlite:///:memory:');$directory=$this->temporary.'/migrations';mkdir($directory);foreach(array_slice(glob(dirname(__DIR__).'/database/migrations/*.php'),0,3) as $file) copy($file,$directory.'/'.basename($file));
         $migrator = new Migrator($db, $directory, $this->temporary.'/migrations.lock');
         self::assertCount(3, $migrator->migrate()); self::assertSame([], $migrator->migrate());
         self::assertSame(3, (int) $db->connection()->fetchOne('SELECT COUNT(*) FROM examples'));
         self::assertCount(3, $migrator->rollback()); self::assertFalse($db->connection()->createSchemaManager()->tablesExist(['examples'])); self::assertSame([], $migrator->rollback());
+    }
+    public function testAccountPlatformMigrationRefusesDestructiveAutomaticRollback():void
+    {
+        $db=new Database('sqlite:///:memory:');$migrator=new Migrator($db,dirname(__DIR__).'/database/migrations',$this->temporary.'/platform.lock');self::assertCount(4,$migrator->migrate());try { $migrator->rollback();self::fail('Private platform tables must not be destroyed automatically.'); }catch(\RuntimeException $error) { self::assertStringContainsString('automatic destructive rollback is disabled',$error->getMessage()); }self::assertTrue($db->connection()->createSchemaManager()->tablesExist(['auth_users','auth_mfa','elang_files']));
     }
     public function testFailedSqliteMigrationRollsBackSchema(): void
     {

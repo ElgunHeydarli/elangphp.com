@@ -1,0 +1,10 @@
+{
+    "name": "elang/storage",
+    "description": "Private local/S3 objects, authorized temporary downloads, and raster image processing.",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "elang/framework": "0.1.0-dev"
+    }
+}

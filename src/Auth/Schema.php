@@ -30,9 +30,11 @@ final class Schema
             $tokens->addColumn('expires_at','bigint'); $tokens->addColumn('created_at','bigint');
             $tokens->setPrimaryKey(['id']); $tokens->addUniqueIndex(['token_hash']); $tokens->addForeignKeyConstraint('auth_users',['user_id'],['id'],['onDelete'=>'CASCADE']); $schema->createTable($tokens);
         }
+        \Elang\Security\Account\Schema::up($database);\Elang\Audit\Schema::up($database);
     }
     public static function down(Connection $database): void
     {
+        \Elang\Security\Account\Schema::down($database);
         $schema=$database->createSchemaManager(); foreach(['auth_api_tokens','auth_tokens','auth_users'] as $name) if($schema->tablesExist([$name])) $schema->dropTable($name);
     }
 }

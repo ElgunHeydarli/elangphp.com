@@ -1,0 +1,16 @@
+{
+  "identities": [
+    {
+      "name": "development-only",
+      "credentials": [
+        {
+          "accessKey": "development-only",
+          "secretKey": "development-only-secret"
+        }
+      ],
+      "actions": [
+        "Admin"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+    "name": "elang/tenancy",
+    "description": "Explicit team membership, roles, invitations, and tenant-scoped transactions.",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "elang/framework": "0.1.0-dev"
+    }
+}

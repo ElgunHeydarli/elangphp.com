@@ -20,7 +20,7 @@ This website runs on Elang and offers English, Azerbaijani, and Russian content.
 
 ## What is not included yet
 
-Authentication, roles, scoped API tokens, a model/repository layer, local Studio, and the read-only documentation MCP server are included in this preview. Background jobs, UTC scheduling, SSE, authenticated WebSockets, frontend CORS, and idempotency for JSON writes are included. A full ORM, distributed broker adapters, and automated upgrade tooling remain future work.
+Authentication, roles, scoped API tokens, a model/repository layer, local Studio, and the read-only documentation MCP server are included in this preview. Background jobs, UTC scheduling, SSE, authenticated WebSockets, frontend CORS, and idempotency for JSON writes are included. Redis-backed infrastructure, transactional outbox notifications, MFA/passkeys/device management, organizations, private files, inbox notifications, OpenTelemetry, and React/Next/SaaS starters are implemented. A full ORM, additional broker integrations, and automated upgrade tooling remain future work.
 
 ## Requirements
 

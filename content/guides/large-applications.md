@@ -28,7 +28,7 @@ The current real-time transport reads a SQL event history. Test its polling dema
 
 ## Operate multiple instances
 
-Use a shared production database, central secrets, synchronized clocks, and HTTPS. The default cache, rate-limit counters, locks, and sessions are filesystem-based. Multiple hosts need deliberately configured shared storage or application-specific distributed adapters; Elang does not automatically turn these services into Redis-backed infrastructure.
+Use a shared production database, central secrets, synchronized clocks, and HTTPS. Configure shared Redis through REDIS_URL for cache, sessions, strict rate limits, and distributed locks. Without Redis these services use single-host filesystem storage. Run the SQL-outbox relay for committed Redis notifications, and monitor session, limiter, lock, and relay failures.
 
 Run queue workers and WebSocket workers under a supervisor with an unprivileged user. Restart workers during deployment so code and registrations stay current. Deploy migrations compatibly with both the old and new application versions. Back up private data and verify restoration; keep application keys available to decrypt retained data.
 

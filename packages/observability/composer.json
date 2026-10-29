@@ -1,0 +1,10 @@
+{
+    "name": "elang/observability",
+    "description": "Private operations summaries, worker health, and optional OpenTelemetry traces.",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "elang/framework": "0.1.0-dev"
+    }
+}

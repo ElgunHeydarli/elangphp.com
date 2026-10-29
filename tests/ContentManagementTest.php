@@ -8,7 +8,7 @@ final class ContentManagementTest extends TestCase
 {
     private function site(): \Elang\Application
     {
-        $app=new \Elang\Application(dirname(__DIR__),['environment'=>'testing','url'=>'https://elangphp.com','paths'=>['storage'=>$this->temporary.'/storage'],'database'=>['url'=>'sqlite:///:memory:']]);
+        $app=new \Elang\Application(dirname(__DIR__),['environment'=>'testing','key'=>base64_encode(random_bytes(32)),'url'=>'https://elangphp.com','paths'=>['storage'=>$this->temporary.'/storage'],'database'=>['url'=>'sqlite:///:memory:']]);
         $app->container->get(\Elang\Database\Migrator::class)->migrate();$app->provider(new \App\Providers\SiteProvider());$router=$app->router;require dirname(__DIR__).'/routes/web.php';return $app;
     }
     private function article(string $title): array { return ['title'=>$title,'description'=>'A complete practical article with enough detail for a useful search description.','markdown'=>"# ".$title."\n\nA complete practical article.\n\n## Next step\n\n<script>alert(1)</script>\n\nA fenced example:\n\n```php\n# a comment\n```\n"]; }

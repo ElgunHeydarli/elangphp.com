@@ -14,7 +14,7 @@ Lokal inkişaf poçt qutusundan istifadə edərək qeydiyyatdan keçin və hesab
 
 ## Oxuma və yazma səlahiyyətləri
 
-GET kolleksiya və element son nöqtələri notes:read tələb edir. POST, PUT və DELETE notes:write tələb edir. Yalnız oxuma tokeni qeydləri yarada və ya silə bilməz. Server göndərilmiş sahib ID-lərini nəzərə almır və sahibliyi autentifikasiya edilmiş tokendən müəyyən edir.
+GET kolleksiya və element son nöqtələri notes:read tələb edir. POST, PUT və DELETE notes:write tələb edir. Yalnız oxuma tokeni qeydləri yarada və ya silə bilməz. Server göndərilmiş sahib ID-lərini nəzərə almır və sahibliyi autentifikasiya edilmiş istifadəçidən müəyyən edir.
 
 ```bash
 curl http://127.0.0.1:8000/api/notes \
@@ -27,7 +27,7 @@ curl http://127.0.0.1:8000/api/notes \
 
 Uğurlu yaratma 201 və Location qaytarır. Uğurlu silmə 204 qaytarır. Etibarsız token 401, qeyri-kafi səlahiyyət dairəsi 403, başqa istifadəçinin qeydi isə 404 qaytarır. Etibarsız JSON 400, etibarsız sahələr 422, dəstəklənməyən məzmun tipləri isə 415 qaytarır.
 
-API autentifikasiya üçün brauzer kukilərindən istifadə etmir. Brauzer hesab formaları ayrıca sessiya və CSRF qorunmasından istifadə edir.
+API məhdud səlahiyyətli bearer tokenlərini və ya təsdiqlənmiş hesaba aid brauzer sessiyasını qəbul edir. Kuki ilə autentifikasiya olunmuş yazmalar X-CSRF-Token tələb edir; etibarsız Authorization başlığı təqdim edildikdə sessiya autentifikasiyasına keçid edilmir.
 
 ## Sərhədləri sınaqdan keçirin
 

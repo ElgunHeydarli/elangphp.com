@@ -1,0 +1,104 @@
+{% macro icon(name, size = 22) %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{% if name == 'shield' %}<path d="m12 3 8 3v6c0 5-8 9-8 9S4 17 4 12V6Z"/><path d="m8 12 3 3 5-6"/>{% elseif name == 'key' %}<circle cx="8" cy="8" r="4"/><path d="m11 11 9 9m-3-3 3-3m-6 0 3-3"/>{% elseif name == 'phone' %}<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2"/>{% elseif name == 'device' %}<rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8m-4-5v5"/>{% elseif name == 'copy' %}<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V3H3v13h5"/>{% elseif name == 'download' %}<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>{% elseif name == 'arrow' %}<path d="m7 17 10-10M7 7h10v10"/>{% elseif name == 'check' %}<path d="m5 12 4 4L19 6"/>{% elseif name == 'lock' %}<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 4v3"/>{% endif %}
+</svg>
+{% endmacro %}
+{% import _self as icons %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Account security — {{ app_name }}</title>
+  <link rel="stylesheet" href="/_elang/assets/ui.css?v={{ elang_asset_version }}">
+  <script src="/_elang/assets/account.js?v={{ elang_asset_version }}" defer></script>
+</head>
+<body class="account-security">
+<header class="product-header">
+  <a href="/" class="product-brand">e<span>.</span> <strong>{{ app_name }}</strong></a>
+  <nav aria-label="Account navigation">
+    <a href="/dashboard">Account</a>
+    <a href="/security" aria-current="page">Security</a>
+    <form action="/logout" method="post"><input type="hidden" name="_token" value="{{ token }}"><button class="link-button">Sign out</button></form>
+  </nav>
+</header>
+<main class="security-shell">
+  <div class="security-intro">
+    <div><p class="eyebrow">YOUR ACCOUNT / SECURITY</p><h1>Account security.<br><span>One step at a time.</span></h1><p class="lead">A few thoughtful steps to protect your space.</p></div>
+    <div class="security-intro-icon">{{ icons.icon('shield', 42) }}</div>
+  </div>
+  {% if message %}<div class="notice" role="status">{{ message }}</div>{% endif %}
+  {% if errors %}<div class="notice error" role="alert"><strong>Please check these details.</strong><ul>{% for field, messages in errors %}{% for error in messages %}<li>{{ error }}</li>{% endfor %}{% endfor %}</ul></div>{% endif %}
+
+  {% if recovery_codes %}
+  <section class="security-recovery-box" aria-labelledby="recovery-codes-heading" data-recovery-codes>
+    <div class="security-section-heading"><div class="security-icon">{{ icons.icon('key') }}</div><div><p class="eyebrow">KEEP THESE SOMEWHERE SAFE</p><h2 id="recovery-codes-heading">Your recovery codes.</h2></div><span class="security-label security-label-warm">Shown once</span></div>
+    <p>Each code can be used once if you lose access to your authenticator. Save these codes now; they will not be displayed again.</p>
+    <ul class="security-recovery-grid" aria-label="One-time recovery codes">{% for code in recovery_codes %}<li><code data-recovery-code>{{ code }}</code></li>{% endfor %}</ul>
+    <div class="security-button-row"><button class="button secondary" type="button" data-copy-recovery>{{ icons.icon('copy', 17) }}<span>Copy codes</span></button><button class="button secondary" type="button" data-download-recovery>{{ icons.icon('download', 17) }}<span>Download codes</span></button></div>
+    <p class="form-hint security-copy-status" data-recovery-status role="status" aria-live="polite"></p>
+    <noscript><p class="form-hint">Select and save the codes manually. Copy and download buttons require JavaScript.</p></noscript>
+  </section>
+  {% endif %}
+
+  <div class="security-layout">
+    <aside class="security-overview">
+      <section class="security-summary">
+        <div class="security-profile-mark">{{ icons.icon('lock', 23) }}</div>
+        <h2>Your protection.</h2><p class="security-email">{{ user.email }}</p>
+        <dl><div><dt>Authenticator</dt><dd class="{{ mfa_enabled ? 'security-good' : '' }}">{{ mfa_enabled ? 'Enabled' : 'Not enabled' }}</dd></div><div><dt>Passkeys</dt><dd>{{ passkeys|length }}</dd></div><div><dt>Active devices</dt><dd>{{ devices|length }}</dd></div></dl>
+      </section>
+      <nav class="security-section-nav" aria-label="Security sections"><a href="#authenticator">Authenticator <span>01</span></a><a href="#passkeys">Passkeys <span>02</span></a><a href="#devices">Devices <span>03</span></a></nav>
+      <p class="security-sidebar-note">Small steps.<br><em>Stronger protection.</em></p>
+    </aside>
+
+    <div class="security-sections">
+      <section class="panel security-panel" id="authenticator" aria-labelledby="authenticator-heading">
+        <div class="security-section-heading"><div class="security-icon">{{ icons.icon('phone') }}</div><div><span class="security-section-number">01 / AN EXTRA STEP</span><h2 id="authenticator-heading">Authenticator app</h2></div><span class="security-label{{ mfa_enabled ? ' security-label-good' : '' }}">{{ mfa_enabled ? 'Enabled' : 'Not enabled' }}</span></div>
+        <p class="security-description">Add a one-time code to your password when you sign in. Use an authenticator app on a device you trust.</p>
+        {% if pending_setup %}
+        <div class="security-enrollment">
+          <div class="security-qr"><img src="/security/totp/qr" alt="Scan this QR code with your authenticator app" width="192" height="192" referrerpolicy="no-referrer"></div>
+          <div class="security-enrollment-steps"><h3>Connect your authenticator.</h3><p class="form-hint">Scan the QR code in your app, then enter its six-digit code below to finish setup.</p><details class="security-manual-key"><summary>Enter the key manually</summary><p class="form-hint">If you cannot scan the image, enter this setup key in your authenticator. Keep it private.</p><div class="security-secret-row"><code id="authenticator-secret">{{ pending_setup.secret }}</code><button class="security-icon-button" type="button" data-security-copy data-copy-target="authenticator-secret" aria-label="Copy authenticator setup key">{{ icons.icon('copy', 17) }}</button></div><p class="form-hint" data-copy-status role="status" aria-live="polite"></p></details></div>
+        </div>
+        <form class="stack security-form" action="/security/totp/confirm" method="post"><input type="hidden" name="_token" value="{{ token }}"><label>Six-digit code<input class="security-code-input" name="code" required pattern="[0-9]{6}" minlength="6" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="000000"></label><button class="button">Finish setup {{ icons.icon('check', 17) }}</button></form>
+        {% elseif not mfa_enabled %}
+        <form class="stack security-form" action="/security/totp/start" method="post"><input type="hidden" name="_token" value="{{ token }}"><label>Confirm your current password<input type="password" name="current_password" required maxlength="256" autocomplete="current-password"></label><button class="button">Set up authenticator {{ icons.icon('arrow', 17) }}</button></form>
+        {% else %}
+        <div class="security-enabled-note">{{ icons.icon('check', 17) }}<span>Your authenticator is ready for your next sign-in.</span></div>
+        <details class="security-disclosure"><summary>Replace recovery codes</summary><div class="security-disclosure-content"><p class="form-hint">Create a fresh set if your existing codes are lost or no longer private. All previous recovery codes will stop working.</p><form class="stack security-form" action="/security/recovery" method="post"><input type="hidden" name="_token" value="{{ token }}"><label>Current password<input type="password" name="current_password" required maxlength="256" autocomplete="current-password"></label><label>Authenticator or recovery code<input name="code" required maxlength="160" autocomplete="one-time-code" spellcheck="false"></label><button class="button secondary">Create new recovery codes</button></form></div></details>
+        <details class="security-disclosure security-disclosure-danger"><summary>Turn off authenticator</summary><div class="security-disclosure-content"><p class="form-hint">Your authenticator will no longer be required at password sign-in. Existing recovery codes will be invalidated.</p><form class="stack security-form" action="/security/totp/disable" method="post"><input type="hidden" name="_token" value="{{ token }}"><label>Current password<input type="password" name="current_password" required maxlength="256" autocomplete="current-password"></label><label>Authenticator or recovery code<input name="code" required maxlength="160" autocomplete="one-time-code" spellcheck="false"></label><button class="button danger">Turn off authenticator</button></form></div></details>
+        {% endif %}
+      </section>
+
+      <section class="panel security-panel" id="passkeys" aria-labelledby="passkeys-heading">
+        <div class="security-section-heading"><div class="security-icon">{{ icons.icon('key') }}</div><div><span class="security-section-number">02 / A FAMILIAR WAY IN</span><h2 id="passkeys-heading">Passkeys</h2></div><span class="security-count">{{ passkeys|length }}</span></div>
+        <p class="security-description">Sign in with your device or security key. Your browser will guide you through creating a passkey.</p>
+        <div class="security-credential-list">
+        {% for passkey in passkeys %}
+          <div class="security-credential"><div class="security-credential-main"><span class="security-device-icon">{{ icons.icon('key', 19) }}</span><div><h3>{{ passkey.name|default('Passkey') }}</h3><p class="form-hint"><span>Added</span> {{ passkey.created_at|date('Y-m-d') }}<span class="security-meta-divider">·</span>{% if passkey.last_used_at %}<span>Last used</span> {{ passkey.last_used_at|date('Y-m-d') }}{% else %}<span>Not used yet</span>{% endif %}</p></div></div><details class="security-remove"><summary>Remove</summary><form action="/security/passkeys/{{ passkey.credential_hash|url_encode }}/delete" method="post" class="stack"><input type="hidden" name="_token" value="{{ token }}"><p class="form-hint">Confirm your password to remove this passkey.</p><label>Current password<input name="current_password" type="password" required maxlength="256" autocomplete="current-password"></label><button class="button danger">Remove passkey</button></form></details></div>
+        {% else %}<div class="security-empty"><span class="security-empty-mark">{{ icons.icon('key', 26) }}</span><div><h3>Your next way in.</h3><p class="form-hint">You have not added any passkeys yet.</p></div></div>{% endfor %}
+        </div>
+        <form class="stack security-form security-passkey-form" action="/security/passkeys/options" method="post" data-passkey-register>
+          <input type="hidden" name="_token" value="{{ token }}">
+          <div class="field-row"><label>Passkey name<input name="name" required maxlength="80" autocomplete="off" placeholder="My laptop"></label><label>Current password<input name="current_password" type="password" required maxlength="256" autocomplete="current-password"></label></div>
+          <button class="button" type="submit" data-passkey-submit disabled><span data-passkey-label>Add a passkey</span>{{ icons.icon('arrow', 17) }}</button>
+          <p class="form-hint" data-passkey-status role="status" aria-live="polite">Checking passkey support…</p>
+          <noscript><p class="form-hint">Passkey setup requires JavaScript. Your password and authenticator settings still work without it.</p></noscript>
+        </form>
+      </section>
+
+      <section class="panel security-panel" id="devices" aria-labelledby="devices-heading">
+        <div class="security-section-heading"><div class="security-icon">{{ icons.icon('device') }}</div><div><span class="security-section-number">03 / KNOW WHERE YOU ARE</span><h2 id="devices-heading">Your devices</h2></div><span class="security-count">{{ devices|length }}</span></div>
+        <p class="security-description">Review your active sign-ins. Revoke a device you no longer use or do not recognize.</p>
+        <div class="security-device-list">
+        {% for device in devices %}<div class="security-device"><span class="security-device-icon">{{ icons.icon('device', 20) }}</span><div class="security-device-details"><div class="security-device-title"><h3 title="{{ device.agent }}">{{ device.agent|default('Unknown device', true) }}</h3>{% if device.current %}<span class="security-label security-label-good">This device</span>{% endif %}</div><p class="form-hint"><span>First seen</span> {{ device.created_at|date('Y-m-d') }}<span class="security-meta-divider">·</span><span>Last active</span> {{ device.last_seen_at|date('Y-m-d H:i') }}</p></div><form action="/security/devices/{{ device.id_hash|url_encode }}/revoke" method="post"><input type="hidden" name="_token" value="{{ token }}"><button class="button secondary">{{ device.current ? 'Sign out here' : 'Revoke access' }}</button></form></div>{% else %}<div class="security-empty"><span class="security-empty-mark">{{ icons.icon('device', 25) }}</span><div><h3>No active devices to show.</h3><p class="form-hint">Your active sign-ins will appear here.</p></div></div>{% endfor %}
+        </div>
+        <p class="form-hint security-device-hint">Revoking this device will sign you out of the current session.</p>
+      </section>
+    </div>
+  </div>
+</main>
+<footer class="product-footer security-footer"><span>Built with Elang · Thoughtful defaults. Clear choices.</span><a href="/dashboard">Back to your account {{ icons.icon('arrow', 14) }}</a></footer>
+</body></html>

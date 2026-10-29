@@ -20,7 +20,7 @@ Bu veb-sayt Elang üzərində işləyir və ingilis, Azərbaycan və rus dillər
 
 ## Hələ nələr daxil deyil
 
-Autentifikasiya, rollar, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model/repozitoriya qatı, lokal Studio və yalnız oxumağa imkan verən sənədləşmə MCP serveri bu ilkin versiyaya daxildir. Fon tapşırıqları, UTC üzrə planlaşdırma, SSE, autentifikasiyalı WebSockets, ön tərəf üçün CORS və JSON yazma əməliyyatlarının idempotentliyi də daxildir. Tam ORM, paylanmış broker adapterləri və avtomatik yeniləmə alətləri gələcək işlər olaraq qalır.
+Autentifikasiya, rollar, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model/repozitoriya qatı, lokal Studio və yalnız oxumağa imkan verən sənədləşmə MCP serveri bu ilkin versiyaya daxildir. Fon tapşırıqları, UTC üzrə planlaşdırma, SSE, autentifikasiyalı WebSockets, ön tərəf üçün CORS və JSON yazma əməliyyatlarının idempotentliyi də daxildir. Redis-ə əsaslanan infrastruktur, tranzaksiyalı çıxış qutusu bildirişləri, MFA/keçid açarları/cihaz idarəetməsi, təşkilatlar, şəxsi fayllar, gələn qutusu bildirişləri, OpenTelemetry və React/Next/SaaS başlanğıc layihələri reallaşdırılıb. Tam ORM, əlavə broker inteqrasiyaları və avtomatik yeniləmə alətləri gələcək işlər olaraq qalır.
 
 ## Tələblər
 

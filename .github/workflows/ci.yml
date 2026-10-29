@@ -12,12 +12,19 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.3', '8.4']
+    services:
+      redis:
+        image: redis:7.4-alpine
+        ports: ['6379:6379']
+        options: --health-cmd="redis-cli ping" --health-interval=3s --health-timeout=3s --health-retries=20
+    env:
+      ELANG_TEST_REDIS_URL: redis://127.0.0.1:6379/0
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, dom, sodium, pdo_sqlite, zip
+          extensions: mbstring, dom, sodium, pdo_sqlite, zip, gd, curl, fileinfo
           coverage: none
           tools: composer:v2
       - run: composer install --no-interaction --prefer-dist --no-progress
@@ -65,3 +72,64 @@ jobs:
         env:
           ELANG_TEST_DATABASE_URL: postgresql://postgres:integration-only@127.0.0.1:5432/elang_test_ci
         run: vendor/bin/phpunit --group database-integration
+
+  dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        resolution: [lowest, latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, sodium, pdo_sqlite, zip, gd, curl, fileinfo
+          coverage: none
+          tools: composer:v2
+      - name: Resolve lowest allowed versions
+        if: matrix.resolution == 'lowest'
+        run: composer update --prefer-lowest --prefer-stable --no-interaction --no-progress
+      - name: Resolve current allowed versions
+        if: matrix.resolution == 'latest'
+        run: composer update --no-interaction --no-progress
+      - run: composer test
+      - run: composer analyse
+      - run: composer audit
+  frontends:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        frontend: [react, next]
+    defaults:
+      run:
+        working-directory: examples/frontend-${{ matrix.frontend }}
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: examples/frontend-${{ matrix.frontend }}/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - if: matrix.frontend == 'next'
+        run: npm run test:proxy
+  development-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose config --quiet
+      - run: docker compose up --build --detach --wait --wait-timeout 300 app
+      - run: docker compose exec -T app php elang doctor --json
+      - name: Test actual S3-compatible storage
+        run: docker compose exec -T -e ELANG_TEST_S3_CONFIG=/app/devkit/seaweed-s3.json -e ELANG_TEST_S3_ENDPOINT=http://seaweed:8333 app vendor/bin/phpunit --group s3-integration
+      - if: always()
+        run: docker compose logs --tail=80 app seaweed
+      - if: always()
+        run: docker compose down --volumes

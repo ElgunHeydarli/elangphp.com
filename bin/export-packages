@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+// Prepare sanitized source trees for review/split repositories; this script performs no remote writes.
+$base=dirname(__DIR__);$options=getopt('',['output:']);$output=$options['output']??null;if(!is_string($output)||!str_starts_with($output,'/')) { fwrite(STDERR,"Use --output=/absolute/new/private/directory\n");exit(1); }if(file_exists($output)) throw new RuntimeException('Choose a new output directory.');mkdir($output,0700,true);
+$build=$output.'/.build';$process=proc_open([PHP_BINARY,$base.'/bin/build-packages','--output='.$build,'--base-url=file://'.$build],[STDIN,STDOUT,STDERR],$pipes,$base);if(!is_resource($process)||proc_close($process)!==0) throw new RuntimeException('Package staging failed.');
+$catalog=json_decode(file_get_contents($build.'/packages.json'),true,512,JSON_THROW_ON_ERROR);$report=[];
+foreach($catalog['packages'] as $name=>$versions) {
+    $package=reset($versions);$directory=$output.'/'.str_replace('/','-',$name);mkdir($directory,0700);$zip=new ZipArchive();$zip->open(parse_url($package['dist']['url'],PHP_URL_PATH));
+    for($i=0;$i<$zip->numFiles;$i++) { $path=$zip->getNameIndex($i);if(!str_starts_with($path,'package/')||str_contains($path,'..')||str_contains($path,'\\')) throw new RuntimeException('Invalid archive entry.');$relative=substr($path,8);if($relative===''||str_ends_with($relative,'/')) continue;$target=$directory.'/'.$relative;if(!is_dir(dirname($target))) mkdir(dirname($target),0700,true);file_put_contents($target,$zip->getFromIndex($i)); }
+    $zip->close();$composer=json_decode(file_get_contents($directory.'/composer.json'),true,512,JSON_THROW_ON_ERROR);unset($composer['version']);$composer['extra']['branch-alias']['dev-main']='0.1.x-dev';if(isset($composer['require']['elang/framework'])) $composer['require']['elang/framework']='^0.1@dev';file_put_contents($directory.'/composer.json',json_encode($composer,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n");copy($base.'/LICENSE',$directory.'/LICENSE');$report[]=['name'=>$name,'directory'=>basename($directory),'version'=>$package['version'],'sha256'=>hash_file('sha256',$directory.'/composer.json')];
+}
+file_put_contents($output.'/manifest.json',json_encode($report,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n");echo count($report)." sanitized package trees prepared. Review them before publishing repositories/tags or submitting to Packagist.\n";

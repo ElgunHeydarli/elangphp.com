@@ -14,7 +14,7 @@ The official website is an Elang application: the backend uses this framework, w
 - Symfony constraint validation and structured 422 responses.
 - Doctrine DBAL, bound query parameters, transactions, and migration commands.
 - Session and CSRF middleware, Argon2id passwords, Sodium secretbox encryption.
-- Locked filesystem-backed API rate limits, safe error responses, request IDs, and default security headers.
+- Redis-backed or single-host filesystem API rate limits with locks, safe error responses, request IDs, and default security headers.
 - PSR-16 cache, PSR-3 logs, synchronous events, and a configurable mail transport.
 - A standalone application generator and controller/migration generators.
 - English, Azerbaijani, and Russian documentation, ten lessons, code examples, search, Atom, a sitemap, Markdown exports, and llms.txt.
@@ -28,7 +28,7 @@ The official website is an Elang application: the backend uses this framework, w
 - CORS, OpenAPI, a fetch ES module, React/Next.js examples, and idempotency for buffered JSON writes.
 - A read-only documentation MCP endpoint over HTTP or stdio.
 
-A full ORM, distributed cache/limiter/broker adapters, and dedicated editor plugins are planned. See [ROADMAP.md](ROADMAP.md).
+Redis-backed infrastructure, transactional outbox notifications, MFA/passkeys/devices, teams, private files, notifications, OpenTelemetry, and React/Next/SaaS starters are implemented. A full ORM, additional broker integrations, and dedicated editor plugins remain future work. See [ROADMAP.md](ROADMAP.md).
 
 ## Requirements
 
@@ -67,6 +67,8 @@ composer global require elang/installer:0.1.0-dev
 
 Add the directory printed by `composer global config bin-dir --absolute` to your user PATH before using the global command. Then run `elang new my-app`.
 
+Fullstack and team starters: `elang new my-react --starter=react`, `elang new my-next --starter=next`, and `elang new my-saas --starter=saas`. Detailed account security, Redis, tenancy, files, notifications, telemetry, releases, and SaaS documentation is available in all three site languages.
+
 Application starters: `elang new my-blog --starter=blog`, `elang new my-api --starter=api`, `elang new my-workspace --starter=dashboard`, and `elang new my-auth --starter=auth`. Composer packages are `elang/blog`, `elang/api`, `elang/dashboard`, and `elang/auth-starter`.
 
 For WebSockets in a generated project: `composer require elang/realtime:0.1.0-dev`, then `php elang realtime:serve`. Keep the daemon behind a TLS reverse proxy in production. The default SQL event store polls; load-test its database demand for your workload.
@@ -77,7 +79,7 @@ Framework contributors can still use `php elang new ../my-app --local` to test a
 
 ## Build the Composer repository
 
-Run `php bin/build-packages` before deploying. It builds nine Composer packages, validates distribution boundaries, and writes content-addressed archives plus packages.json into private storage. The site exposes only the catalog and known archive names through controlled routes. No manual archive download is part of the public installation flow.
+Run `php bin/build-packages` before deploying. It builds eighteen Composer packages, validates distribution boundaries, and writes content-addressed archives plus packages.json into private storage. The site exposes only the catalog and known archive names through controlled routes. No manual archive download is part of the public installation flow.
 
 The package builder needs PHP zip. The installer is implemented in packages/installer; it creates projects through Composer. The public installation URL requires the domain's DNS and HTTPS configuration to be working.
 
@@ -126,7 +128,7 @@ Expose only `public/`, keep `.env` private, configure HTTPS, and give the PHP pr
 
 On the current Hestia host, application source lives in `/home/ecommerce/web/elangphp.com/private/elang`; `bin/publish-site` copies only public assets and the front controller to the fixed public_html root. It preserves the previous placeholder in the private directory. This script is specific to this host layout.
 
-The mailer defaults to `null://null`. Account email is encrypted in the local Studio mailbox; production account recovery reports unavailable until a real MAILER_DSN and MAIL_FROM are configured. The rate limiter uses one host's filesystem and locks; multi-host deployments require shared adapters.
+The mailer defaults to `null://null`. Account email is encrypted in the local Studio mailbox; production account recovery reports unavailable until a real MAILER_DSN and MAIL_FROM are configured. Without REDIS_URL, rate limits use one host's filesystem and locks. Configure shared Redis for multi-host cache, sessions, strict limiter state, and distributed locks.
 
 ## Documentation and AI tools
 

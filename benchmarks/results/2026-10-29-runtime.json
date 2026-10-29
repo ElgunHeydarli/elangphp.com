@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-10-29T08:13:26.196Z",
+  "framework": "Elang 0.1.0-dev",
+  "runtime": {
+    "php": "8.4.24",
+    "database": "11.4.9-MariaDB-ubu2404",
+    "redis": "7.0.15"
+  },
+  "host": {
+    "platform": "linux",
+    "architecture": "x64",
+    "logical_cpus": 6
+  },
+  "configuration": {
+    "php_http_workers": 4,
+    "websocket_workers": 2,
+    "sql": "disposable MariaDB database",
+    "redis": "private loopback shared infrastructure",
+    "public_rate_limit": 100000,
+    "opcache_cli": false,
+    "operations_metrics": true
+  },
+  "workload": {
+    "rounds": 80,
+    "concurrency": 8,
+    "requests": 320,
+    "expected_cross_tenant_denials": 80,
+    "unexpected_errors": 0,
+    "elapsed_ms": 2087.0954,
+    "requests_per_second": 153.32313031785705,
+    "median_ms": 28.221730999999863,
+    "p95_ms": 154.10222599999997,
+    "max_ms": 306.92918199999997
+  },
+  "websocket": {
+    "connections": 50,
+    "delivered": 50,
+    "median_ms": 465.38821400000006,
+    "p95_ms": 466.86781800000017,
+    "max_ms": 466.99430299999995
+  },
+  "limitations": [
+    "Loopback development-server workload; not a production capacity promise.",
+    "Results include authorization, SQL project/audit/event transactions and expected isolation denials.",
+    "Framework comparison and banking/regulatory certification are not established by this measurement."
+  ]
+}

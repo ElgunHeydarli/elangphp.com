@@ -8,6 +8,7 @@ final class SiteProvider implements ServiceProvider
 {
     public function register(Container $container): void
     {
+        $container->singleton(\GuzzleHttp\ClientInterface::class,fn()=>new \GuzzleHttp\Client());
         $container->singleton(Locale::class,fn(Container $c)=>new Locale($c->get(Application::class)));
         $container->singleton(Html::class,fn(Container $c)=>new Html($c->get(Locale::class)));
         $container->singleton(ContentStore::class,fn(Container $c)=>new ContentStore($c->get(\Elang\Database\Database::class),$c->get(\Elang\Validation\Validator::class)));
@@ -19,6 +20,7 @@ final class SiteProvider implements ServiceProvider
         $app->middleware(LocaleMiddleware::class,\App\CanonicalMiddleware::class);
         $app->container->get(\Symfony\Contracts\EventDispatcher\EventDispatcherInterface::class)->addListener(\Elang\Http\ResponseEvent::class,[$app->container->get(LocaleMiddleware::class),'response']);
         $app->provider(new \Elang\Auth\AuthProvider());
+        $app->provider(new \Elang\Observability\Provider());
         require_once $app->basePath.'/examples/task-board/app/Controllers/TaskBoardController.php';
         $loader=$app->container->get(\Elang\View\View::class)->engine()->getLoader();
         if($loader instanceof \Twig\Loader\FilesystemLoader) $loader->addPath($app->basePath.'/examples/task-board/resources/views');

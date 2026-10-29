@@ -1,0 +1,10 @@
+{
+    "name": "elang/redis",
+    "description": "Shared cache, sessions, strict rate limits, locks, and transactional Redis notifications.",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "elang/framework": "0.1.0-dev"
+    }
+}

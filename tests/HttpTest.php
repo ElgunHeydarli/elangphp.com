@@ -48,7 +48,7 @@ final class HttpTest extends TestCase
         $response = $app->handle(Request::create('/api/fail'));
         self::assertSame(500, $response->getStatusCode()); self::assertStringNotContainsString('database-password-secret', $response->getContent());
         self::assertTrue($response->headers->has('X-Request-Id')); self::assertSame('nosniff', $response->headers->get('X-Content-Type-Options')); self::assertTrue($response->headers->has('Content-Security-Policy'));
-        self::assertStringContainsString('database-password-secret', file_get_contents($this->temporary.'/storage/logs/app.log'));
+        self::assertStringNotContainsString('database-password-secret', file_get_contents($this->temporary.'/storage/logs/app.log'));self::assertStringContainsString('RuntimeException',file_get_contents($this->temporary.'/storage/logs/app.log'));
     }
     public function testBodySizeLimit(): void
     {

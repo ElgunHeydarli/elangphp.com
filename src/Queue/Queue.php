@@ -4,13 +4,13 @@ namespace Elang\Queue;
 use Elang\{Database\Database,Support\Config};
 final class Queue
 {
-    public function __construct(private Database $database,private Jobs $jobs,private Config $config) {}
+    public function __construct(private Database $database,private Jobs $jobs,private Config $config,private ?\Elang\Outbox\Outbox $outbox=null,private ?\Elang\Observability\Telemetry $telemetry=null) {}
     public function push(string $name,array $payload=[],int $delay=0):string
     {
         if(!$this->jobs->has($name)) throw new \InvalidArgumentException('Register the job handler before dispatching it.');
         if($delay<0||$delay>2592000) throw new \InvalidArgumentException('Delay must be between zero and 30 days.');
         $json=json_encode($payload,JSON_THROW_ON_ERROR);if(strlen($json)>65536) throw new \InvalidArgumentException('Job payloads must fit within 64 KB.');
-        $id=bin2hex(random_bytes(16));$this->database->connection()->insert('elang_jobs',['id'=>$id,'name'=>$name,'payload'=>$json,'state'=>'queued','attempts'=>0,'available_at'=>time()+$delay,'created_at'=>time(),'reserved_until'=>null,'reservation'=>null,'last_error'=>null]);return $id;
+        $id=bin2hex(random_bytes(16));$this->database->connection()->transactional(function($connection)use($id,$name,$json,$delay):void { $connection->insert('elang_jobs',['id'=>$id,'name'=>$name,'payload'=>$json,'trace_context'=>json_encode($this->telemetry?->carrier()??[],JSON_THROW_ON_ERROR),'state'=>'queued','attempts'=>0,'available_at'=>time()+$delay,'created_at'=>time(),'reserved_until'=>null,'reservation'=>null,'last_error'=>null]);$this->outbox?->append('jobs',['id'=>$id]); });return $id;
     }
     public function claim():?array
     {
@@ -34,12 +34,13 @@ final class Queue
     }
     public function retry(string $id):bool { return $this->database->connection()->executeStatement('UPDATE elang_jobs SET state = ?, attempts = 0, available_at = ?, last_error = NULL WHERE id = ? AND state = ?',['queued',time(),$id,'failed'])===1; }
     public function failures():array { return $this->database->connection()->createQueryBuilder()->select('id','name','attempts','last_error','created_at')->from('elang_jobs')->where('state = ?')->setParameter(0,'failed')->orderBy('created_at','DESC')->setMaxResults(100)->executeQuery()->fetchAllAssociative(); }
+    public function wait():void { if($this->outbox) $this->outbox->waitForJobs();else usleep(500000); }
     public function workOne():bool
     {
         $job=$this->claim();if(!$job) return false;
         try {
             if((int)$job['attempts']>$this->config->get('queue.max_attempts',5)) throw new \RuntimeException('Job retry limit exhausted.');
-            $payload=json_decode($job['payload'],true,64,JSON_THROW_ON_ERROR);if(!is_array($payload)) throw new \UnexpectedValueException('Invalid job payload.');$this->jobs->run($job['name'],$payload);$this->complete($job);
+            $payload=json_decode($job['payload'],true,64,JSON_THROW_ON_ERROR);if(!is_array($payload)) throw new \UnexpectedValueException('Invalid job payload.');$run=fn()=>$this->jobs->run($job['name'],$payload);if($this->telemetry) $this->telemetry->job($job['name'],json_decode($job['trace_context']??'[]',true,8,JSON_THROW_ON_ERROR),$run);else $run();$this->complete($job);
         } catch(\Throwable $error) { $this->failed($job,$error); }
         return true;
     }

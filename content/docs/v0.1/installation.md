@@ -79,7 +79,7 @@ php elang make:controller HelloController
 
 ## Preview distribution and Packagist
 
-The nine current packages are `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, and `elang/realtime`. They are Composer packages hosted at `https://elangphp.com/packages`.
+The distribution defines eighteen packages: `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, `elang/react`, `elang/next`, `elang/saas`, `elang/realtime`, `elang/redis`, `elang/security`, `elang/tenancy`, `elang/storage`, `elang/notifications`, and `elang/observability`. Installation uses the self-hosted Composer repository at `https://elangphp.com/packages`.
 
 A public Packagist release has not been published yet, so omitting the repository option from an ordinary Composer installation is not supported today. Do not assume a short Packagist-only command works before that publication. The current version remains a changing development preview.
 

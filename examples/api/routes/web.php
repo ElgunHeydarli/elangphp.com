@@ -4,7 +4,7 @@ use Elang\Auth\{BearerAuth,RequireScope};
 use Elang\Http\Middleware\{SessionMiddleware,RateLimitMiddleware};
 use App\Controllers\{ApiHomeController,NotesApiController};
 $router->get('/',ApiHomeController::class,'home')->middleware(SessionMiddleware::class);
-$router->group('/api',[RateLimitMiddleware::class,BearerAuth::class,RequireScope::class,\Elang\Http\Idempotency\Idempotency::class],function($router):void {
+$router->group('/api',[RateLimitMiddleware::class,SessionMiddleware::class,\Elang\Auth\ApiIdentity::class,RequireScope::class,\Elang\Http\Idempotency\Idempotency::class],function($router):void {
     $router->get('/notes/events',[\App\Controllers\RealtimeController::class,'events'])->defaults(['_scope'=>'notes:read']);
     $router->post('/realtime-token',[\App\Controllers\RealtimeController::class,'token'])->defaults(['_scope'=>'notes:read']);
     $router->get('/notes',[NotesApiController::class,'index'])->defaults(['_scope'=>'notes:read']);

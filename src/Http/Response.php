@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 final class Response
 {
     public static function json(mixed $data, int $status = 200, array $headers = []): JsonResponse { return new JsonResponse($data, $status, $headers); }
-    public static function html(string $html, int $status = 200): HttpResponse { return new HttpResponse($html, $status, ['Content-Type' => 'text/html; charset=utf-8']); }
+    public static function html(string $html, int $status = 200, array $headers=[]): HttpResponse { return new HttpResponse($html, $status, ['Content-Type' => 'text/html; charset=utf-8']+$headers); }
     public static function redirect(string $path, int $status = 302): RedirectResponse
     {
         if (!str_starts_with($path, '/') || str_starts_with($path, '//') || str_contains($path, '\\') || preg_match('/[\x00-\x20\x7f]/', $path)) throw new \InvalidArgumentException('Redirects must use a local absolute path.');
