@@ -5,6 +5,8 @@ declare(strict_types=1);
 $base=dirname(__DIR__);$private=dirname($base);$domainRoot=dirname($base,2);$public=$domainRoot.'/public_html';$options=getopt('',['release::']);$name=$options['release']??basename($base);
 if(basename($private)!=='private'||basename($domainRoot)!=='elangphp.com'||!is_dir($public)||!is_string($name)||!preg_match('/^elang(?:-[a-z0-9-]+)?$/D',$name)) throw new RuntimeException('Use the documented private/elang host layout and a reviewed release name.');
 $release=realpath($private.'/'.$name);if($release===false||dirname($release)!==$private||!is_file($release.'/vendor/autoload.php')||!is_file($release.'/public/index.php')) throw new RuntimeException('Release source or dependencies are missing.');
+$sharedStorage=realpath($base.'/storage');
+if($sharedStorage===false||realpath($release.'/storage')!==$sharedStorage) throw new RuntimeException('Connect the reviewed release to the shared private storage before publishing. No public files were changed.');
 $source=$release.'/public';foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source,FilesystemIterator::SKIP_DOTS)) as $file) {
     if(!$file->isFile()||$file->getFilename()==='router.php') continue;$relative=substr($file->getPathname(),strlen($source)+1);$target=$public.'/'.$relative;if(!is_dir(dirname($target))) mkdir(dirname($target),0755,true);$temporary=$target.'.'.bin2hex(random_bytes(6)).'.tmp';if(!copy($relative==='index.php'?$base.'/public/index.php':$file->getPathname(),$temporary)) throw new RuntimeException('Could not stage '.$relative);chmod($temporary,0644);if(!rename($temporary,$target)) throw new RuntimeException('Could not publish '.$relative);
 }

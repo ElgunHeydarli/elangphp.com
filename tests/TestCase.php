@@ -12,7 +12,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->temporary, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($iterator as $file) $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
+        foreach ($iterator as $file) !$file->isLink() && $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
         rmdir($this->temporary);
     }
     protected function application(array $config = []): \Elang\Application
