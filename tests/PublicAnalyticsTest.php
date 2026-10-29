@@ -15,6 +15,7 @@ final class PublicAnalyticsTest extends TestCase
         foreach(['/','/az','/ru','/docs/v0.1/installation','/az/privacy','/ru/privacy'] as $path) {
             $response=$app->handle(Request::create($path.'?email=private@example.test'));
             self::assertSame(200,$response->getStatusCode(),$path);
+            if(in_array($path,['/','/az','/ru'],true)) self::assertStringContainsString('composer create-project elang/elang my-app dev-main',$response->getContent());
             self::assertStringContainsString('data-analytics-id="G-TEST123456"',$response->getContent());
             self::assertStringContainsString('name="google-site-verification"',$response->getContent());
             self::assertStringContainsString('data-analytics-panel',$response->getContent());

@@ -920,7 +920,7 @@
   "after compatibility and release checks.": "после проверок совместимости и выпуска.",
   "and follow complete examples that connect the pieces.": "и пройдите полные примеры, объединяющие все части.",
   "complete task board project": "полноценный проект доски задач",
-  "composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev": "composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev",
+  "composer create-project elang/elang my-app dev-main": "composer create-project elang/elang my-app dev-main",
   "database queries": "запросы к базе данных",
   "defaults.": "настройки по умолчанию.",
   "doctrine/dbal": "doctrine/dbal",
