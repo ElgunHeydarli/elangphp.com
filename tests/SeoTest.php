@@ -35,13 +35,13 @@ final class SeoTest extends TestCase
         $app = $this->site(); $dom = new \DOMDocument();
         self::assertTrue($dom->loadXML($app->handle(Request::create('/sitemap.xml'))->getContent()));
         $urls = array_map(fn ($node) => $node->textContent, iterator_to_array($dom->getElementsByTagName('loc')));
-        self::assertCount(count($app->container->get(ContentRepository::class)->urls()), $urls); self::assertSame($urls, array_values(array_unique($urls)));
+        self::assertCount(count($app->container->get(ContentRepository::class)->urls())*3, $urls); self::assertSame($urls, array_values(array_unique($urls)));
         self::assertSame(count($urls), $dom->getElementsByTagName('lastmod')->length);
         foreach ($urls as $url) { self::assertStringStartsWith('https://elangphp.com/', $url); self::assertStringNotContainsString('/demo/', $url); self::assertStringNotContainsString('/api/', $url); }
     }
     public function testCanonicalPathsAndConditionalRequests(): void
     {
-        $app = $this->site(); $redirect = $app->handle(Request::create('/learn/'));
+        $app = $this->site();$www=$app->handle(Request::create('https://www.elangphp.com/ru/learn?q=test'));self::assertSame(301,$www->getStatusCode());self::assertSame('https://elangphp.com/ru/learn?q=test',$www->headers->get('Location')); $redirect = $app->handle(Request::create('/learn/'));
         self::assertSame(301, $redirect->getStatusCode()); self::assertSame('/learn', $redirect->headers->get('Location'));
         $first = $app->handle(Request::create('/learn')); $request = Request::create('/learn'); $request->headers->set('If-None-Match', $first->headers->get('ETag'));
         $cached = $app->handle($request); self::assertSame(304, $cached->getStatusCode()); self::assertSame('', $cached->getContent());

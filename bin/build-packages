@@ -31,27 +31,29 @@ function archivePackage(string $source, string $destination, ?array $composerOve
 }
 $framework = json_decode(file_get_contents($base.'/composer.json'), true, 512, JSON_THROW_ON_ERROR);
 unset($framework['require-dev'], $framework['autoload-dev'], $framework['scripts'], $framework['extra']);
-unset($framework['require']['league/commonmark']);
 $framework['version'] = $version;
 $allow = ['composer.json', 'LICENSE', 'README.md', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg', 'bin/elang'];
-foreach (['src', 'examples/task-board'] as $folder) foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base.'/'.$folder, FilesystemIterator::SKIP_DOTS)) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($base) + 1);
+foreach (['src', 'examples', 'resources/elang'] as $folder) foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base.'/'.$folder, FilesystemIterator::SKIP_DOTS)) as $file) if ($file->isFile()) $allow[] = substr($file->getPathname(), strlen($base) + 1);
 $existing = is_file($output.'/packages.json') ? json_decode(file_get_contents($output.'/packages.json'), true, 512, JSON_THROW_ON_ERROR) : [];
 $packages = $existing['packages'] ?? [];
 $entries = [['elang/framework', 'elang-framework', $base, $framework, $allow]];
-foreach (['elang/elang' => null, 'elang/task-board' => 'task-board'] as $name => $example) {
+foreach (['elang/elang'=>null,'elang/task-board'=>'task-board','elang/auth-starter'=>'auth','elang/blog'=>'blog','elang/dashboard'=>'dashboard','elang/api'=>'api'] as $name => $example) {
     $directory = $temporary.'/'.str_replace('/', '-', $name);
     (new Elang\Console\ProjectGenerator())->generate($directory, null, $example);
     if (!$example) file_put_contents($directory.'/README.md', "# Your Elang application\n\nComposer has installed your dependencies and generated your application key. Run `php elang doctor`, then `php elang serve`. Open http://127.0.0.1:8000.\n\nRoutes: routes/web.php. Controllers: app/Controllers/. Templates: resources/views/. Public web root: public/.\n\nDocumentation: https://elangphp.com/docs/v0.1/introduction\n");
     $composer = json_decode(file_get_contents($directory.'/composer.json'), true, 512, JSON_THROW_ON_ERROR);
     $composer['name'] = $name; $composer['version'] = $version;
-    $composer['description'] = $example ? 'A complete Elang task-board learning project.' : 'A clean Elang PHP application skeleton.';
+    $composer['description'] = $example ? 'A complete Elang '.$example.' application starter.' : 'A clean Elang PHP application skeleton.';
     $composer['require']['elang/framework'] = $version;
     $composer['repositories'] = [['type' => 'composer', 'url' => $url]];
-    $composer['scripts'] = ['post-create-project-cmd' => ['@php elang key:generate', '@php elang doctor']];
+    $commands=['@php elang key:generate'];if(in_array($example,['auth','blog','dashboard','api'],true)) $commands[]='@php elang migrate';$commands[]='@php elang doctor';
+    $composer['scripts'] = ['post-create-project-cmd' => $commands];
     $composer['config'] = ['allow-plugins' => false, 'sort-packages' => true];
-    $entries[] = [$name, $example ? 'elang-task-board' : 'elang-project', $directory, $composer, null];
+    $entries[] = [$name, $example ? 'elang-'.($example==='auth'?'auth-starter':$example) : 'elang-project', $directory, $composer, null];
 }
 $installer = json_decode(file_get_contents($base.'/packages/installer/composer.json'), true, 512, JSON_THROW_ON_ERROR); $installer['version'] = $version;
+$realtime=json_decode(file_get_contents($base.'/packages/realtime/composer.json'),true,512,JSON_THROW_ON_ERROR);$realtime['version']=$version;
+$entries[]=['elang/realtime','elang-realtime',$base.'/packages/realtime',$realtime,null];
 $entries[] = ['elang/installer', 'elang-installer', $base.'/packages/installer', $installer, null];
 foreach ($entries as [$name, $filename, $source, $composer, $allow]) {
     $file = $filename.'-'.$version.'.zip';
@@ -66,4 +68,4 @@ foreach ($entries as [$name, $filename, $source, $composer, $allow]) {
 file_put_contents($output.'/packages.json.tmp', json_encode(['packages' => $packages], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n");
 rename($output.'/packages.json.tmp', $output.'/packages.json');
 foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($temporary, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname()); rmdir($temporary);
-echo 'Built 4 Composer packages at '.$output.". No application keys, vendor files, databases, or runtime data included.\n";
+echo 'Built '.count($entries).' Composer packages at '.$output.". No application keys, vendor files, databases, or runtime data included.\n";

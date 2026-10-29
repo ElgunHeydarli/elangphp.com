@@ -50,7 +50,7 @@ Usually the document root, rewrite rule, PHP version, extension set, or file per
 
 ## Does Elang already include login, queues, or an ORM?
 
-No complete authentication system, queue worker, scheduler, or built-in ORM is included in this preview. Sessions, CSRF, password hashing, DBAL, mail, and events are available primitives. Check the [roadmap](/roadmap) before depending on a feature.
+Authentication, verified accounts, password recovery, scoped API tokens, model repositories, and complete starters are available. Database jobs, UTC scheduling, SSE, WebSockets, frontend CORS, and retry-safe JSON writes are also available. A full ORM and distributed broker adapters are not included. Check the [roadmap](/roadmap) before depending on a feature.
 
 ## Are the examples production applications?
 

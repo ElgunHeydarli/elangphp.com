@@ -25,3 +25,43 @@ jobs:
       - run: composer test
       - run: composer analyse
       - run: composer audit
+  databases:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [mysql, postgres]
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: integration-only
+          MYSQL_DATABASE: elang_test_ci
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -pintegration-only" --health-interval=10s --health-timeout=5s --health-retries=10
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: integration-only
+          POSTGRES_DB: elang_test_ci
+        ports: ['5432:5432']
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, dom, sodium, pdo_sqlite, pdo_mysql, pdo_pgsql, zip, pcntl, posix
+          coverage: none
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - name: MySQL runtime and competing workers
+        if: matrix.database == 'mysql'
+        env:
+          ELANG_TEST_DATABASE_URL: mysql://root:integration-only@127.0.0.1:3306/elang_test_ci?charset=utf8mb4
+        run: vendor/bin/phpunit --group database-integration
+      - name: PostgreSQL runtime and competing workers
+        if: matrix.database == 'postgres'
+        env:
+          ELANG_TEST_DATABASE_URL: postgresql://postgres:integration-only@127.0.0.1:5432/elang_test_ci
+        run: vendor/bin/phpunit --group database-integration

@@ -29,4 +29,4 @@ Inject MailerInterface into your application service. Use validated recipient ad
 
 ## Delivery model
 
-Sending is synchronous. Delivery depends on your configured provider, DNS, credentials, and transport behavior. Queue-based delivery, templates for transactional mail, and retry orchestration are future work.
+Sending is synchronous. Delivery depends on your configured provider, DNS, credentials, and transport behavior. For background delivery, register an application job that loads the recipient and calls the injected MailerInterface, then dispatch it through /docs/v0.1/queues. Automatic mail-to-job conversion and a transactional email template catalog are not included.

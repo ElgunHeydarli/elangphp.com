@@ -23,9 +23,9 @@ final class DatabaseTest extends TestCase
     {
         $db = new Database('sqlite:///:memory:'); $directory = dirname(__DIR__).'/database/migrations';
         $migrator = new Migrator($db, $directory, $this->temporary.'/migrations.lock');
-        self::assertCount(1, $migrator->migrate()); self::assertSame([], $migrator->migrate());
+        self::assertCount(3, $migrator->migrate()); self::assertSame([], $migrator->migrate());
         self::assertSame(3, (int) $db->connection()->fetchOne('SELECT COUNT(*) FROM examples'));
-        self::assertCount(1, $migrator->rollback()); self::assertFalse($db->connection()->createSchemaManager()->tablesExist(['examples'])); self::assertSame([], $migrator->rollback());
+        self::assertCount(3, $migrator->rollback()); self::assertFalse($db->connection()->createSchemaManager()->tablesExist(['examples'])); self::assertSame([], $migrator->rollback());
     }
     public function testFailedSqliteMigrationRollsBackSchema(): void
     {

@@ -13,6 +13,7 @@ final class Installer
         $console = new Application('Elang Installer', $version);
         $console->add((new Command('new'))->setDescription('Create an Elang PHP application and install its dependencies.')
             ->addArgument('directory', InputArgument::REQUIRED, 'A new or empty application directory')
+            ->addOption('starter', null, InputOption::VALUE_REQUIRED, 'Application starter: auth, blog, dashboard, api')
             ->addOption('example', null, InputOption::VALUE_REQUIRED, 'Optional complete example: task-board')
             ->addOption('repository', null, InputOption::VALUE_REQUIRED, 'Composer repository URL', 'https://elangphp.com/packages')
             ->setCode(function ($input, $output) use ($version): int {
@@ -20,12 +21,15 @@ final class Installer
                 if ($directory === '' || str_starts_with($directory, '-') || preg_match('/[\x00-\x1f]/', $directory)) throw new \InvalidArgumentException('Choose a valid new project directory.');
                 $example = $input->getOption('example');
                 if ($example !== null && $example !== 'task-board') throw new \InvalidArgumentException('Available example: task-board.');
+                $starter=$input->getOption('starter');
+                if($starter!==null&&!in_array($starter,['auth','blog','dashboard','api'],true)) throw new \InvalidArgumentException('Available starters: auth, blog, dashboard, api.');
+                if($starter!==null&&$example!==null) throw new \InvalidArgumentException('Choose a starter or an example.');
                 $repository = $input->getOption('repository');
                 if (!str_starts_with($repository, 'https://') && !str_starts_with($repository, 'file://')) throw new \InvalidArgumentException('Use an HTTPS repository URL. A file:// repository is supported for local verification.');
                 if (str_starts_with($repository, 'file://')) $repository = json_encode(['type' => 'composer', 'url' => rtrim($repository, '/')], JSON_THROW_ON_ERROR);
                 $composer = (new ExecutableFinder())->find('composer');
                 if (!$composer) throw new \RuntimeException('Composer is not on PATH. Install Composer 2, reopen your terminal, and try again.');
-                $package = $example === 'task-board' ? 'elang/task-board' : 'elang/elang';
+                $package = $starter!==null?'elang/'.($starter==='auth'?'auth-starter':$starter):($example==='task-board'?'elang/task-board':'elang/elang');
                 $output->writeln('<info>Creating your Elang application…</info>');
                 $process = new Process([$composer, 'create-project', '--repository='.$repository, '--prefer-dist', '--no-interaction', $package, $directory, $version]);
                 $process->setTimeout(null);

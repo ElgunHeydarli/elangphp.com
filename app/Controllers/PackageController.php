@@ -15,7 +15,7 @@ final class PackageController
     }
     public function dist(string $file): Response
     {
-        if (!preg_match('/^elang-(framework|project|task-board|installer)-[0-9][a-z0-9.-]*-[a-f0-9]{40}\.zip$/D', $file)) throw new HttpException(404, 'Package not found.');
+        if (!preg_match('/^elang-(framework|project|task-board|auth-starter|blog|dashboard|api|realtime|installer)-[0-9][a-z0-9.-]*-[a-f0-9]{40}\.zip$/D', $file)) throw new HttpException(404, 'Package not found.');
         $path = $this->app->basePath.'/storage/distribution/dist/'.$file;
         if (!is_file($path)) throw new HttpException(404, 'Package not found.');
         return new BinaryFileResponse($path, 200, ['Content-Type' => 'application/zip', 'Cache-Control' => 'public, max-age=31536000, immutable', 'X-Robots-Tag' => 'noindex']);

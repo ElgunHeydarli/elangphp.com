@@ -79,7 +79,7 @@ php elang make:controller HelloController
 
 ## Preview distribution and Packagist
 
-The four current packages are `elang/framework`, `elang/elang`, `elang/task-board`, and `elang/installer`. They are Composer packages hosted at `https://elangphp.com/packages`.
+The nine current packages are `elang/framework`, `elang/elang`, `elang/task-board`, `elang/installer`, `elang/auth-starter`, `elang/blog`, `elang/dashboard`, `elang/api`, and `elang/realtime`. They are Composer packages hosted at `https://elangphp.com/packages`.
 
 A public Packagist release has not been published yet, so omitting the repository option from an ordinary Composer installation is not supported today. Do not assume a short Packagist-only command works before that publication. The current version remains a changing development preview.
 
@@ -92,3 +92,14 @@ If dependency installation succeeded but a post-create check failed, enter the n
 ## For framework contributors
 
 Clone the source repository, run `composer install`, and use `php elang new ../my-app --local` to test a sanitized local framework snapshot. This contributor workflow is separate from installing an application through Composer. See CONTRIBUTING.md for repository checks and `bin/build-packages` for distribution builds.
+
+## Choose a complete starter
+
+```bash
+elang new accounts --starter=auth
+elang new journal --starter=blog
+elang new workspace --starter=dashboard
+elang new notes-api --starter=api
+```
+
+Each starter includes its own migrations and complete source. Composer applies the starter schema during project setup. Read the authentication, models, Studio, blog, dashboard, and protected API guides before deploying a public application.

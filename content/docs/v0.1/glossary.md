@@ -76,7 +76,7 @@ Cross-site request forgery tricks a browser into making a state-changing request
 
 ## Authentication and authorization
 
-Authentication establishes who the caller is. Authorization decides what that caller may do. Hashing a password is only one primitive used by an authentication system. Elang's preview does not ship a complete login-and-permissions system.
+Authentication establishes who the caller is. Authorization decides what that caller may do. Hashing a password is only one primitive used by an authentication system. Auth Starter provides account flows, while each application must still define ownership checks and access policies.
 
 ## Cache and log
 

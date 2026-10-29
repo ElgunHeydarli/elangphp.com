@@ -1,6 +1,6 @@
 # Elang vs Laravel: capabilities, learning, and maturity
 
-Elang and Laravel are PHP frameworks at very different stages. Elang is a 0.1 development preview that aims for a small, explicit application API. Laravel is an established framework with a much broader set of application features and supporting tools.
+Elang and Laravel are PHP frameworks at very different stages. Elang is a 0.1 development preview that aims for an explicit application API and modular services. Laravel is an established framework with a much broader set of application features and supporting tools.
 
 This page compares current behavior, not an imagined future release. It does not establish that Elang is faster, safer, or better overall.
 
@@ -10,12 +10,14 @@ This page compares current behavior, not an imagined future release. It does not
 | --- | --- | --- |
 | Routing | Named routes, parameters, groups, middleware | A mature routing system and extensive integrations |
 | Dependency injection | PSR-11 container and constructor injection | Service container and service providers |
-| Database | Doctrine DBAL and query builder | Query builder and Eloquent ORM |
+| Database | Doctrine DBAL, explicit model repositories, pagination, and query builder | Query builder and Eloquent ORM |
 | Views | Twig with HTML autoescaping | Blade and multiple frontend options |
 | Validation | Symfony Constraint objects | Laravel validation rules and form requests |
-| Authentication | Session, CSRF, and password primitives; no complete login system | Authentication services and application starter kits |
-| Jobs and scheduling | Not included yet | Queue and scheduling facilities |
-| AI tooling | Versioned Markdown documentation and project guidance | Laravel Boost and related AI tooling |
+| Authentication | Auth Starter with verification, recovery, roles, sessions, and scoped tokens | Authentication services and application starter kits |
+| Jobs and scheduling | Database queue, leases, retries, failed jobs, UTC scheduling | Queue and scheduling facilities |
+| AI tooling | Versioned Markdown, read-only MCP documentation server, and project guidance | Laravel Boost and related AI tooling |
+| Real-time | Private SSE and Workerman WebSockets with SQL event replay | Broadcasting and ecosystem integrations |
+| Frontends | HTML, React, Next.js, mobile clients, CORS, OpenAPI starter | Multiple official frontend integrations |
 | Release maturity | Early preview; APIs can change | Established release process and ecosystem |
 
 Check [Laravel's official documentation](https://laravel.com/framework/docs) for its current capabilities. Check [Elang's roadmap](/roadmap) before relying on a planned Elang feature.

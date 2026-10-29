@@ -28,4 +28,4 @@ Register listeners in a service provider's `boot()` method. Elang binds the cont
 
 ## Execution model
 
-Listeners run synchronously in the current PHP process. A queue worker and background job system are not part of this preview. Design exception handling and transaction boundaries explicitly.
+Listeners run synchronously in the current PHP process. Dispatch slow work explicitly through the database JSON job queue described in /docs/v0.1/queues; listeners do not become background jobs automatically. Design exception handling and transaction boundaries explicitly.

@@ -36,3 +36,10 @@ $router->group('/demo/task-board', [RateLimitMiddleware::class, \Elang\Http\Midd
 $router->get('/packages', [\App\Controllers\PackageController::class, 'index'], 'packages');
 $router->get('/packages/packages.json', [\App\Controllers\PackageController::class, 'index']);
 $router->get('/packages/dist/{file}', [\App\Controllers\PackageController::class, 'dist'])->where('file', '[a-z0-9.-]+');
+
+$router->group('/admin',[RateLimitMiddleware::class,\Elang\Http\Middleware\SessionMiddleware::class,\Elang\Http\Middleware\CsrfMiddleware::class,\Elang\Auth\RequireAuth::class,\Elang\Auth\RequireAdmin::class],function($router): void {
+    $controller=\App\Controllers\AdminController::class;
+    $router->get('',[$controller,'index']);$router->get('/edit',[$controller,'edit']);$router->post('/save',[$controller,'save']);$router->post('/restore',[$controller,'restore']);
+});
+$router->get('/updates/{slug}',[SiteController::class,'update'])->where('slug','[a-z0-9-]+');
+$router->group('',[RateLimitMiddleware::class],function($router):void { $router->add(['GET','POST'],'/mcp',[\App\Controllers\McpController::class,'__invoke']); });

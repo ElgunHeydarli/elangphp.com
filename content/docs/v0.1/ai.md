@@ -22,4 +22,10 @@ Write a test for the invalid-input response.
 
 ## Limits
 
-Publishing documentation does not automatically train a model or guarantee citations in AI search. A dedicated MCP documentation server, semantic search, and editor integration are planned rather than available features. The current search API performs bounded text search over local documentation.
+Publishing documentation does not automatically train a model or guarantee citations in AI search. The read-only MCP documentation server is available at /mcp and through php elang docs:serve. Semantic search and dedicated editor extensions are future work. The current search API performs bounded text search over local documentation.
+
+## Connect the documentation server
+
+The public read-only Streamable HTTP endpoint is `https://elangphp.com/mcp`. It exposes search_docs and read_doc plus listed elang:// Markdown resources. No account token is needed for public documentation. It rejects cross-origin browser requests and offers no write or execution tools.
+
+For a local stdio client, run `php elang docs:serve` from the documentation website checkout. Standard output contains JSON-RPC messages only. This implementation supports MCP protocol 2025-11-25.

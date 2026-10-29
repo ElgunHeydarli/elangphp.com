@@ -14,6 +14,7 @@ final class SessionMiddleware implements Middleware
     public function process(Request $request, Closure $next): Response
     {
         if (!$request->hasSession()) {
+            $request->attributes->set('_elang_new_session',!$request->cookies->has('elang_session'));
             $request->setSession(new Session(new NativeSessionStorage([
                 'name' => 'elang_session', 'cookie_httponly' => true, 'cookie_samesite' => 'lax',
                 'cookie_secure' => $request->isSecure(), 'use_strict_mode' => true,

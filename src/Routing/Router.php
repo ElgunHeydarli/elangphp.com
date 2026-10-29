@@ -31,7 +31,7 @@ final class Router
         $this->groups[] = ['prefix' => rtrim($prefix, '/'), 'middleware' => $middleware];
         try { $routes($this); } finally { array_pop($this->groups); }
     }
-    public function match(Request $request): array { return (new UrlMatcher($this->routes, (new RequestContext())->fromRequest($request)))->match($request->getPathInfo()); }
+    public function match(Request $request): array { return (new UrlMatcher($this->routes, (new RequestContext())->fromRequest($request)))->match($request->attributes->get('_route_path',$request->getPathInfo())); }
     public function url(string $name, array $parameters = []): string { return (new UrlGenerator($this->routes, new RequestContext()))->generate($name, $parameters); }
     public function all(): RouteCollection { return $this->routes; }
 }

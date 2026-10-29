@@ -7,8 +7,9 @@ return [
     'debug' => filter_var(Config::env('APP_DEBUG', 'false'), FILTER_VALIDATE_BOOL),
     'key' => Config::env('APP_KEY', ''),
     'database' => ['url' => Config::env('DATABASE_URL', 'sqlite:///'.dirname(__DIR__).'/database/database.sqlite')],
-    'mail' => ['dsn' => Config::env('MAILER_DSN', 'null://null')],
+    'mail' => ['dsn' => Config::env('MAILER_DSN', 'null://null'), 'from' => Config::env('MAIL_FROM','noreply@elangphp.com')],
     'task_board' => ['path' => '/demo/task-board'],
+    'auth' => ['registration' => false,'home'=>'/admin'],
     'rate_limit' => 120,
-    'max_body_bytes' => 16384,
+    'max_body_bytes' => 2097152,
 ];

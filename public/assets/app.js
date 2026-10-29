@@ -1,4 +1,8 @@
 'use strict';
+const elangLocale = document.body.dataset.siteLocale || 'en';
+let elangMessages = {};
+try { elangMessages = JSON.parse(document.body.dataset.ui || '{}'); } catch (_) {}
+const elangText = (message, values = {}) => Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), elangMessages[message] || message);
 (() => {
   const root = document.documentElement;
   const themeButton = document.querySelector('.theme-toggle');
@@ -7,7 +11,7 @@
   if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   const applyTheme = () => {
     root.dataset.theme = theme;
-    themeButton?.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+    themeButton?.setAttribute('aria-label', elangText(theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'));
   };
   applyTheme();
   themeButton?.addEventListener('click', () => {
@@ -18,7 +22,7 @@
   menuButton?.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') !== 'true';
     menuButton.setAttribute('aria-expanded', String(open));
-    menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    menuButton.setAttribute('aria-label', open ? elangText('Close navigation') : elangText('Open navigation'));
     document.querySelector('#main-nav')?.classList.toggle('is-open', open);
   });
   const docsMenu = document.querySelector('.docs-menu-toggle');
@@ -31,11 +35,11 @@
     const code = pre.querySelector('code');
     if (!code) return;
     const button = document.createElement('button');
-    button.className = 'copy-code'; button.textContent = 'Copy'; button.setAttribute('aria-label', 'Copy code example');
+    button.className = 'copy-code'; button.textContent = elangText('Copy'); button.setAttribute('aria-label', elangText('Copy code example'));
     button.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(code.textContent); button.textContent = 'Copied'; }
-      catch (_) { const selection = getSelection(); const range = document.createRange(); range.selectNodeContents(code); selection.removeAllRanges(); selection.addRange(range); button.textContent = 'Selected'; }
-      setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+      try { await navigator.clipboard.writeText(code.textContent); button.textContent = elangText('Copied'); }
+      catch (_) { const selection = getSelection(); const range = document.createRange(); range.selectNodeContents(code); selection.removeAllRanges(); selection.addRange(range); button.textContent = elangText('Selected'); }
+      setTimeout(() => { button.textContent = elangText('Copy'); }, 1800);
     });
     pre.append(button);
   });
@@ -67,16 +71,16 @@
   searchInput?.addEventListener('input', () => {
     clearTimeout(searchTimer); controller?.abort();
     const query = searchInput.value.trim();
-    if (query.length < 2) { hint('Type at least two characters to search.'); return; }
-    hint('Searching…');
+    if (query.length < 2) { hint(elangText('Type at least two characters to search.')); return; }
+    hint(elangText('Searching…'));
     searchTimer = setTimeout(async () => {
       controller = new AbortController();
       try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {signal: controller.signal, headers: {'Accept': 'application/json'}});
-        if (!response.ok) throw new Error('Search is temporarily unavailable. Please try again.');
+        const response = await fetch(`/api/search?lang=${elangLocale}&q=${encodeURIComponent(query)}`, {signal: controller.signal, headers: {'Accept': 'application/json'}});
+        if (!response.ok) throw new Error(elangText('Search is temporarily unavailable. Please try again.'));
         const data = await response.json();
         if (searchInput.value.trim() !== query) return;
-        if (!data.results.length) { hint(`No results for “${query}”. Try routing, validation, or database.`); return; }
+        if (!data.results.length) { hint(elangText('No results for “{query}”. Try routing, validation, or database.', {query})); return; }
         results.replaceChildren();
         data.results.forEach(result => {
           const link = document.createElement('a'); link.href = result.url; link.className = 'search-result';
@@ -85,7 +89,7 @@
           const excerpt = document.createElement('p'); excerpt.textContent = result.excerpt;
           link.append(section, title, excerpt); results.append(link);
         });
-      } catch (error) { if (error.name !== 'AbortError') hint(error.message || 'Could not search. Please try again.'); }
+      } catch (error) { if (error.name !== 'AbortError') hint(error.message || elangText('Could not search. Please try again.')); }
     }, 180);
   });
   const playground = document.querySelector('[data-playground]');
@@ -105,7 +109,7 @@
       name.closest('label').hidden = example === 'database'; email.closest('label').hidden = example !== 'validate';
       if (example === 'validate' && name.value === 'World') name.value = 'Ada';
       output.textContent = '// Ready when you are.\n// Hit “Run request” to see the response.';
-      status.textContent = 'Waiting for a request';
+      status.textContent = elangText('Waiting for a request');
     };
     tabs.forEach(tab => {
       tab.addEventListener('click', () => select(tab));
@@ -115,7 +119,7 @@
       });
     });
     run.addEventListener('click', async () => {
-      if (running) return; running = true; run.disabled = true; tabs.forEach(tab => { tab.disabled = true; }); status.textContent = 'Sending request…'; output.setAttribute('aria-busy', 'true');
+      if (running) return; running = true; run.disabled = true; tabs.forEach(tab => { tab.disabled = true; }); status.textContent = elangText('Sending request…'); output.setAttribute('aria-busy', 'true');
       try {
         const options = {headers: {'Accept': 'application/json'}};
         let url = `/api/playground/${example}`;
@@ -124,7 +128,7 @@
         const response = await fetch(url, options); const data = await response.json();
         status.textContent = `${response.status} ${response.statusText}`;
         output.textContent = JSON.stringify(data, null, 2);
-      } catch (_) { status.textContent = 'Request failed'; output.textContent = 'Could not reach the backend. Please try again.'; }
+      } catch (_) { status.textContent = elangText('Request failed'); output.textContent = elangText('Could not reach the backend. Please try again.'); }
       finally { running = false; run.disabled = false; tabs.forEach(tab => { tab.disabled = false; }); output.removeAttribute('aria-busy'); }
     });
   }
@@ -138,7 +142,7 @@
   try { const saved = JSON.parse(localStorage.getItem(key) || '[]'); if (Array.isArray(saved)) completed = [...new Set(saved.filter(id => known.includes(id)))]; } catch (_) {}
   const button = document.querySelector('[data-lesson-id]');
   const render = () => {
-    if (button) { const done = completed.includes(button.dataset.lessonId); button.setAttribute('aria-pressed', String(done)); button.textContent = done ? 'Completed ✓' : 'Mark lesson complete'; }
+    if (button) { const done = completed.includes(button.dataset.lessonId); button.setAttribute('aria-pressed', String(done)); button.textContent = done ? elangText('Completed ✓') : elangText('Mark lesson complete'); }
     document.querySelectorAll('.lesson-row').forEach(row => { const slug = new URL(row.href).pathname.split('/').pop(); row.classList.toggle('is-complete', completed.includes(slug)); });
     const count = document.querySelector('#learning-progress-count'); if (count) count.textContent = String(completed.length);
   };
@@ -146,7 +150,7 @@
     const id = button.dataset.lessonId;
     completed = completed.includes(id) ? completed.filter(item => item !== id) : [...completed, id];
     try { localStorage.setItem(key, JSON.stringify(completed)); render(); }
-    catch (_) { button.textContent = 'Browser storage unavailable'; }
+    catch (_) { button.textContent = elangText('Browser storage unavailable'); }
   });
   const progress = document.querySelector('[data-learning-progress]');
   if (progress) progress.hidden = false;
@@ -158,8 +162,14 @@
 document.querySelectorAll('[data-copy-target]').forEach(button => {
   button.addEventListener('click', async () => {
     const code = document.getElementById(button.dataset.copyTarget);
-    try { await navigator.clipboard.writeText(code.textContent); button.textContent = 'Copied'; }
-    catch (_) { const range = document.createRange(); range.selectNodeContents(code); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); button.textContent = 'Selected'; }
-    setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+    try { await navigator.clipboard.writeText(code.textContent); button.textContent = elangText('Copied'); }
+    catch (_) { const range = document.createRange(); range.selectNodeContents(code); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); button.textContent = elangText('Selected'); }
+    setTimeout(() => { button.textContent = elangText('Copy'); }, 1800);
   });
+});
+
+// Native details supplies keyboard activation; close the language picker on dismissal.
+document.querySelectorAll('.language-picker').forEach(picker => {
+  document.addEventListener('click', event => { if (!picker.contains(event.target)) picker.open = false; });
+  picker.addEventListener('keydown', event => { if (event.key === 'Escape') { picker.open = false; picker.querySelector('summary').focus(); event.stopPropagation(); } });
 });

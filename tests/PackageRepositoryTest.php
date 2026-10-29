@@ -11,7 +11,7 @@ final class PackageRepositoryTest extends TestCase
         fclose($pipes[0]); $stdout = stream_get_contents($pipes[1]); $stderr = stream_get_contents($pipes[2]); fclose($pipes[1]); fclose($pipes[2]);
         self::assertSame(0, proc_close($process), $stdout.$stderr);
         $metadata = json_decode(file_get_contents($output.'/packages.json'), true, 512, JSON_THROW_ON_ERROR);
-        self::assertSame(['elang/framework','elang/elang','elang/task-board','elang/installer'], array_keys($metadata['packages']));
+        self::assertSame(['elang/framework','elang/elang','elang/task-board','elang/auth-starter','elang/blog','elang/dashboard','elang/api','elang/realtime','elang/installer'], array_keys($metadata['packages']));
         foreach ($metadata['packages'] as $name => $versions) {
             $package = $versions['0.1.0-dev']; $file = parse_url($package['dist']['url'], PHP_URL_PATH);
             self::assertSame($package['dist']['shasum'], sha1_file($file));
@@ -24,9 +24,9 @@ final class PackageRepositoryTest extends TestCase
             $composer = json_decode($archive->getFromName('package/composer.json'), true, 512, JSON_THROW_ON_ERROR);
             self::assertSame($name, $composer['name']);
             if ($name === 'elang/framework') { self::assertArrayNotHasKey('App\\', $composer['autoload']['psr-4']); self::assertArrayNotHasKey('require-dev', $composer); }
-            if (in_array($name, ['elang/elang', 'elang/task-board'], true)) {
+            if (!in_array($name,['elang/framework','elang/installer','elang/realtime'],true)) {
                 self::assertStringContainsString('APP_KEY=', $archive->getFromName('package/.env.example'));
-                self::assertSame(['@php elang key:generate', '@php elang doctor'], $composer['scripts']['post-create-project-cmd']);
+                self::assertContains('@php elang key:generate',$composer['scripts']['post-create-project-cmd']);self::assertContains('@php elang doctor',$composer['scripts']['post-create-project-cmd']);if(!in_array($name,['elang/elang','elang/task-board'],true)) self::assertContains('@php elang migrate',$composer['scripts']['post-create-project-cmd']);
             }
             $archive->close();
         }

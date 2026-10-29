@@ -1,12 +1,12 @@
 # Meet Elang
 
-Elang is a PHP framework built around a small, explicit application API. Write routes, compose services, return responses, and keep your application understandable.
+Elang is a PHP framework built around an explicit application API and modular services. Write routes, compose services, return responses, and keep your application understandable.
 
-This website runs on Elang. Its frontend is HTML, CSS, and vanilla JavaScript; its backend uses the same router, container, and services documented here.
+This website runs on Elang and offers English, Azerbaijani, and Russian content. Its frontend is HTML, CSS, and vanilla JavaScript; its backend uses the same router, container, and services documented here.
 
 ## Current status
 
-**0.1 development preview.** This is an early working foundation, not a stable production release. Public APIs may change. There is no claim of outperforming Laravel and no published comparative benchmark yet.
+**0.1 development preview.** This is an early working foundation, not a stable production release. Public APIs may change. There is no claim of outperforming Laravel and only a narrow development-server comparison; no general performance superiority is established.
 
 ## What is included
 
@@ -20,7 +20,7 @@ This website runs on Elang. Its frontend is HTML, CSS, and vanilla JavaScript; i
 
 ## What is not included yet
 
-An ORM, complete login and permissions system, queue worker, scheduler, and automated upgrade tool are future work. Password hashing and session primitives alone do not constitute an authentication system.
+Authentication, roles, scoped API tokens, a model/repository layer, local Studio, and the read-only documentation MCP server are included in this preview. Background jobs, UTC scheduling, SSE, authenticated WebSockets, frontend CORS, and idempotency for JSON writes are included. A full ORM, distributed broker adapters, and automated upgrade tooling remain future work.
 
 ## Requirements
 
