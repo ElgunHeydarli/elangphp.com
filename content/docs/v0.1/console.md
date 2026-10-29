@@ -5,6 +5,7 @@ Run `php elang` to see available commands. Commands are implemented with Symfony
 ## Everyday commands
 
 ```bash
+php elang doctor
 php elang about
 php elang routes
 php elang serve --port=8000
@@ -39,3 +40,7 @@ composer audit
 ```
 
 These commands run in the framework repository. GitHub Actions runs PHP compatibility checks, dependency validation, tests, and static analysis when the workflow is pushed.
+
+## Create projects with the global installer
+
+After the [one-time CLI setup](/docs/v0.1/installation), run `elang new my-app` or `elang new task-board --example=task-board`. The global command delegates dependency installation and project setup to Composer. Inside a project, use `php elang` to run its own application console.

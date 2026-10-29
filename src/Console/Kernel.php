@@ -14,6 +14,17 @@ final class Kernel
     public function run(): int
     {
         $console = new Console('Elang', Application::VERSION);
+        $console->add((new Command('doctor'))->setDescription('Check requirements, configuration, storage, and database connectivity.')->addOption('json', null, InputOption::VALUE_NONE, 'Return machine-readable results without secrets.')->setCode(function ($input, $output) {
+            $checks = (new Doctor())->inspect($this->app);
+            $healthy = !in_array('error', array_column($checks, 'status'), true);
+            if ($input->getOption('json')) $output->writeln(json_encode(['healthy' => $healthy, 'checks' => $checks], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
+            else {
+                (new Table($output))->setHeaders(['Check', 'Status', 'Detail'])->setRows(array_map(fn ($check) => [$check['name'], strtoupper($check['status']), $check['detail']], $checks))->render();
+                foreach ($checks as $check) if ($check['status'] === 'error') $output->writeln('<comment>'.$check['name'].': '.$check['help'].'</comment>');
+                $output->writeln($healthy ? '<info>Your environment is ready. Next: php elang serve</info>' : '<error>Fix the checks above, then run doctor again.</error>');
+            }
+            return $healthy ? 0 : 1;
+        }));
         $console->add((new Command('about'))->setDescription('Show the framework and application environment.')->setCode(function ($input, $output) {
             (new Table($output))->setRows([['Framework', 'Elang '.Application::VERSION], ['PHP', PHP_VERSION], ['Environment', $this->app->config->get('environment', 'production')], ['Frontend', 'HTML · CSS · JavaScript'], ['Database', 'Doctrine DBAL'], ['License', 'MIT']])->render(); return 0;
         }));
@@ -66,10 +77,10 @@ final class Kernel
             file_put_contents($directory.'/'.$file, "<?php\ndeclare(strict_types=1);\nuse Doctrine\\DBAL\\Connection;\nuse Elang\\Database\\Migration;\nreturn new class implements Migration {\n    public function up(Connection \$database): void {}\n    public function down(Connection \$database): void {}\n};\n");
             $output->writeln('<info>Created '.$file.'</info>'); return 0;
         }));
-        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Use this framework checkout as a Composer path repository.')->setCode(function ($input, $output) {
+        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Include a sanitized local framework source snapshot.')->addOption('example', null, InputOption::VALUE_REQUIRED, 'Include a complete example (task-board).')->setCode(function ($input, $output) {
             $path = $input->getArgument('directory');
             if (!str_starts_with($path, '/')) $path = getcwd().'/'.$path;
-            (new ProjectGenerator())->generate($path, $input->getOption('local') ? dirname(__DIR__, 2) : null);
+            (new ProjectGenerator())->generate($path, $input->getOption('local') ? dirname(__DIR__, 2) : null, $input->getOption('example'));
             $output->writeln('<info>Application created at '.$path.'</info>');
             $output->writeln('Next: cd into the application, then run composer install, php elang key:generate, and php elang serve.'); return 0;
         }));

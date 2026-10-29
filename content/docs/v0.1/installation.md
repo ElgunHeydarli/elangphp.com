@@ -1,51 +1,94 @@
-# Installation
+# Install Elang from your terminal
 
-The development source is maintained at [ElgunHeydarli/elangphp.com](https://github.com/ElgunHeydarli/elangphp.com). There is no stable Packagist release yet. The commands below use the source repository.
+Elang applications are installed with Composer. The current development preview is distributed through Elang's Composer repository, so the repository option is part of the working command. No manual source download or extraction is needed.
 
-## Download the source
+## Before you start
 
-You can also [download the development snapshot](/downloads/elang-0.1.0-dev.zip), extract it, and run the Composer and Elang commands below from the extracted directory. The archive includes source and tests; install dependencies with Composer.
+Install PHP 8.3+ within PHP 8.x and Composer 2. Run `php -v` and `composer --version` to verify them. If either command is unavailable, follow [environment setup](/learn/environment). Check the [requirements](/docs/v0.1/requirements) for extensions and database drivers.
 
-## Run the documentation application
+## Create your first application
+
+Run this in the parent directory where you want the new project:
 
 ```bash
-git clone https://github.com/ElgunHeydarli/elangphp.com.git elang
-cd elang
-composer install
-cp .env.example .env
-php elang key:generate
-php elang migrate
+composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+cd my-app
 php elang serve
 ```
 
-Open `http://127.0.0.1:8000`. The migration creates the demonstration database used by this website. A blank application does not need that demonstration table.
+Composer creates `my-app`, installs Elang and its dependencies, generates an application key, and runs doctor. When the server starts, open `http://127.0.0.1:8000`.
 
-## Create your own application
+Expected result: a welcome page saying “Your next idea starts here.” The generated application also includes `/api/hello/Ada`, which returns `{"message":"Hello, Ada!"}`.
 
-From the framework checkout, generate a separate application:
+Use a new or empty directory. If `my-app` already has files, choose another name instead of overwriting your work. Press Ctrl+C to stop the local server.
+
+## Install the Elang CLI once
+
+If you prefer an `elang new` command, register the Composer repository and install the CLI globally:
 
 ```bash
-php elang new ../my-app --local
-cd ../my-app
-composer install
-php elang key:generate
+composer global config repositories.elang composer https://elangphp.com/packages
+composer global require elang/installer:0.1.0-dev
+```
+
+Find the executable directory with:
+
+```bash
+composer global config bin-dir --absolute
+```
+
+Add the printed directory to your user PATH and reopen the terminal. On Windows, use the user environment-variable editor and add that directory to Path. On macOS or Linux, add the directory to PATH in your shell profile. Then verify `elang --version`.
+
+Now create projects with:
+
+```bash
+elang new my-app
+cd my-app
 php elang serve
 ```
 
-`--local` creates a sanitized framework source snapshot in `.elang/framework`. Composer installs that snapshot without symlinking. Source secrets, vendor files, and runtime data are excluded. To update a local snapshot, review and replace it from a newer framework checkout.
+The installer calls Composer to create the application. It does not require the framework source checkout to remain on your machine.
 
-To reference the GitHub development branch instead, omit `--local`. This requires the framework source to have been pushed to the repository. The generator configures a VCS repository automatically.
+## Start with a complete learning project
 
-## Public directory
-
-Only `public/` should be exposed by the web server. Keep `.env`, `vendor/`, application code, storage, and database files outside the public document root.
-
-## Verify your environment
+Create the task board directly through Composer:
 
 ```bash
-php elang about
+composer create-project --repository=https://elangphp.com/packages elang/task-board task-board 0.1.0-dev
+cd task-board
+php elang serve
+```
+
+Or, after installing the global CLI:
+
+```bash
+elang new task-board --example=task-board
+```
+
+Follow the [complete task board walkthrough](/learn/build-a-task-board) for the source files, request lifecycle, expected results, and exercises. This example stores temporary tasks in the current browser session.
+
+## Understand the two console commands
+
+`elang new` is the globally installed project creator. `php elang ...` runs the console belonging to the application directory you are currently in. Use the application console for doctor, routes, migrations, generators, and the local server.
+
+```bash
+php elang doctor
 php elang routes
-composer test
+php elang make:controller HelloController
 ```
 
-The test suite belongs to the framework checkout; a generated application starts with a minimal application skeleton.
+## Preview distribution and Packagist
+
+The four current packages are `elang/framework`, `elang/elang`, `elang/task-board`, and `elang/installer`. They are Composer packages hosted at `https://elangphp.com/packages`.
+
+A public Packagist release has not been published yet, so omitting the repository option from an ordinary Composer installation is not supported today. Do not assume a short Packagist-only command works before that publication. The current version remains a changing development preview.
+
+## If installation stops
+
+Read the first Composer error. Missing extensions, an unsupported PHP version, an occupied destination directory, or inability to reach the HTTPS repository need different fixes. Do not hide platform requirements with `--ignore-platform-reqs`.
+
+If dependency installation succeeded but a post-create check failed, enter the new directory, fix the reported requirement, and run `php elang doctor` again. Preserve the generated `.env` key. See [troubleshooting](/docs/v0.1/troubleshooting).
+
+## For framework contributors
+
+Clone the source repository, run `composer install`, and use `php elang new ../my-app --local` to test a sanitized local framework snapshot. This contributor workflow is separate from installing an application through Composer. See CONTRIBUTING.md for repository checks and `bin/build-packages` for distribution builds.

@@ -12,3 +12,8 @@
 /test-results/
 
 /public/downloads/
+/benchmarks/laravel/vendor/
+/benchmarks/laravel/bootstrap/cache/*
+/benchmarks/laravel/storage/*
+
+/packages/installer/vendor/

@@ -1,0 +1,9 @@
+{
+    "name": "elang/installer",
+    "description": "Create Elang PHP applications from your terminal.",
+    "type": "library",
+    "license": "MIT",
+    "require": {"php": "^8.3", "symfony/console": "^7.4", "symfony/process": "^7.4"},
+    "autoload": {"psr-4": {"Elang\\Installer\\": "src/"}},
+    "bin": ["bin/elang"]
+}

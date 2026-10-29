@@ -7,29 +7,45 @@ use Elang\Http\{HttpException, Response};
 use Symfony\Component\HttpFoundation\{Request, Response as HttpResponse};
 final class SiteController
 {
-    public function __construct(private View $view, private ContentRepository $content, private Application $app) {}
+    public function __construct(private View $view, private ContentRepository $content, private Application $app, private \App\Seo\Metadata $seo) {}
     private function page(string $template, string $title, string $description, string $active, string $path, array $data = []): HttpResponse
     {
-        return $this->view->render($template, array_merge(['title' => $title, 'description' => $description, 'active' => $active, 'path' => $path, 'asset_version' => filemtime($this->app->basePath.'/public/assets/app.css').'-'.filemtime($this->app->basePath.'/public/assets/app.js')], $data));
+        $metadata = $this->seo->build($title, $description, $path, $active, $data['document'] ?? null);
+        $response = $this->view->render($template, array_merge($metadata, ['title' => $title, 'description' => $description, 'active' => $active, 'path' => $path, 'asset_version' => filemtime($this->app->basePath.'/public/assets/app.css').'-'.filemtime($this->app->basePath.'/public/assets/app.js')], $data));
+        $response->setPublic();
+        $response->setMaxAge(0);
+        $response->setLastModified(new \DateTimeImmutable($metadata['modified']));
+        $response->setEtag(hash('sha256', $response->getContent()));
+        $response->isNotModified($this->app->container->get(Request::class));
+        return $response;
     }
-    public function home(): HttpResponse { return $this->page('home', 'Elang — Build with clarity.', 'An approachable PHP framework with explicit conventions, readable code, and room for your next idea.', 'home', '/'); }
+    public function home(): HttpResponse { return $this->page('home', 'Elang PHP Framework — Build with Clarity', 'An approachable PHP framework with explicit conventions, readable code, and room for your next idea.', 'home', '/'); }
     public function docs(string $slug): HttpResponse
     {
         $document = $this->content->document('docs/v0.1', $slug);
-        return $this->page('document', $document['title'].' — Elang documentation', 'Learn '.$document['title'].' in Elang. Versioned documentation with working PHP examples.', 'docs', '/docs/v0.1/'.$slug, ['document' => $document, 'groups' => ContentRepository::GROUPS]);
+        return $this->page('document', $document['title'].' — Elang PHP Documentation', $document['description'], 'docs', '/docs/v0.1/'.$slug, ['document' => $document, 'groups' => ContentRepository::GROUPS]);
     }
     public function markdown(string $slug): HttpResponse { return new HttpResponse($this->content->document('docs/v0.1', $slug)['markdown'], 200, ['Content-Type' => 'text/markdown; charset=utf-8']); }
-    public function learn(): HttpResponse { return $this->page('learn', 'Learn Elang — One small step at a time.', 'Six practical lessons to take you from your first PHP route to a deployable Elang application.', 'learn', '/learn', ['lessons' => ContentRepository::LESSONS]); }
+    public function learn(): HttpResponse { return $this->page('learn', 'Learn PHP with Elang — A Practical Beginner Learning Path', 'Learn PHP and Elang step by step: environment setup, PHP basics, routes, validation, database queries, and a complete task board project.', 'learn', '/learn', ['lessons' => ContentRepository::LESSONS]); }
     public function lesson(string $slug): HttpResponse
     {
         $document = $this->content->document('learn', $slug);
-        return $this->page('document', $document['title'].' — Learn Elang', 'A practical Elang lesson with complete code examples.', 'learn', '/learn/'.$slug, ['document' => $document, 'groups' => ['Learning path' => array_map(fn ($i) => $i[0], ContentRepository::LESSONS)]]);
+        return $this->page('document', $document['title'].' — Learn Elang', $document['description'], 'learn', '/learn/'.$slug, ['document' => $document, 'groups' => ['Learning path' => array_map(fn ($i) => $i[0], ContentRepository::LESSONS)]]);
     }
     public function examples(): HttpResponse { return $this->page('examples', 'Elang examples — Small by design.', 'Explore working Elang examples for routing, validation, and database queries.', 'examples', '/examples', ['examples' => ContentRepository::EXAMPLES]); }
     public function example(string $slug): HttpResponse
     {
         $document = $this->content->document('examples', $slug);
-        return $this->page('document', $document['title'].' — Elang examples', 'A complete, focused Elang code example.', 'examples', '/examples/'.$slug, ['document' => $document, 'groups' => ['Examples' => array_map(fn ($i) => $i[0], ContentRepository::EXAMPLES)]]);
+        return $this->page('document', $document['title'].' — Elang examples', $document['description'], 'examples', '/examples/'.$slug, ['document' => $document, 'groups' => ['Examples' => array_map(fn ($i) => $i[0], ContentRepository::EXAMPLES)]]);
+    }
+    public function guides(): HttpResponse
+    {
+        return $this->page('guides', 'PHP Framework Guides — Elang Concepts & Practical Tutorials', 'Understand PHP frameworks, compare Elang and Laravel, and build a working REST API with detailed, practical guides.', 'guides', '/guides', ['guides' => ContentRepository::GUIDES]);
+    }
+    public function guide(string $slug): HttpResponse
+    {
+        $document = $this->content->document('guides', $slug);
+        return $this->page('document', $document['title'].' — Elang PHP Guides', $document['description'], 'guides', '/guides/'.$slug, ['document' => $document, 'groups' => ['Practical guides' => array_map(fn ($i) => $i[0], ContentRepository::GUIDES)]]);
     }
     public function ecosystem(): HttpResponse
     {
@@ -65,7 +81,7 @@ final class SiteController
     {
         $base = htmlspecialchars(rtrim($this->app->config->get('url', 'https://elangphp.com'), '/'), ENT_XML1);
         $xml = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        foreach ($this->content->urls() as $url) $xml .= '<url><loc>'.$base.htmlspecialchars($url, ENT_XML1).'</loc></url>';
+        foreach ($this->content->urls() as $url) $xml .= '<url><loc>'.$base.htmlspecialchars($url, ENT_XML1).'</loc><lastmod>'.$this->content->modified($url).'</lastmod></url>';
         return new HttpResponse($xml.'</urlset>', 200, ['Content-Type' => 'application/xml; charset=utf-8']);
     }
     public function feed(): HttpResponse
@@ -79,6 +95,10 @@ final class SiteController
         $text = "# Elang PHP framework\n\n> Elang is a PHP 8.3+ framework. It is not a programming language. Current status: 0.1 development preview; no stable release or Packagist publication yet. Do not invent supported APIs or performance claims.\n\nUse the versioned documentation below. HTTP uses Symfony HttpFoundation, validation uses Symfony Constraint objects, queries use Doctrine DBAL, and templates use Twig. There is no built-in ORM, authentication system, queue worker, or scheduler yet.\n\n## Documentation\n";
         foreach ($this->content->docs() as $slug => $title) $text .= '- ['.$title.']('.$base.'/docs/v0.1/'.$slug.'.md)'."\n";
         $text .= "\n## Source\n- [Repository](https://github.com/ElgunHeydarli/elangphp.com)\n- [API reference](".$base."/api-reference)\n";
+        $text .= "\n## Terminal installation\nUse Composer create-project with repository ".$base."/packages, package elang/elang, and version ".Application::VERSION.". The elang/installer Composer package provides elang new after one-time setup. No manual source extraction is needed.\n\n## Beginner learning path\n";
+        foreach (ContentRepository::LESSONS as $slug => $lesson) $text .= '- ['.$lesson[0].']('.$base.'/learn/'.$slug.")\n";
+        $text .= "\n## Practical guides\n";
+        foreach (ContentRepository::GUIDES as $slug => $guide) $text .= '- ['.$guide[0].']('.$base.'/guides/'.$slug.")\n";
         return new HttpResponse($text, 200, ['Content-Type' => 'text/plain; charset=utf-8']);
     }
 }

@@ -17,7 +17,7 @@ The official website is an Elang application: the backend uses this framework, w
 - Locked filesystem-backed API rate limits, safe error responses, request IDs, and default security headers.
 - PSR-16 cache, PSR-3 logs, synchronous events, and a configurable mail transport.
 - A standalone application generator and controller/migration generators.
-- Versioned English documentation, six lessons, code examples, search, Atom, a sitemap, Markdown exports, and llms.txt.
+- Versioned English documentation, ten lessons, code examples, search, Atom, a sitemap, Markdown exports, and llms.txt.
 
 A complete authentication system, ORM, queue worker, scheduler, editor plugin, and documentation MCP server are **not included**. See [ROADMAP.md](ROADMAP.md).
 
@@ -39,19 +39,34 @@ php elang serve
 
 Visit http://127.0.0.1:8000. No JavaScript dependency installation or frontend compilation is required.
 
-## Create a standalone application
-
-From the framework checkout:
+## Create an application from your terminal
 
 ```bash
-php elang new ../my-app --local
-cd ../my-app
-composer install
-php elang key:generate
+composer create-project --repository=https://elangphp.com/packages elang/elang my-app 0.1.0-dev
+cd my-app
 php elang serve
 ```
 
-The local generator creates a sanitized source snapshot in `.elang/framework` and uses a Composer path repository with symlinking disabled. It never copies the source project’s secrets, vendor directory, databases, or runtime files. Omit `--local` to use the GitHub development branch once it has been pushed. No stable Packagist package has been published yet.
+Composer installs dependencies, generates the key, and runs doctor. The preview uses Elang's own HTTPS Composer repository; a Packagist release is not published yet.
+
+For a reusable CLI:
+
+```bash
+composer global config repositories.elang composer https://elangphp.com/packages
+composer global require elang/installer:0.1.0-dev
+```
+
+Add the directory printed by `composer global config bin-dir --absolute` to your user PATH before using the global command. Then run `elang new my-app`.
+
+Create the complete learning example with `elang new task-board --example=task-board`, or use Composer create-project with package `elang/task-board` and the same repository and version.
+
+Framework contributors can still use `php elang new ../my-app --local` to test a sanitized source snapshot.
+
+## Build the Composer repository
+
+Run `php bin/build-packages` before deploying. It builds four Composer packages, validates distribution boundaries, and writes content-addressed archives plus packages.json into private storage. The site exposes only the catalog and known archive names through controlled routes. No manual archive download is part of the public installation flow.
+
+The package builder needs PHP zip. The installer is implemented in packages/installer; it creates projects through Composer. The public installation URL requires the domain's DNS and HTTPS configuration to be working.
 
 ## A first route
 

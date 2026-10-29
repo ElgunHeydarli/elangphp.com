@@ -31,3 +31,40 @@ When filtering, write `->where('id = :id')->setParameter('id', $id)`. Do not int
 ## Verify the result
 
 Open `/api/posts` and confirm your record is returned. Keep SQLite files outside the public document root and out of version control.
+
+## A complete first migration
+
+If this is your first schema change, replace the generated migration's body with the following complete implementation. Preserve the generated filename.
+
+```php
+<?php
+declare(strict_types=1);
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Table;
+use Elang\Database\Migration;
+return new class implements Migration {
+    public function up(Connection $database): void
+    {
+        $table = new Table('posts');
+        $table->addColumn('id', 'integer');
+        $table->addColumn('title', 'string', ['length' => 160]);
+        $table->setPrimaryKey(['id']);
+        $database->createSchemaManager()->createTable($table);
+        $database->insert('posts', ['id' => 1, 'title' => 'Hello from SQLite']);
+    }
+    public function down(Connection $database): void
+    {
+        $database->createSchemaManager()->dropTable('posts');
+    }
+};
+```
+
+Run `php elang migrate`, then use the GET route above. Expected response:
+
+```json
+{"data":[{"id":1,"title":"Hello from SQLite"}]}
+```
+
+The migration includes its seed record, so do not also run the earlier insert snippet after applying this complete migration. That earlier snippet demonstrates a standalone write; repeating the same primary key would correctly fail.
+
+If the server reports “no such table,” compare the application's DATABASE_URL with the one used by the migration command. If it reports “could not find driver,” inspect `php -m` and enable pdo_sqlite. See [database troubleshooting](/docs/v0.1/troubleshooting).

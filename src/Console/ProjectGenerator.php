@@ -6,7 +6,11 @@ final class ProjectGenerator
     private function stageFramework(string $source, string $destination): void
     {
         mkdir($destination, 0770, true);
-        $paths = ['composer.json', 'LICENSE', 'README.md', 'bin/elang', 'public/.htaccess', 'public/router.php'];
+        $paths = ['composer.json', 'LICENSE', 'README.md', 'bin/elang', 'public/.htaccess', 'public/router.php', 'public/assets/task-board.css', 'public/assets/favicon.svg'];
+        if (is_dir($source.'/examples/task-board')) {
+            $examples = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source.'/examples/task-board', \FilesystemIterator::SKIP_DOTS));
+            foreach ($examples as $file) if ($file->isFile()) $paths[] = substr($file->getPathname(), strlen($source) + 1);
+        }
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source.'/src', \FilesystemIterator::SKIP_DOTS));
         foreach ($iterator as $file) if ($file->isFile() && $file->getExtension() === 'php') $paths[] = substr($file->getPathname(), strlen($source) + 1);
         foreach ($paths as $relative) {
@@ -16,8 +20,9 @@ final class ProjectGenerator
             copy($source.'/'.$relative, $target);
         }
     }
-    public function generate(string $directory, ?string $frameworkPath = null): void
+    public function generate(string $directory, ?string $frameworkPath = null, ?string $example = null): void
     {
+        if ($example !== null && $example !== 'task-board') throw new \InvalidArgumentException('Unknown example. Available: task-board.');
         if (is_dir($directory) && count(scandir($directory)) > 2) throw new \RuntimeException('Destination must be empty.');
         if (!is_dir($directory) && !mkdir($directory, 0770, true)) throw new \RuntimeException('Could not create destination.');
         $composer = ['name' => 'app/elang-project', 'type' => 'project', 'license' => 'MIT', 'require' => ['php' => '^8.3', 'elang/framework' => 'dev-main'], 'autoload' => ['psr-4' => ['App\\' => 'app/']], 'repositories' => [$frameworkPath ? ['type' => 'path', 'url' => './.elang/framework', 'options' => ['symlink' => false, 'versions' => ['elang/framework' => 'dev-main']]] : ['type' => 'vcs', 'url' => 'https://github.com/ElgunHeydarli/elangphp.com']], 'minimum-stability' => 'dev', 'prefer-stable' => true, 'config' => ['allow-plugins' => false]];
@@ -38,6 +43,17 @@ final class ProjectGenerator
             $path = $directory.'/'.$name;
             if (!is_dir(dirname($path))) mkdir(dirname($path), 0770, true);
             file_put_contents($path, $content);
+        }
+        if ($example === 'task-board') {
+            $source = dirname(__DIR__, 2).'/examples/task-board';
+            $exampleFiles = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, \FilesystemIterator::SKIP_DOTS));
+            foreach ($exampleFiles as $file) {
+                if (!$file->isFile()) continue;
+                $relative = substr($file->getPathname(), strlen($source) + 1);
+                $target = $directory.'/'.$relative;
+                if (!is_dir(dirname($target))) mkdir(dirname($target), 0770, true);
+                copy($file->getPathname(), $target);
+            }
         }
         chmod($directory.'/elang', 0755);
     }

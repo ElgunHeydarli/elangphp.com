@@ -129,3 +129,37 @@
     });
   }
 })();
+
+// Lesson completion stays in this browser; the server stores no progress profile.
+(() => {
+  const key = 'elang-v0.1-learning-progress';
+  const known = ['environment','php-basics','first-route','json-api','validate-input','database','templates','build-a-task-board','debugging','ship'];
+  let completed = [];
+  try { const saved = JSON.parse(localStorage.getItem(key) || '[]'); if (Array.isArray(saved)) completed = [...new Set(saved.filter(id => known.includes(id)))]; } catch (_) {}
+  const button = document.querySelector('[data-lesson-id]');
+  const render = () => {
+    if (button) { const done = completed.includes(button.dataset.lessonId); button.setAttribute('aria-pressed', String(done)); button.textContent = done ? 'Completed ✓' : 'Mark lesson complete'; }
+    document.querySelectorAll('.lesson-row').forEach(row => { const slug = new URL(row.href).pathname.split('/').pop(); row.classList.toggle('is-complete', completed.includes(slug)); });
+    const count = document.querySelector('#learning-progress-count'); if (count) count.textContent = String(completed.length);
+  };
+  button?.addEventListener('click', () => {
+    const id = button.dataset.lessonId;
+    completed = completed.includes(id) ? completed.filter(item => item !== id) : [...completed, id];
+    try { localStorage.setItem(key, JSON.stringify(completed)); render(); }
+    catch (_) { button.textContent = 'Browser storage unavailable'; }
+  });
+  const progress = document.querySelector('[data-learning-progress]');
+  if (progress) progress.hidden = false;
+  document.querySelector('#learning-progress-reset')?.addEventListener('click', () => { completed = []; try { localStorage.removeItem(key); } catch (_) {} render(); });
+  render();
+})();
+
+// Installation commands are copyable without a frontend dependency.
+document.querySelectorAll('[data-copy-target]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const code = document.getElementById(button.dataset.copyTarget);
+    try { await navigator.clipboard.writeText(code.textContent); button.textContent = 'Copied'; }
+    catch (_) { const range = document.createRange(); range.selectNodeContents(code); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); button.textContent = 'Selected'; }
+    setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+  });
+});

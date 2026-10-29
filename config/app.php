@@ -8,6 +8,7 @@ return [
     'key' => Config::env('APP_KEY', ''),
     'database' => ['url' => Config::env('DATABASE_URL', 'sqlite:///'.dirname(__DIR__).'/database/database.sqlite')],
     'mail' => ['dsn' => Config::env('MAILER_DSN', 'null://null')],
+    'task_board' => ['path' => '/demo/task-board'],
     'rate_limit' => 120,
     'max_body_bytes' => 16384,
 ];

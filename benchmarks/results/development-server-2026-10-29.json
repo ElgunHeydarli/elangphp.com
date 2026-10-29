@@ -1,0 +1,75 @@
+{
+    "generated_at": "2026-10-29T04:35:31+00:00",
+    "scope": "Single-worker PHP development server; same small stateless JSON route; concurrency 1; 30 warm-up requests per fixture. Not a production or whole-framework comparison.",
+    "client_php": "8.4.24",
+    "framework_versions": {
+        "elang": "0.1.0-dev",
+        "laravel": "v13.39.0"
+    },
+    "server_settings": "Start both fixture servers using the identical PHP binary and OPcache CLI settings documented in benchmarks/README.md.",
+    "rounds": [
+        {
+            "round": 1,
+            "elang": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 0.281191,
+                "requests_per_second": 1066.89,
+                "median_ms": 0.751,
+                "p95_ms": 1.79
+            },
+            "laravel": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 2.310764,
+                "requests_per_second": 129.83,
+                "median_ms": 7.035,
+                "p95_ms": 10.584
+            }
+        },
+        {
+            "round": 2,
+            "laravel": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 2.142746,
+                "requests_per_second": 140.01,
+                "median_ms": 6.667,
+                "p95_ms": 9.907
+            },
+            "elang": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 0.444118,
+                "requests_per_second": 675.5,
+                "median_ms": 0.929,
+                "p95_ms": 3.834
+            }
+        },
+        {
+            "round": 3,
+            "elang": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 0.257157,
+                "requests_per_second": 1166.6,
+                "median_ms": 0.751,
+                "p95_ms": 1.024
+            },
+            "laravel": {
+                "server_runtime": "8.4.24;opcache_cli=0",
+                "max_pre_response_php_memory_bytes": 2097152,
+                "requests": 300,
+                "seconds": 2.162667,
+                "requests_per_second": 138.72,
+                "median_ms": 6.621,
+                "p95_ms": 10.171
+            }
+        }
+    ]
+}

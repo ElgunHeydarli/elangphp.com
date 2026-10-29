@@ -18,10 +18,11 @@ final class SiteTest extends TestCase
     }
     public static function publicPages(): array
     {
-        $paths = ['/', '/learn', '/examples', '/ecosystem', '/updates', '/roadmap', '/community', '/api-reference'];
+        $paths = ['/', '/learn', '/examples', '/ecosystem', '/updates', '/roadmap', '/community', '/api-reference', '/guides'];
         foreach (array_merge(...array_values(ContentRepository::GROUPS)) as $slug => $title) $paths[] = '/docs/v0.1/'.$slug;
         foreach (ContentRepository::LESSONS as $slug => $title) $paths[] = '/learn/'.$slug;
         foreach (ContentRepository::EXAMPLES as $slug => $title) $paths[] = '/examples/'.$slug;
+        foreach (ContentRepository::GUIDES as $slug => $title) $paths[] = '/guides/'.$slug;
         return array_map(fn ($path) => [$path], $paths);
     }
     public function testSearchAndQueryLimits(): void
