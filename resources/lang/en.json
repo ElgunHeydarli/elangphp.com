@@ -1304,5 +1304,22 @@
   "Elang": "Elang",
   "Submit all prepared packages": "Submit all prepared packages",
   "Submitting prepared packages one at a time…": "Submitting prepared packages one at a time…",
-  "Submission finished. Review each package status.": "Submission finished. Review each package status."
+  "Submission finished. Review each package status.": "Submission finished. Review each package status.",
+  "DOMAIN EMAIL": "DOMAIN EMAIL",
+  "Mail DNS records": "Mail DNS records",
+  "The hosting mailbox is noreply@elangphp.com. Publish the three reviewed TXT records below in Fornex to authenticate this domain's mail.": "The hosting mailbox is noreply@elangphp.com. Publish the three reviewed TXT records below in Fornex to authenticate this domain's mail.",
+  "Missing records were submitted. Allow DNS propagation, then verify SPF, DKIM, and DMARC before assuming external delivery works.": "Missing records were submitted. Allow DNS propagation, then verify SPF, DKIM, and DMARC before assuming external delivery works.",
+  "The publisher adds missing records for elangphp.com only. It preserves existing records and stops if a mail record conflicts.": "The publisher adds missing records for elangphp.com only. It preserves existing records and stops if a mail record conflicts.",
+  "Open Fornex API settings": "Open Fornex API settings",
+  "Your Fornex key is used for this request only and is never saved. You can also add these records manually in Fornex.": "Your Fornex key is used for this request only and is never saved. You can also add these records manually in Fornex.",
+  "Fornex API key": "Fornex API key",
+  "Publish mail DNS records": "Publish mail DNS records",
+  "Enter the Fornex API key from your account settings.": "Enter the Fornex API key from your account settings.",
+  "The reviewed mail DNS records are unavailable.": "The reviewed mail DNS records are unavailable.",
+  "Fornex rejected the API key or DNS permission.": "Fornex rejected the API key or DNS permission.",
+  "Fornex could not complete the request. Check domain access and try again.": "Fornex could not complete the request. Check domain access and try again.",
+  "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.": "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.",
+  "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.": "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.",
+  "Mail DNS publication is already running. Try again shortly.": "Mail DNS publication is already running. Try again shortly.",
+  "Integrations": "Integrations"
 }

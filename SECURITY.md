@@ -8,6 +8,8 @@ Do not put exploit details, credentials, private data, or encryption keys in a p
 
 Provide the affected revision, PHP version, minimal reproduction, impact, and a suggested fix when possible. There is no published response-time commitment yet.
 
+The official domain advertises this reporting route in [`/.well-known/security.txt`](https://elangphp.com/.well-known/security.txt), following [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html). Review its contact links and renew its expiry before 29 April 2027.
+
 ## Deployment expectations
 
 Expose only public/. Keep configuration, source, vendor files, SQLite databases, runtime logs, and Git metadata private. Disable debug output in production, configure HTTPS, review dependency advisories, and use application-specific authentication and authorization. The framework's primitives do not replace those controls.

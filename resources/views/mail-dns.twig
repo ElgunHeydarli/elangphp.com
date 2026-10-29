@@ -1,0 +1,21 @@
+{% if mail_records %}
+<section class="panel" id="mail-dns">
+  <p class="eyebrow">DOMAIN EMAIL</p>
+  <h2>Mail DNS records</h2>
+  <p>The hosting mailbox is noreply@elangphp.com. Publish the three reviewed TXT records below in Fornex to authenticate this domain's mail.</p>
+  {% if dns_submitted %}<p class="notice" role="status">Missing records were submitted. Allow DNS propagation, then verify SPF, DKIM, and DMARC before assuming external delivery works.</p>{% endif %}
+  {% for record in mail_records %}
+  <h3><code>{{ record.host ?: '@' }}</code> · TXT · TTL 3600</h3>
+  <pre>{{ record.value }}</pre>
+  {% endfor %}
+  <p>The publisher adds missing records for elangphp.com only. It preserves existing records and stops if a mail record conflicts.</p>
+  <p><a href="https://ru.fornex.com/my/settings/api/" target="_blank" rel="noreferrer">Open Fornex API settings</a></p>
+  <p>Your Fornex key is used for this request only and is never saved. You can also add these records manually in Fornex.</p>
+  <form class="stack" method="post" action="/admin/integrations/mail-dns">
+    <input type="hidden" name="_token" value="{{ token }}">
+    <label>Fornex API key<input type="password" name="fornex_api_key" required minlength="16" maxlength="512" autocomplete="off"></label>
+    <label>Current account password<input name="current_password" type="password" required autocomplete="current-password"></label>
+    <button class="button">Publish mail DNS records</button>
+  </form>
+</section>
+{% endif %}

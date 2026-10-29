@@ -1304,5 +1304,22 @@
   "Elang": "Elang",
   "Submit all prepared packages": "Hazırlanmış bütün paketləri göndər",
   "Submitting prepared packages one at a time…": "Hazırlanmış paketlər bir-bir göndərilir…",
-  "Submission finished. Review each package status.": "Göndəriş bitdi. Hər paketin vəziyyətini yoxlayın."
+  "Submission finished. Review each package status.": "Göndəriş bitdi. Hər paketin vəziyyətini yoxlayın.",
+  "DOMAIN EMAIL": "DOMEN POÇTU",
+  "Mail DNS records": "Poçt DNS qeydləri",
+  "The hosting mailbox is noreply@elangphp.com. Publish the three reviewed TXT records below in Fornex to authenticate this domain's mail.": "Hostinq poçt qutusu noreply@elangphp.com ünvanıdır. Domenin məktublarını təsdiqləmək üçün aşağıdakı üç TXT qeydini Fornex-də yayımlayın.",
+  "Missing records were submitted. Allow DNS propagation, then verify SPF, DKIM, and DMARC before assuming external delivery works.": "Çatışmayan qeydlər göndərildi. DNS yayılmasını gözləyin, sonra xarici ünvanlara çatdırılmanı təsdiqləməzdən əvvəl SPF, DKIM və DMARC qeydlərini yoxlayın.",
+  "The publisher adds missing records for elangphp.com only. It preserves existing records and stops if a mail record conflicts.": "Yayımlayıcı yalnız elangphp.com üçün çatışmayan qeydləri əlavə edir. Mövcud qeydləri qoruyur və poçt qeydi ilə ziddiyyət olduqda dayanır.",
+  "Open Fornex API settings": "Fornex API ayarlarını aç",
+  "Your Fornex key is used for this request only and is never saved. You can also add these records manually in Fornex.": "Fornex açarınız yalnız bu sorğu üçün istifadə olunur və saxlanmır. Bu qeydləri Fornex-də əl ilə də əlavə edə bilərsiniz.",
+  "Fornex API key": "Fornex API açarı",
+  "Publish mail DNS records": "Poçt DNS qeydlərini yayımla",
+  "Enter the Fornex API key from your account settings.": "Hesab ayarlarınızdan Fornex API açarını daxil edin.",
+  "The reviewed mail DNS records are unavailable.": "Yoxlanılmış poçt DNS qeydləri mövcud deyil.",
+  "Fornex rejected the API key or DNS permission.": "Fornex API açarını və ya DNS icazəsini qəbul etmədi.",
+  "Fornex could not complete the request. Check domain access and try again.": "Fornex sorğunu tamamlaya bilmədi. Domenə giriş icazəsini yoxlayıb yenidən cəhd edin.",
+  "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.": "Mövcud poçt DNS qeydləri bu planla ziddiyyət təşkil edir. Onları Fornex-də yoxlayın; heç bir qeyd dəyişdirilmədi.",
+  "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.": "Bəzi DNS qeydləri artıq yaradılmış ola bilər. Fornex-də yoxlayıb yenidən cəhd edin; mövcud qeydlər qorunur.",
+  "Mail DNS publication is already running. Try again shortly.": "Poçt DNS qeydlərinin yayımı artıq davam edir. Bir qədər sonra yenidən cəhd edin.",
+  "Integrations": "İnteqrasiyalar"
 }

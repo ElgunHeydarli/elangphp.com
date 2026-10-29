@@ -1,0 +1,20 @@
+[
+  {
+    "host": "",
+    "type": "TXT",
+    "ttl": 3600,
+    "value": "v=spf1 ip4:103.228.169.193 ~all"
+  },
+  {
+    "host": "mail._domainkey",
+    "type": "TXT",
+    "ttl": 3600,
+    "value": "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA35ZwuoaKl3NsUo6FChXwDWWUAE9tB9MKOHZi/uI3ilcnnmTBm/pJb5spWeWiofNAVjTnNMsIkA5fOUXsd0jNdsIxM2Uma+4O4ap6khlTbr0dJgXmJ0+tsTjdZ2NHXOPfkvBBrwU8LcAjbST4QkSZ2sqVWLhnm9j+shnJOVkgzXYwR8WZPQaGemSQjZ+Tw4s0N/Xk14cQCA5fo7Id/uA1N7a/1Z0gbWxoo6MuduZloBBtd+UJS595ypT78e0Pb4bTaPZTWNp4x7/2xisWJ/EJAdpar+4ve+l3Tll1/U6TAKv4deOmd4lARFxWCF9XzIWDeJnvoMWxo9Iz8pbM2vW5RwIDAQAB"
+  },
+  {
+    "host": "_dmarc",
+    "type": "TXT",
+    "ttl": 3600,
+    "value": "v=DMARC1; p=none; adkim=r; aspf=r"
+  }
+]

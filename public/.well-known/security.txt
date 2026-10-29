@@ -1,0 +1,5 @@
+Contact: https://github.com/ElgunHeydarli/elangphp.com/security/advisories/new
+Expires: 2027-04-29T00:00:00Z
+Canonical: https://elangphp.com/.well-known/security.txt
+Policy: https://github.com/ElgunHeydarli/elangphp.com/security/policy
+Preferred-Languages: en, az, ru

@@ -17,6 +17,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
     protected function application(array $config = []): \Elang\Application
     {
-        return new \Elang\Application($this->temporary, array_replace_recursive(['debug' => false, 'environment' => 'testing', 'database' => ['url' => 'sqlite:///:memory:']], $config));
+        return new \Elang\Application($this->temporary, array_replace_recursive(['debug' => false, 'environment' => 'testing', 'database' => ['url' => 'sqlite:///:memory:'], 'mail'=>['dsn'=>'null://null','from'=>'noreply@example.test']], $config));
     }
 }

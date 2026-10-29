@@ -1304,5 +1304,22 @@
   "Elang": "Elang",
   "Submit all prepared packages": "Отправить все подготовленные пакеты",
   "Submitting prepared packages one at a time…": "Подготовленные пакеты отправляются по одному…",
-  "Submission finished. Review each package status.": "Отправка завершена. Проверьте состояние каждого пакета."
+  "Submission finished. Review each package status.": "Отправка завершена. Проверьте состояние каждого пакета.",
+  "DOMAIN EMAIL": "ПОЧТА ДОМЕНА",
+  "Mail DNS records": "DNS-записи почты",
+  "The hosting mailbox is noreply@elangphp.com. Publish the three reviewed TXT records below in Fornex to authenticate this domain's mail.": "Почтовый ящик хостинга — noreply@elangphp.com. Добавьте три проверенные TXT-записи ниже в Fornex для аутентификации почты домена.",
+  "Missing records were submitted. Allow DNS propagation, then verify SPF, DKIM, and DMARC before assuming external delivery works.": "Недостающие записи отправлены. Дождитесь распространения DNS и проверьте SPF, DKIM и DMARC, прежде чем считать внешнюю доставку подтверждённой.",
+  "The publisher adds missing records for elangphp.com only. It preserves existing records and stops if a mail record conflicts.": "Публикатор добавляет только недостающие записи для elangphp.com. Он сохраняет существующие записи и останавливается при конфликте почтовой записи.",
+  "Open Fornex API settings": "Открыть настройки API Fornex",
+  "Your Fornex key is used for this request only and is never saved. You can also add these records manually in Fornex.": "Ключ Fornex используется только для этого запроса и не сохраняется. Эти записи также можно добавить в Fornex вручную.",
+  "Fornex API key": "API-ключ Fornex",
+  "Publish mail DNS records": "Опубликовать DNS-записи почты",
+  "Enter the Fornex API key from your account settings.": "Введите API-ключ Fornex из настроек учётной записи.",
+  "The reviewed mail DNS records are unavailable.": "Проверенные DNS-записи почты недоступны.",
+  "Fornex rejected the API key or DNS permission.": "Fornex отклонил API-ключ или разрешение на DNS.",
+  "Fornex could not complete the request. Check domain access and try again.": "Fornex не удалось выполнить запрос. Проверьте доступ к домену и повторите попытку.",
+  "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.": "Существующие DNS-записи почты конфликтуют с этим планом. Проверьте их в Fornex; записи не изменены.",
+  "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.": "Часть DNS-записей уже могла быть создана. Проверьте Fornex и повторите попытку; существующие записи сохраняются.",
+  "Mail DNS publication is already running. Try again shortly.": "Публикация DNS-записей почты уже выполняется. Повторите попытку немного позже.",
+  "Integrations": "Интеграции"
 }

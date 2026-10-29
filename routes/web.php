@@ -38,7 +38,7 @@ $router->get('/packages/packages.json', [\App\Controllers\PackageController::cla
 $router->get('/packages/dist/{file}', [\App\Controllers\PackageController::class, 'dist'])->where('file', '[a-z0-9.-]+');
 
 $router->group('/admin',[RateLimitMiddleware::class,\Elang\Http\Middleware\JsonInput::class,\Elang\Http\Middleware\SessionMiddleware::class,\Elang\Http\Middleware\CsrfMiddleware::class,\Elang\Auth\RequireAuth::class,\Elang\Auth\RequireAdmin::class],function($router): void {
-    $integration=\App\Controllers\IntegrationsController::class;$router->get('/integrations',[$integration,'index']);$router->post('/integrations/packagist',[$integration,'save']);$router->post('/integrations/packagist/publish',[$integration,'publish']);
+    $integration=\App\Controllers\IntegrationsController::class;$router->get('/integrations',[$integration,'index']);$router->post('/integrations/packagist',[$integration,'save']);$router->post('/integrations/packagist/publish',[$integration,'publish']);$router->post('/integrations/mail-dns',[$integration,'publishMailDns']);
     $controller=\App\Controllers\AdminController::class;
     $router->get('',[$controller,'index']);$router->get('/edit',[$controller,'edit']);$router->post('/save',[$controller,'save']);$router->post('/restore',[$controller,'restore']);
 });
