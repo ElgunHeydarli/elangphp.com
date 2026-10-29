@@ -1,0 +1,14 @@
+/vendor/
+/.env
+/.env.*
+!/.env.example
+/storage/*
+!/storage/.gitkeep
+/database/*.sqlite*
+/.phpunit.cache/
+/.phpstan/
+/node_modules/
+/playwright-report/
+/test-results/
+
+/public/downloads/

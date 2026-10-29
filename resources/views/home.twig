@@ -1,0 +1,50 @@
+{% extends 'base.twig' %}{% import 'icons.twig' as i %}
+{% block content %}
+<section class="hero container"><div class="hero-copy"><a class="release-pill" href="/updates"><span class="status-dot"></span>Meet Elang <span class="pill-version">v0.1 preview</span><span>↗</span></a><p class="eyebrow hero-eyebrow">A FRESH PERSPECTIVE ON PHP</p><h1>Good ideas.<br><span class="serif">Less friction.</span></h1><p class="hero-description">An approachable PHP framework for turning<br class="desktop-break"> what’s in your head into what’s next.<br class="desktop-break"> Clear conventions. Familiar tools. Room to build.</p><div class="hero-buttons"><a class="button primary" href="/docs/v0.1/installation">Start building {{ i.icon('arrow') }}</a><a class="button text-button" href="https://github.com/ElgunHeydarli/elangphp.com">{{ i.icon('github') }} Explore the source</a></div><div class="hero-footnote"><span>PHP 8.3+</span><span>Open source</span><span>MIT licensed</span></div></div>
+<div class="hero-editor"><div class="editor-titlebar"><div class="window-dots"><b></b><b></b><b></b></div><span>your-next-idea / routes / web.php</span><span class="editor-php">PHP</span></div><div class="editor-filetab">{{ i.icon('code') }} web.php <span>×</span></div><div class="editor-code"><div class="line-numbers" aria-hidden="true">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div><pre><code><span class="syntax-purple">&lt;?php</span>
+
+<span class="syntax-purple">use</span> <span class="syntax-light">Elang\Http\Response</span>;
+
+<span class="syntax-comment">// A little clarity goes a long way.</span>
+<span class="syntax-orange">$router</span>-&gt;<span class="syntax-blue">get</span>(<span class="syntax-green">'/hello/{name}'</span>, <span class="syntax-purple">function</span> (
+    <span class="syntax-purple">string</span> <span class="syntax-orange">$name</span>
+) {
+    <span class="syntax-purple">return</span> <span class="syntax-light">Response</span>::<span class="syntax-blue">json</span>([
+        <span class="syntax-green">'message'</span> =&gt; <span class="syntax-green">'Hello, '</span>.<span class="syntax-orange">$name</span>.<span class="syntax-green">'!'</span>,
+        <span class="syntax-green">'possibilities'</span> =&gt; <span class="syntax-green">'Wide open.'</span>,
+    ]);
+});</code></pre></div><div class="editor-status"><span><span class="status-dot"></span> A route. A response. A beginning.</span><span>UTF-8 &nbsp; PHP</span></div><div class="response-float"><span class="response-icon">↳</span><div><span class="small muted">GET /hello/World</span><br><code>“Hello, World!”</code></div><span class="success-pill">200 OK</span></div></div></section>
+<section class="foundations container" aria-label="Framework foundations"><p>A small API.<br><strong>Solid foundations.</strong></p><div><span class="foundation-symbol">php</span><span>Modern PHP<strong>Typed. Readable. Yours.</strong></span></div><div><span class="foundation-symbol circle-symbol">S</span><span>Symfony components<strong>Proven building blocks.</strong></span></div><div><span class="foundation-symbol">↗</span><span>Doctrine DBAL<strong>Data, with a clear path.</strong></span></div><div><span class="foundation-symbol curly">{ }</span><span>HTML, CSS & JavaScript<strong>No frontend build step.</strong></span></div></section>
+<section class="section container philosophy"><div class="section-intro"><p class="eyebrow">BUILT TO MAKE SENSE</p><h2>Stay in the flow.<br><span class="serif">Understand every step.</span></h2></div><div class="philosophy-copy"><p>The best tool is one you can make your own. Elang brings familiar PHP components together behind clear conventions, so you can spend your attention on your application.</p><a class="inline-link" href="/docs/v0.1/introduction">Get to know the framework {{ i.icon('arrow') }}</a></div></section>
+<section class="container feature-grid"><a class="feature-card feature-large" href="/docs/v0.1/routing"><div class="feature-icon">{{ i.icon('code') }}</div><h3>Readable from<br>the first route.</h3><p>Explicit routes. Typed parameters. Responses that say what they mean. A small application API you can keep in your head.</p><div class="mini-route"><span class="method">GET</span><code>/ideas/{id}</code><span>→</span><code>IdeaController</code></div><span class="feature-link">Explore routing ↗</span></a><a class="feature-card" href="/docs/v0.1/container"><div class="feature-icon">{{ i.icon('layers') }}</div><h3>Compose.<br>Don’t untangle.</h3><p>Constructor injection, explicit service bindings, and middleware that runs in the order you expect.</p><span class="feature-link">Meet the container ↗</span></a><a class="feature-card feature-warm" href="/docs/v0.1/security"><div class="feature-icon">{{ i.icon('shield') }}</div><h3>Thoughtful<br>defaults.</h3><p>Escaped templates, CSRF middleware, parameterized queries, and useful errors that keep internal details private.</p><span class="feature-link">Read the security guide ↗</span></a></section>
+<section class="section container playground-section"><div class="section-heading"><div><p class="eyebrow">LESS THEORY. MORE TRYING.</p><h2>Take it for <span class="serif">a small spin.</span></h2></div><p>Real requests. Real Elang responses.<br>A little window into the framework.</p></div><div class="playground" data-playground><div class="playground-tabs" role="tablist" aria-label="Playground examples"><button role="tab" aria-selected="true" aria-controls="code-hello" id="tab-hello" data-example="hello">01 <span>Routing</span></button><button role="tab" aria-selected="false" aria-controls="code-validate" id="tab-validate" data-example="validate" tabindex="-1">02 <span>Validation</span></button><button role="tab" aria-selected="false" aria-controls="code-database" id="tab-database" data-example="database" tabindex="-1">03 <span>Database</span></button><span class="playground-live"><span class="status-dot"></span>Live backend</span></div><div class="playground-body"><div class="playground-code"><div class="code-label">PHP <span>routes/web.php</span></div><pre id="code-hello" role="tabpanel" aria-labelledby="tab-hello"><code>$router-&gt;get('/hello', function (Request $request) {
+    $name = $request-&gt;query-&gt;get('name', 'World');
+
+    return Response::json([
+        'message' =&gt; 'Hello, '.$name.'!',
+        'framework' =&gt; 'Elang',
+        'status' =&gt; 'Ready to build.',
+    ]);
+});</code></pre><pre id="code-validate" role="tabpanel" aria-labelledby="tab-validate" hidden><code>$validated = $validator-&gt;validate($data, [
+    'name' =&gt; [
+        new Assert\NotBlank(),
+        new Assert\Type('string'),
+        new Assert\Length(min: 2, max: 80),
+    ],
+    'email' =&gt; [
+        new Assert\NotBlank(),
+        new Assert\Email(),
+    ],
+]);</code></pre><pre id="code-database" role="tabpanel" aria-labelledby="tab-database" hidden><code>$rows = $database-&gt;table('examples')
+    -&gt;orderBy('id', 'ASC')
+    -&gt;setMaxResults(3)
+    -&gt;fetchAllAssociative();
+
+return Response::json([
+    'data' =&gt; $rows,
+    'source' =&gt; 'Live SQLite database',
+]);</code></pre></div><div class="playground-result"><div class="code-label">RESPONSE <span id="playground-status">Waiting for a request</span></div><pre id="playground-output" aria-live="polite"><code>// Make it yours.
+// Then hit “Run request”.</code></pre><div class="playground-controls"><label class="playground-name">Name<input id="playground-name" value="World" maxlength="80" aria-label="Name for the demo request"></label><label class="playground-email" hidden>Email<input id="playground-email" value="ada@example.com" maxlength="120" aria-label="Email for validation demo"></label><button class="button primary" id="playground-run">Run request <span>↗</span></button></div></div></div><div class="playground-caption"><span>No code evaluation. These examples call dedicated Elang endpoints.</span><a href="/examples">Explore the examples →</a></div></div></section>
+<section class="learning-section"><div class="container learning-inner"><div><p class="eyebrow">YOUR NEXT STEP IS A SMALL ONE</p><h2>New to Elang?<br><span class="serif">You’re in the right place.</span></h2><p>A practical path from “hello” to “here’s what I built.”<br>One focused lesson at a time.</p><a class="button dark-button" href="/learn">Find your first lesson {{ i.icon('arrow') }}</a></div><div class="learning-steps"><a href="/learn/first-route"><span>01</span><div><h3>Your first route</h3><p>A request, a response, and that first little win.</p></div><span>↗</span></a><a href="/learn/json-api"><span>02</span><div><h3>Something worth building</h3><p>Controllers, JSON, and a small working API.</p></div><span>↗</span></a><a href="/learn/database"><span>03</span><div><h3>Give your ideas a home</h3><p>Connect a database. Work with real records.</p></div><span>↗</span></a></div></div></section>
+<section class="container open-section"><div class="open-monogram" aria-hidden="true">e<span>.</span></div><div><p class="eyebrow">EARLY DAYS. OPEN DOORS.</p><h2>A framework is better<br><span class="serif">when it’s built together.</span></h2><p>Elang is a development preview. Explore what works today,<br>see where it’s heading, and help shape what comes next.</p><div class="open-links"><a class="inline-link" href="https://github.com/ElgunHeydarli/elangphp.com">{{ i.icon('github') }} Find us on GitHub ↗</a><a class="inline-link" href="/roadmap">See the roadmap →</a></div></div><div class="preview-note"><span class="small-label">CURRENT CHAPTER</span><strong>0.1</strong><span>Development preview</span><a href="/updates">Read the development notes ↗</a></div></section>
+{% endblock %}

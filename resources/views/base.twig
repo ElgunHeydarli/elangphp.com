@@ -1,0 +1,26 @@
+{% import 'icons.twig' as i %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title><meta name="description" content="{{ description }}">
+<meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f8f8f4">
+<link rel="canonical" href="{{ site_url }}{{ path }}"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css?v={{ asset_version }}"><script src="/assets/app.js?v={{ asset_version }}" defer></script>
+<link rel="alternate" type="application/atom+xml" title="Elang updates" href="/feed.xml"><link rel="describedby" href="/llms.txt">
+<meta property="og:type" content="website"><meta property="og:title" content="{{ title }}"><meta property="og:description" content="{{ description }}"><meta property="og:url" content="{{ site_url }}{{ path }}">
+{% block head %}{% endblock %}
+</head>
+<body class="page-{{ active }}">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="header-inner">
+<a href="/" class="wordmark" aria-label="Elang home"><span class="logo-mark">e<span>.</span></span>elang<span class="wordmark-php">php</span></a>
+<nav class="main-nav" id="main-nav" aria-label="Main navigation">
+<a href="/docs/v0.1/introduction"{% if active == 'docs' %} aria-current="page"{% endif %}>Documentation</a><a href="/learn"{% if active == 'learn' %} aria-current="page"{% endif %}>Learn</a><a href="/ecosystem"{% if active == 'ecosystem' %} aria-current="page"{% endif %}>Ecosystem</a><a href="/updates"{% if active == 'updates' %} aria-current="page"{% endif %}>Updates</a>
+</nav>
+<div class="header-actions"><button class="search-trigger" data-search-open aria-label="Search documentation">{{ i.icon('search') }}<span>Search docs</span><kbd>Ctrl K</kbd></button><button class="icon-button theme-toggle" aria-label="Switch to dark theme" title="Toggle color theme">{{ i.icon('sun') }}</button><a class="icon-button github-header" href="https://github.com/ElgunHeydarli/elangphp.com" aria-label="Elang on GitHub">{{ i.icon('github') }}</a><button class="icon-button menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">{{ i.icon('menu') }}</button></div>
+</div></header>
+<main id="main">{% block content %}{% endblock %}</main>
+<footer class="site-footer"><div class="container footer-top"><div><a class="wordmark" href="/">elang<span class="wordmark-php">php</span></a><p>A clearer way to build with PHP.</p><span class="status-dot"></span><span class="small muted">Built with Elang. Open by design.</span></div><div class="footer-links"><div><strong>Build</strong><a href="/docs/v0.1/installation">Get started</a><a href="/api-reference">API reference</a><a href="/examples">Examples</a></div><div><strong>Explore</strong><a href="/learn">Learn Elang</a><a href="/ecosystem">Ecosystem</a><a href="/roadmap">Roadmap</a></div><div><strong>Connect</strong><a href="https://github.com/ElgunHeydarli/elangphp.com">GitHub ↗</a><a href="/community">Contribute</a><a href="/feed.xml">Release feed ↗</a></div></div></div><div class="container footer-bottom"><span>© 2026 Elang. Released under the MIT license.</span><a href="/updates">{{ version }} <span class="muted">/ Development preview</span></a><a href="/llms.txt">Made readable for humans & agents ↗</a></div></footer>
+<dialog class="search-dialog" aria-labelledby="search-title"><div class="search-dialog-head"><span id="search-title" class="sr-only">Search Elang documentation</span>{{ i.icon('search') }}<input id="docs-search" type="search" placeholder="Search documentation, lessons, examples…" autocomplete="off" maxlength="100" aria-label="Search documentation"><button data-search-close class="escape-key" aria-label="Close search">Esc</button></div><div id="search-results" class="search-results" aria-live="polite"><p class="search-hint">Start typing to find your next step.</p></div><div class="search-dialog-footer"><span>Documentation · v0.1</span><span>↑ ↓ navigate &nbsp; ↵ open &nbsp; esc close</span></div></dialog>
+</body></html>

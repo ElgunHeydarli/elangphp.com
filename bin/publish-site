@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+// This publisher is specific to the existing Hestia host. It never copies private code.
+$base = dirname(__DIR__);
+$domainRoot = dirname($base, 2);
+$public = $domainRoot.'/public_html';
+if (basename(dirname($base)) !== 'private' || basename($domainRoot) !== 'elangphp.com' || !is_dir($public)) {
+    fwrite(STDERR, "This publisher requires the documented elangphp.com private/elang layout.\n"); exit(1);
+}
+$source = $base.'/public';
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS));
+foreach ($iterator as $file) {
+    if (!$file->isFile() || $file->getFilename() === 'router.php') continue;
+    $relative = substr($file->getPathname(), strlen($source) + 1);
+    $target = $public.'/'.$relative;
+    if (!is_dir(dirname($target))) mkdir(dirname($target), 0755, true);
+    if (!copy($file->getPathname(), $target)) throw new RuntimeException('Could not publish '.$relative);
+    chmod($target, 0644);
+}
+if (is_file($public.'/index.html')) {
+    $backup = dirname($base).'/placeholder-'.date('Ymd-His').'.html';
+    if (!rename($public.'/index.html', $backup)) throw new RuntimeException('Could not preserve the existing placeholder.');
+}
+echo "Public front controller and assets published. Private source remains outside public_html.\n";

@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+$base = getcwd();
+if (!is_file($base.'/bootstrap/app.php')) $base = dirname(__DIR__);
+require $base.'/vendor/autoload.php';
+$app = require $base.'/bootstrap/app.php';
+exit((new Elang\Console\Kernel($app))->run());
