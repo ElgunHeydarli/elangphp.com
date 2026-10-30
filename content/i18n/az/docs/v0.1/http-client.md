@@ -20,9 +20,15 @@ $quantity = $http->baseUrl('https://partner.example.test')
 $fake->assertSentCount(1);
 ```
 
+## Partnyor ayarları
+
 Real inteqrasiyada fake yaratmaq əvəzinə kontrollerə Client verin. Baza URL-ni server konfiqurasiyasında saxlayın, məxfi açarı `Config::secret()` ilə oxuyun. withToken və withHeaders həmin inteqrasiya üçün ayrıca sorğu konfiqurasiyası qaytarır; ortaq Client başqa sorğulara bu açarı daşımır. Baza URL-dən başqa origin-ə keçid rədd edilir.
 
+## Limitlər və xətalar
+
 Standartlar: TLS yoxlaması aktivdir, yönləndirmə və cookie deaktivdir; sorğu/oxuma limiti 10 saniyə, qoşulma limiti 5 saniyə, cavab həddi 8 MiB-dir. Limitləri iş yükünə uyğunlaşdırın. Stream və cURL handler qoşulma limitini fərqli tətbiq edə bilər. `throw()` 4xx/5xx üçün yalnız status göstərən RequestException yaradır; JSON gözləyəndə `json()` çağırın.
+
+## Təkrar cəhdlər və fake sorğular
 
 `retry(3, 100)` cəmi üç cəhd və 100 ms fasilə deməkdir. Standartda yalnız GET, HEAD və OPTIONS qoşulma xətası və 429/502/503/504 zamanı təkrarlanır. Yazını təkrarlamaq üçün `retryUnsafe: true` və tətbiq səviyyəsində idempotentlik lazımdır. Retry-After on saniyədən böyükdürsə erkən təkrar əvəzinə cavab qaytarılır. Fake üçün gözlənilməyən sorğu şəbəkəyə çıxmadan xəta verir. İstifadəçi girişindən yoxlanılmamış server URL-i yaratmayın.
 

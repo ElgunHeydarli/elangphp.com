@@ -19,6 +19,8 @@ $app->command((new Command('stock:report'))
     }));
 ```
 
+## Əmri işə salın və test edin
+
 `php elang stock:report` işlədin. Xətada sıfırdan fərqli status qaytarın. Proses daxilində yoxlama üçün CommandTester istifadə edin. Kernel::console konfiqurasiya edilmiş konsolu qaytarır; Kernel::run əvvəlki kimi işlədir. Təkrar ad və framework əmri ilə toqquşma açıq xəta yaradır, mövcud əmri səssiz əvəz etmir.
 
 Real əmrdə SQL dəyərlərini parametr kimi bağlayın, tətbiq xidmətlərini və məxfi faylları istifadə edin. Dağıdıcı əməliyyatın girişini və bərpasını əvvəlcədən düşünün. Sənədləşmə MCP serverinə icra və yazma imkanı əlavə etməyin; o yalnız oxuma üçündür.

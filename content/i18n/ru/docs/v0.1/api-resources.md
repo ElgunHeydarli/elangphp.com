@@ -6,6 +6,8 @@
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Resources;
 
 use Elang\Http\Resource;
@@ -24,7 +26,11 @@ final class ProductResource extends Resource
 }
 ```
 
+## Структура ответа
+
 Верните new ProductResource($product), чтобы получить {"data":{...}}, или ProductResource::collection($items) для списка. Elang Data Paginator сохраняет meta рядом с преобразованными data. Список Doctrine repository — обычный iterable; автоматической пагинации у него нет.
+
+## Доступ и связи
 
 Ресурс форматирует уже разрешённые данные. Проверяйте доступ и ограничивайте запрос владельцем/tenant до создания ресурса. Загрузите необходимые связи fetch join, чтобы избежать отдельного запроса для каждой строки. Серверным контрактом запроса/ответа остаётся Symfony HttpFoundation.
 

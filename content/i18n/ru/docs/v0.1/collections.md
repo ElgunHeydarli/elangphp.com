@@ -24,7 +24,11 @@ $first = $stream->filter(fn ($id) => $id % 2 === 1)->take(3)->collect();
 // [1, 3, 5]; the source is read only through 5.
 ```
 
+## Операции коллекции
+
 Доступны map, filter, reject, each, first, reduce, pluck, keyBy, groupBy, where, sortBy, take, chunk, sum, keys, values, get, all и toArray. where использует строгое сравнение. Вложенные объекты не клонируются глубоко.
+
+## Ограниченный ленивый обход
 
 LazyCollection принимает фабрику нового iterable при каждом обходе. Поддерживаются map, filter, take, chunk, each и collect. collect загружает результат в память: сначала ограничьте объём большого потока. Размер chunk должен быть положительным, take — неотрицательным. Это обработка данных в памяти, а не построитель ORM-запросов.
 

@@ -20,9 +20,15 @@ $quantity = $http->baseUrl('https://partner.example.test')
 $fake->assertSentCount(1);
 ```
 
+## Partner configuration
+
 For a real integration, inject `Client` into a controller instead of constructing the fake. Configure the partner base URL in server configuration and read credentials with `Config::secret()`. `withToken()` and `withHeaders()` return a request scoped to that integration; the shared client does not acquire those credentials. A base URL cannot be overridden by another origin.
 
+## Limits and failures
+
 Defaults: TLS verification enabled, redirects and cookies disabled, 10-second request/read timeout, 5-second connection timeout, and an 8 MiB response limit. Configure timeouts and limits for the workload. Stream handlers may implement connection timeouts differently from cURL. `throw()` raises a status-only RequestException for 4xx/5xx; use `json()` explicitly when a JSON response is expected.
+
+## Retries and fakes
 
 `retry(3, 100)` means at most three total attempts and a 100 ms delay. Only GET, HEAD and OPTIONS retry by default, for connection failures or 429/502/503/504. Unsafe writes require explicit `retryUnsafe: true` and application-level idempotency. A Retry-After longer than ten seconds returns the response instead of retrying too early. Unexpected fake requests always fail without network access. Never derive a partner URL from untrusted input; validate user input before making server-side requests.
 

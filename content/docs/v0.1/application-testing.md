@@ -12,6 +12,8 @@ composer require --dev phpunit/phpunit:^12
 
 
 ```php
+<?php
+declare(strict_types=1);
 use Elang\Application;
 use Elang\Testing\TestClient;
 use PHPUnit\Framework\TestCase;
@@ -49,9 +51,15 @@ final class ApiTest extends TestCase
 }
 ```
 
+## Assertions and identities
+
 Assertions include status, headers, redirects, visible text, JSON paths/counts and bound-value database checks. Use `withSession()` for test session values and `actingAs($persistedUser)` for authenticated requests. Session clients remain separate even when sharing an application.
 
+## CSRF remains active
+
 CSRF is active. A protected write without a token should return 419. For a valid session write use `$browser->withCsrf()->post(...)`; this supplies the real CSRF header and same-origin information instead of disabling middleware. Scope checks and record ownership still apply.
+
+## HTTP and mail fakes
 
 The client replaces the injected Elang HTTP client with a strict FakeTransport and Symfony MailerInterface with an in-memory recorder. Configure `$browser->http->when(...)`, assert HTTP requests, and inspect `$browser->mail->messages()` or assertSentCount/assertSentTo. Fakes are shared between clients using the same application. Direct cURL calls, independently constructed mail transports and unrelated SDKs are outside this interception; replace those adapters explicitly. Never point application tests at a live database.
 

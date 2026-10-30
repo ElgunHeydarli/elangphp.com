@@ -24,7 +24,11 @@ $first = $stream->filter(fn ($id) => $id % 2 === 1)->take(3)->collect();
 // [1, 3, 5]; the source is read only through 5.
 ```
 
+## Collection operations
+
 Available operations: `map`, `filter`, `reject`, `each`, `first`, `reduce`, `pluck`, `keyBy`, `groupBy`, `where`, `sortBy`, `take`, `chunk`, `sum`, `keys`, `values`, `get`, `all` and `toArray`. `where()` uses strict equality. Objects inside a collection are not deep-cloned.
+
+## Bounded lazy traversal
 
 A lazy collection takes a factory that returns a fresh iterable on every traversal. It supports map, filter, take, chunk, each and collect. `collect()` materializes the result: take a bounded subset first when processing large input. Chunk sizes must be positive; take counts cannot be negative. This is an in-memory transformation API, not an ORM query builder.
 

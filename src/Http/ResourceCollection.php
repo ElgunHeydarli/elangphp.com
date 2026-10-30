@@ -6,10 +6,12 @@ use Elang\Data\Paginator;
 use Symfony\Component\HttpFoundation\{Request, Response as HttpResponse};
 final class ResourceCollection implements Responsable
 {
-    /** @param class-string<Resource> $class */
-    public function __construct(private string $class, private iterable $items)
+    /** @var class-string<Resource> */
+    private string $class;
+    public function __construct(string $class, private iterable $items)
     {
         if (!is_subclass_of($class, Resource::class)) throw new \InvalidArgumentException('A resource collection requires an Elang Resource class.');
+        $this->class=$class;
     }
     public function toResponse(Request $request): HttpResponse
     {

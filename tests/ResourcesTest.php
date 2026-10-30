@@ -20,4 +20,8 @@ final class ResourcesTest extends TestCase
         $app->router->get('/api/accounts',fn()=>PublicAccountResource::collection($page));$body=json_decode($app->handle(Request::create('/api/accounts'))->getContent(),true);
         self::assertSame(31,$body['meta']['total']);self::assertSame(4,$body['meta']['last_page']);self::assertSame([['id'=>1,'name'=>'Public']],$body['data']);
     }
+    public function testAnArbitraryClassCannotReplaceAnExplicitApiResource():void
+    {
+        $this->expectException(\InvalidArgumentException::class);new \Elang\Http\ResourceCollection(\stdClass::class,[['private'=>'hidden']]);
+    }
 }

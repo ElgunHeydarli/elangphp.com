@@ -6,6 +6,8 @@ Resurs cavabda görünəcək sahələri açıq göstərir. Sinfi `app/Resources/
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Resources;
 
 use Elang\Http\Resource;
@@ -24,7 +26,11 @@ final class ProductResource extends Resource
 }
 ```
 
+## Cavabın quruluşu
+
 Kontrollerdən `new ProductResource($product)` qaytaranda `{"data":{...}}` alınır. Siyahı üçün ProductResource::collection($items) istifadə edin. Elang Data Paginator verilərsə meta məlumatı çevrilmiş data ilə saxlanır. Doctrine repository siyahısı adi iterable-dır; avtomatik səhifələnmir.
+
+## İcazə və əlaqələr
 
 Resurs artıq icazəsi yoxlanmış məlumatı formatlayır. İcazə və sahib/tenant şərtlərini resursdan əvvəl tətbiq edin. Hər sətir üçün ayrıca sorğu yaranmasın deyə yalnız lazım olan əlaqələri seçin və ya fetch join edin. Serverin request/response müqaviləsi Symfony HttpFoundation olaraq qalır.
 

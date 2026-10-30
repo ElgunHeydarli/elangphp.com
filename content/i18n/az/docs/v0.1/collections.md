@@ -24,7 +24,11 @@ $first = $stream->filter(fn ($id) => $id % 2 === 1)->take(3)->collect();
 // [1, 3, 5]; the source is read only through 5.
 ```
 
+## Kolleksiya əməliyyatları
+
 Mövcud metodlar: `map`, `filter`, `reject`, `each`, `first`, `reduce`, `pluck`, `keyBy`, `groupBy`, `where`, `sortBy`, `take`, `chunk`, `sum`, `keys`, `values`, `get`, `all`, `toArray`. `where()` ciddi bərabərlik yoxlayır. Kolleksiyadakı obyektlər dərin surətdə kopyalanmır.
+
+## Məhdud tənbəl keçid
 
 LazyCollection hər keçiddə yeni iterable yaradan factory qəbul edir. map, filter, take, chunk, each və collect dəstəklənir. `collect()` nəticəni yaddaşa yığır: böyük fayllarda əvvəl lazımi hissəni məhdudlaşdırın. Chunk ölçüsü müsbət, take sayı isə sıfır və ya müsbət olmalıdır. Bu, yaddaşdakı məlumatı çevirmək üçündür; ORM sorğu qurucusu deyil.
 

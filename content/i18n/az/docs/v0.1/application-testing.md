@@ -12,6 +12,8 @@ composer require --dev phpunit/phpunit:^12
 
 
 ```php
+<?php
+declare(strict_types=1);
 use Elang\Application;
 use Elang\Testing\TestClient;
 use PHPUnit\Framework\TestCase;
@@ -49,9 +51,15 @@ final class ApiTest extends TestCase
 }
 ```
 
+## Yoxlamalar və istifadəçilər
+
 Status, header, redirect, görünən mətn, JSON yolu/sayı və parametrli baza yoxlamaları var. Sessiya üçün withSession, giriş etmiş istifadəçi üçün actingAs($persistedUser) istifadə edin. Eyni tətbiqi paylaşan iki müştərinin sessiyaları ayrıdır.
 
+## CSRF aktiv qalır
+
 CSRF aktiv qalır. Tokensiz qorunan yazı 419 qaytarmalıdır. Düzgün sessiya yazısı üçün withCsrf()->post istifadə edin; bu, middleware-i söndürmür, real token və eyni origin məlumatını verir. Scope və sahiblik yoxlamaları da qalır.
+
+## HTTP və poçt üçün fake
 
 Müştəri konteynerdəki Elang HTTP Client-i strict FakeTransport, Symfony MailerInterface-i yaddaş recorder-i ilə əvəz edir. http->when ilə cavab verin, HTTP sorğularını yoxlayın; mail->messages(), assertSentCount və assertSentTo mövcuddur. Eyni tətbiqdə fakes ortaqdır. Birbaşa cURL, ayrıca mail transport-u və başqa SDK bu əvəzləməyə daxil deyil; onların adapterini ayrıca dəyişin. Testi canlı bazaya qoşmayın.
 

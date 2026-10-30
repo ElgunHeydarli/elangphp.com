@@ -14,6 +14,8 @@ php elang make:entity Product
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -32,11 +34,19 @@ class Product
 }
 ```
 
+## Mapping сущности
+
 Сохраните сущность в app/Entities/Product.php. Для lazy loading Doctrine используйте non-final класс. make:entity Product генерирует ID и mapping таблицы; бизнес-поля добавьте самостоятельно. EntityManagerInterface разрешается контейнером и использует то же DBAL-соединение, что основной Database.
+
+## Миграции и proxy
 
 Для постоянной базы используйте проверенные миграции. orm:validate проверяет только mapping. orm:schema:sql выводит начальный CREATE SQL, не исполняет его и не вычисляет diff существующей схемы. Проверьте SQL и подготовьте миграцию. orm:proxies создаёт приватные proxy на PHP 8.3; PHP 8.4 использует native lazy objects. В production на PHP 8.3 подготовьте proxy до обработки запросов.
 
+## Даты и мягкое удаление
+
 Для дат UTC добавьте Timestamped и Timestamps. Для мягкого удаления — SoftDeletable и SoftDeletes, затем softDelete($entity) и flush. EntityManager::remove удаляет физически. withDeleted временно включает удалённые записи, restore снимает отметку. Фильтр не заменяет авторизацию и tenant isolation: объект из identity map может вернуться без нового SQL.
+
+## Транзакции и восстановление
 
 Orm::transaction откатывает ORM и основные DBAL-записи вместе. После неудачного flush/транзакции manager может закрыться: завершите транзакцию, вызовите reset, получите новый manager и перечитайте сущности. Не продолжайте с detached-объектами. Свои каталоги задаются orm.paths в config/app.php. Проверяемые базы — SQLite, MySQL и PostgreSQL; поддержка SQL Server не подтверждена.
 
@@ -71,6 +81,8 @@ php vendor/elang/framework/examples/orm-catalog/run.php
 
 [Следующий шаг](/ru/docs/v0.1/migrations) · [GitHub: complete runnable source](https://github.com/ElgunHeydarli/elangphp.com/tree/main/examples/orm-catalog)
 
+
+## Кеш при развёртывании
 
 После изменения mapping выполните `php elang orm:cache:clear`, пересоберите proxy на PHP 8.3 и перезапустите долгоживущие процессы. ORM metadata/query cache очищается отдельно от основного кеша; строки базы не удаляются. Не очищайте mapping внутри транзакции.
 

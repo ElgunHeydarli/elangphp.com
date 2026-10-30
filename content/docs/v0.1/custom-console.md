@@ -19,6 +19,8 @@ $app->command((new Command('stock:report'))
     }));
 ```
 
+## Run and test the command
+
 Run `php elang stock:report`. Return a nonzero status on failure. Use CommandTester for an in-process command test. `Kernel::console()` exposes the configured console application; `Kernel::run()` still runs it normally. Duplicate command names and collisions with framework commands fail explicitly rather than replacing a command silently.
 
 Use bound SQL values, application services and private files in real commands. Keep destructive actions explicit and review their input and failure recovery. Do not put admin execution or write capabilities into the documentation MCP server; it remains read-only.

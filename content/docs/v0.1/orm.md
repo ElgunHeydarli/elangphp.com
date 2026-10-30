@@ -14,6 +14,8 @@ php elang make:entity Product
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -32,11 +34,19 @@ class Product
 }
 ```
 
+## Entity mapping
+
 Save the entity below in `app/Entities/Product.php`. Entity classes must support Doctrine lazy loading; use a non-final class. `make:entity Product` generates the ID and table mapping; add the business fields yourself. EntityManagerInterface resolves through the container and shares the exact DBAL connection used by the core Database service.
+
+## Migrations and proxies
 
 Use reviewed migrations for persistent databases. `orm:validate` validates mappings; `orm:schema:sql` prints initial CREATE SQL only and never applies or diffs a live schema. Review that SQL and implement the appropriate migration. `orm:proxies` generates private proxy classes on PHP 8.3; PHP 8.4 uses native lazy objects. Production deployments using PHP 8.3 must prepare proxies before serving traffic.
 
+## Timestamps and soft deletion
+
 Opt in to UTC timestamps with the Timestamped interface and Timestamps trait. Opt in to soft deletion with SoftDeletable and SoftDeletes, then call `$orm->softDelete($entity)` and flush. Native EntityManager::remove is a hard delete. `$orm->withDeleted()` temporarily includes deleted rows; `$orm->restore()` clears their marker. The filter is not an authorization or tenant boundary, and an entity already present in Doctrine’s identity map may be returned without a new filtered query.
+
+## Transactions and recovery
 
 `$orm->transaction(fn ($em) => ...)` rolls ORM and core DBAL writes back together. After a failed flush/transaction the manager may be closed: finish the transaction, call `$orm->reset()`, resolve a new manager and reload entities. Do not reuse detached entities or continue a failed unit of work. Custom mapping directories use `orm.paths` in config/app.php. SQL Server is not a verified platform; SQLite, MySQL and PostgreSQL are the tested targets.
 
@@ -71,6 +81,8 @@ php vendor/elang/framework/examples/orm-catalog/run.php
 
 [Next step](/docs/v0.1/migrations) · [GitHub: complete runnable source](https://github.com/ElgunHeydarli/elangphp.com/tree/main/examples/orm-catalog)
 
+
+## Deployment cache
 
 After changing mappings, run `php elang orm:cache:clear`, rebuild proxies on PHP 8.3 and restart long-running workers. This clears the ORM metadata/query cache separately from the default application cache; it does not delete database rows. Do not clear mappings in the middle of a transaction.
 

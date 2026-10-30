@@ -14,6 +14,8 @@ php elang make:entity Product
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -32,11 +34,19 @@ class Product
 }
 ```
 
+## Entity xəritələmə
+
 Entity-ni app/Entities/Product.php faylında saxlayın. Doctrine-in lazy loading mexanizmi üçün sinif non-final olsun. `make:entity Product` ID və cədvəl xəritəsini yaradır; biznes sahələrini siz əlavə edirsiniz. EntityManagerInterface konteynerdən verilir və əsas Database xidməti ilə eyni DBAL bağlantısını paylaşır.
+
+## Miqrasiyalar və proxy-lər
 
 Daimi bazada yoxlanmış miqrasiyalar istifadə edin. orm:validate yalnız mapping-i yoxlayır. orm:schema:sql ilkin CREATE SQL-i göstərir, işlətmir və mövcud sxemin fərqini hesablamır. SQL-i nəzərdən keçirib uyğun miqrasiya yazın. PHP 8.3-də orm:proxies məxfi proxy faylları yaradır; PHP 8.4 native lazy objects istifadə edir. PHP 8.3 production yerləşdirməsində proxy-ləri əvvəlcədən hazırlayın.
 
+## Tarixlər və yumşaq silmə
+
 UTC tarixləri üçün Timestamped interfeysi və Timestamps trait-i əlavə edin. Yumşaq silmə üçün SoftDeletable və SoftDeletes istifadə edib $orm->softDelete($entity) və flush çağırın. EntityManager::remove fiziki silir. withDeleted silinmiş sətirləri müvəqqəti göstərir; restore nişanı təmizləyir. Filtr icazə və tenant sərhədi deyil: Doctrine identity map-də olan obyekt yeni SQL olmadan qaytarıla bilər.
+
+## Tranzaksiyalar və bərpa
 
 Orm::transaction ORM və əsas DBAL yazılarını birlikdə geri qaytarır. Uğursuz flush/tranzaksiyadan sonra manager bağlana bilər: tranzaksiyanı bitirin, reset çağırın, yeni manager alın və entity-ləri yenidən oxuyun. Köhnə detached obyektlə davam etməyin. Xüsusi qovluqları config/app.php-də orm.paths ilə göstərin. Yoxlanılan bazalar SQLite, MySQL və PostgreSQL-dir; SQL Server üçün uyğunluq iddiası yoxdur.
 
@@ -71,6 +81,8 @@ php vendor/elang/framework/examples/orm-catalog/run.php
 
 [Növbəti addım](/az/docs/v0.1/migrations) · [GitHub: complete runnable source](https://github.com/ElgunHeydarli/elangphp.com/tree/main/examples/orm-catalog)
 
+
+## Yerləşdirmədə keşin yenilənməsi
 
 Mapping dəyişdikdən sonra `php elang orm:cache:clear` işlədin, PHP 8.3 proxy-lərini yenidən qurun və uzunömürlü prosesləri başladın. ORM metadata/query keşi əsas tətbiq keşindən ayrıdır; əməliyyat baza sətirlərini silmir. Tranzaksiya zamanı mapping keşini təmizləməyin.
 

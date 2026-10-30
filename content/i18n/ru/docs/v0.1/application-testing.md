@@ -12,6 +12,8 @@ composer require --dev phpunit/phpunit:^12
 
 
 ```php
+<?php
+declare(strict_types=1);
 use Elang\Application;
 use Elang\Testing\TestClient;
 use PHPUnit\Framework\TestCase;
@@ -49,9 +51,15 @@ final class ApiTest extends TestCase
 }
 ```
 
+## Проверки и пользователи
+
 Есть проверки статуса, headers, redirects, текста, JSON paths/counts и параметризованных запросов к базе. withSession задаёт сессию, actingAs($persistedUser) выполняет вход. Сессии клиентов разделены даже в одном приложении.
 
+## CSRF остаётся включённым
+
 CSRF остаётся включённым. Защищённая запись без токена должна возвращать 419. Для корректного запроса используйте withCsrf()->post: он передаёт настоящий токен и same-origin данные, не отключая middleware. Проверки scopes и владельца сохраняются.
+
+## Fakes для HTTP и почты
 
 Клиент подменяет внедряемый Elang HTTP Client строгим FakeTransport, а Symfony MailerInterface — recorder в памяти. Задайте http->when, проверьте запросы; доступны mail->messages(), assertSentCount и assertSentTo. Fakes общие для клиентов одного приложения. Прямой cURL, отдельно созданные mail transports и другие SDK не перехватываются: заменяйте их адаптеры явно. Никогда не направляйте тесты на live database.
 

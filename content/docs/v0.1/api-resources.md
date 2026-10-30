@@ -6,6 +6,8 @@ Resources define the public response explicitly. Put this class in `app/Resource
 
 
 ```php
+<?php
+declare(strict_types=1);
 namespace App\Resources;
 
 use Elang\Http\Resource;
@@ -24,7 +26,11 @@ final class ProductResource extends Resource
 }
 ```
 
+## Response shapes
+
 Return `new ProductResource($product)` from a controller to receive `{"data":{...}}`. Return `ProductResource::collection($items)` for a list. A core `Elang\Data\Paginator` retains its `meta` alongside the transformed `data`. A Doctrine repository list is an ordinary iterable; it does not become paginated automatically.
+
+## Authorization and relationships
 
 A resource formats an already-authorized record; it does not decide who may access it. Apply authorization and owner/tenant query constraints before constructing the resource. Select or fetch-join only the relationships needed by the response to avoid one query per row. Symfony HttpFoundation remains the server request/response contract.
 
