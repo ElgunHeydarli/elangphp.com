@@ -50,7 +50,7 @@ Adətən veb kök qovluğu, yenidənyazma qaydası, PHP versiyası, genişlənm�
 
 ## Elang artıq giriş sistemi, növbələr və ya ORM ehtiva edirmi?
 
-Autentifikasiya, təsdiqlənmiş hesablar, parol bərpası, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model repozitoriyaları və tam başlanğıc layihələri mövcuddur. Verilənlər bazasına əsaslanan tapşırıqlar, UTC üzrə planlaşdırma, SSE, WebSockets, ön tərəf üçün CORS və təhlükəsiz təkrar cəhd edilə bilən JSON yazma əməliyyatları da mövcuddur. Redis-ə əsaslanan keş, sessiyalar, ciddi sorğu tezliyi limitləri, kilidlər və tranzaksiyalı bildirişlər də mövcuddur. Tam ORM və əlavə broker inteqrasiyaları cari reallaşdırmaya daxil deyil. Funksiyadan asılı olmamışdan əvvəl [yol xəritəsini](/roadmap) yoxlayın.
+Autentifikasiya, təsdiqlənmiş hesablar, parol bərpası, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model repozitoriyaları və tam başlanğıc layihələri mövcuddur. Verilənlər bazasına əsaslanan tapşırıqlar, UTC üzrə planlaşdırma, SSE, WebSockets, ön tərəf üçün CORS və təhlükəsiz təkrar cəhd edilə bilən JSON yazma əməliyyatları da mövcuddur. Redis-ə əsaslanan keş, sessiyalar, ciddi sorğu tezliyi limitləri, kilidlər və tranzaksiyalı bildirişlər də mövcuddur. Doctrine ORM seçimə bağlı mövcuddur; əlavə broker inteqrasiyaları hələ plandadır. Funksiyadan asılı olmamışdan əvvəl [yol xəritəsini](/roadmap) yoxlayın.
 
 ## Nümunələr istehsal tətbiqləridirmi?
 
@@ -63,3 +63,10 @@ Onlar sərhədləri aydın göstərilmiş öyrənmə nümunələridir. Tapşır�
 ## Necə töhfə verə və ya kömək ala bilərəm?
 
 [Problemlərin aradan qaldırılması təlimatını](/docs/v0.1/troubleshooting) yoxlayın, sonra lazım gələrsə kiçik təkrar yaratma nümunəsi hazırlayın. GitHub problem qeydləri adi xətalar və suallar üçün uyğundur. Təhlükəsizlik boşluqları üçün repozitoriyanın təhlükəsizlik siyasətini izləyin və həssas təfərrüatları şəxsi saxlayın.
+
+
+## ORM yeniliyi
+
+Doctrine ORM seçimə bağlı olaraq entity əlaqələri, unit of work, yumşaq silmə, UTC tarixləri və konsol əmrləri ilə mövcuddur. Əsas DBAL repository-ləri qalır. Əlavə broker inteqrasiyaları hələ plandadır.
+
+[Quraşdırma və nümunələr](/az/docs/v0.1/orm).

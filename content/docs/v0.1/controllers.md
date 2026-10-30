@@ -46,3 +46,8 @@ The redirect helper accepts local absolute paths and rejects external or protoco
 ## Errors
 
 Throw `Elang\Http\HttpException` with a status and safe public message. API errors use a JSON envelope with `message` and `request_id`. Internal errors are logged through PSR-3; stack traces are not sent to visitors.
+
+
+## Next step
+
+[API resources and pagination](/docs/v0.1/api-resources).

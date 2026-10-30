@@ -1,53 +1,38 @@
-# Elang və Laravel: imkanlar, öyrənmə və yetkinlik
+# Elang, Laravel, CodeIgniter və Symfony: faktlarla seçim
 
-Elang və Laravel çox fərqli mərhələlərdə olan PHP freymvorklarıdır. Elang açıq tətbiq API-si və modul xidmətlər hədəfləyən 0.1 ilkin inkişaf versiyasıdır. Laravel daha geniş tətbiq funksiyaları və dəstəkləyici alətləri olan oturuşmuş freymvorkdur.
+Müqayisə 30 oktyabr 2026 tarixindəki development preview vəziyyətini göstərir. Elang Symfony komponentləri və Doctrine istifadə edən müstəqil PHP framework-üdür; Laravel distributivi deyil və Laravel API-sini təkrarlamır.
 
-Bu səhifə təsəvvür edilən gələcək buraxılışı deyil, cari davranışı müqayisə edir. O, Elang-ın ümumilikdə daha sürətli, daha təhlükəsiz və ya daha yaxşı olduğunu müəyyən etmir.
+Laravel Eloquent modelləri, əlaqələri və kolleksiyaları sənədləşdirir. CodeIgniter Model CRUD, validasiya, səhifələmə, tarixlər və yumşaq silmə imkanlarını təqdim edir. Symfony HttpFoundation, Console, Cache və Clock kimi təkrar istifadə edilən komponentlər verir. Hər layihənin ayrıca qaydaları və ekosistemi var; funksiyanın adının oxşarlığı kod uyğunluğu demək deyil.
 
-## Mövcud funksiyaları müqayisə edin
+[Laravel Eloquent](https://laravel.com/framework/docs/13.x/eloquent), [CodeIgniter Model](https://codeigniter.com/user_guide/models/model.html), [Symfony components](https://symfony.com/doc/current/components/index.html), [Doctrine ORM](https://www.doctrine-project.org/projects/doctrine-orm/en/current/tutorials/getting-started.html).
 
-| Sahə | Elang 0.1 ilkin versiyası | Laravel |
+## Hazırda Elang-da mövcud imkanlar
+
+| Sahə | Reallaşdırılmış davranış | Öyrənin |
 | --- | --- | --- |
-| Marşrutlaşdırma | Adlandırılmış marşrutlar, parametrlər, qruplar, aralıq proqram təminatı | Yetkin marşrutlaşdırma sistemi və geniş inteqrasiyalar |
-| Asılılıqların yeridilməsi | PSR-11 konteyneri və konstruktor vasitəsilə yeridilmə | Xidmət konteyneri və xidmət təminatçıları |
-| Verilənlər bazası | Doctrine DBAL, açıq model repozitoriyaları, səhifələmə və sorğu qurucusu | Sorğu qurucusu və Eloquent ORM |
-| Görünüşlər | Avtomatik HTML ekranlaşdırması olan Twig | Blade və çoxsaylı ön tərəf seçimləri |
-| Yoxlama | Symfony Constraint obyektləri | Laravel yoxlama qaydaları və forma sorğuları |
-| Autentifikasiya | Təsdiqləmə, bərpa, rollar, sessiyalar və səlahiyyətləri məhdudlaşdırılmış tokenlər olan Auth Starter | Autentifikasiya xidmətləri və tətbiq başlanğıc dəstləri |
-| Tapşırıqlar və planlaşdırma | Verilənlər bazası növbəsi, rezervasiya müddətləri, təkrar cəhdlər, uğursuz tapşırıqlar, UTC üzrə planlaşdırma | Növbə və planlaşdırma imkanları |
-| Süni intellekt alətləri | Versiyalandırılmış Markdown, yalnız oxumağa imkan verən MCP sənədləşmə serveri və layihə göstərişləri | Laravel Boost və əlaqəli süni intellekt alətləri |
-| Real vaxt | SQL hadisələrinin təkrar oxunması ilə şəxsi SSE və Workerman WebSockets | Yayım və ekosistem inteqrasiyaları |
-| Ön tərəflər | HTML, React, Next.js, mobil müştərilər, CORS, OpenAPI başlanğıc layihəsi | Çoxsaylı rəsmi ön tərəf inteqrasiyaları |
-| Buraxılış yetkinliyi | Erkən ilkin versiya; API-lər dəyişə bilər | Oturuşmuş buraxılış prosesi və ekosistem |
+| HTTP və xidmətlər | Route, middleware, PSR-11 DI, Symfony validasiyası | [routing](/az/docs/v0.1/routing) |
+| Hesablar | Təsdiq, rol/policy, məhdud token, MFA/passkey | [account-security](/az/docs/v0.1/account-security) |
+| Baza | DBAL repository və seçimə bağlı Doctrine ORM | [orm](/az/docs/v0.1/orm) |
+| Məlumat çevirmə | Dəyişməz kolleksiya və tənbəl axın | [collections](/az/docs/v0.1/collections) |
+| JSON cavabı | Açıq sahələr və əsas paginator meta məlumatı | [api-resources](/az/docs/v0.1/api-resources) |
+| Partnyor inteqrasiyası | TLS, cavab həddi, ayrıca token, strict fake | [http-client](/az/docs/v0.1/http-client) |
+| Test | Kernel sorğusu, sessiya, CSRF, yaddaş mail-i və HTTP yoxlaması | [application-testing](/az/docs/v0.1/application-testing) |
+| Tətbiq əmri | Symfony Console genişlənməsi və ad toqquşması yoxlaması | [custom-console](/az/docs/v0.1/custom-console) |
+| Fon və canlı yeniləmə | Baza növbəsi/cədvəli, SSE, qorunan WebSocket | [queues](/az/docs/v0.1/queues) |
+| Tətbiq bazası | Redis, komanda, məxfi storage, bildiriş, telemetry, starter | [fullstack-starters](/az/docs/v0.1/fullstack-starters) |
 
-Cari imkanları üçün [Laravel-in rəsmi sənədləşməsini](https://laravel.com/framework/docs) yoxlayın. Planlaşdırılmış Elang funksiyasına güvənməzdən əvvəl [Elang-ın yol xəritəsini](/roadmap) yoxlayın.
+## Məlumat qatını seçin
 
-## Elang harada əlçatan olmağı hədəfləyir
+Sadə və birbaşa əməliyyatlar üçün DBAL repository-lərini saxlayın. Əlaqələr, unit of work və identity map domenə uyğundursa Doctrine ORM seçin. İkisi eyni DBAL bağlantısını paylaşır, amma əsas Model və Doctrine entity ayrı modellərdir; factory və səhifələmə adapterlərinin eyni işlədiyini fərz etməyin.
 
-Elang marşrut faylı açıq marşrutlaşdırıcı obyekti qəbul edir. Xidmətlər tipləndirilmiş konstruktor və emaledici parametrləri vasitəsilə görünür. Yoxlama konkret məhdudiyyət obyektlərindən istifadə edir və verilənlər bazası API-si ilkin versiyada yeni ORM model qatı təqdim etmək əvəzinə DBAL-ı açıq edir.
+## Qalan işlər
 
-Bu, açıq obyektlərə və kiçik API səthinə üstünlük verənlər üçün sorğunun həyat dövrünü yoxlamağı asanlaşdıra bilər. Bu, hər tətbiqin daha az kod sətri tələb etdiyini və ya hər öyrənənin eyni qaydalara üstünlük verəcəyini bildirmir.
+Əlavə növbə brokerləri, semantik sənəd axtarışı, xüsusi redaktor inteqrasiyaları və avtomatik yeniləmə alətləri plandadır. Stabil buraxılışdan əvvəl API sabitləşməsi, dəstək siyasəti, müstəqil təhlükəsizlik yoxlaması və daha geniş real tətbiq/yük sübutları lazımdır. Ödəniş provayderi, axtarış mühərriki və OAuth kimi ekosistem inteqrasiyalarını ayrıca qiymətləndirin; başqa framework-ün bütün paketlərinin mövcudluğu iddia edilmir.
 
-## Öyrənmə hələ nə tələb edir
+## Real layihədə qiymətləndirin
 
-Hər iki freymvork PHP əsaslarını və HTTP, məlumatlar, tətbiqə giriş qaydaları barədə anlayış tələb edir. Daha kiçik freymvork bu anlayışları aradan qaldırmır. Elang-ın öyrənmə yolu yeni başlayanın artıq ad məkanlarını, Composer-i, sessiyaları və ya CSRF-ni bildiyini fərz etmək əvəzinə bunları ardıcıllıqla izah edir.
+Hər variantda eyni girişləri, icazə qaydalarını, məlumat əməliyyatlarını və testləri qurun. Quraşdırma vaxtını, saxlanma işini və xətaları qeyd edin. Performans müqayisəsində PHP/SAPI, OPcache, avadanlıq, asılılıq, payload, isinmə və paralellik göstərilməli, xam nəticə təkrarlana bilməlidir. Burada ümumi sürət, təhlükəsizlik və production tutumu üstünlüyü sübut olunmur.
 
-[İlk marşrut dərsini](/learn/first-route), sonra isə [tam tapşırıq lövhəsini](/learn/build-a-task-board) sınayın. Öyrənmə təcrübəsini onu izlədikdən sonra kodu izah edə və uğursuzluğu diaqnoz edə bilib-bilmədiyinizə görə qiymətləndirin.
+Task-board dərsindən başlayın, sonra partnyor API, entity/resurs və tətbiq testi dərslərinə keçin. Üç dildə icra edilən kod eynidir. Kataloq nümunəsi müvəqqəti bazada və fake API ilə test dəstində yoxlanır.
 
-## Performans üçün təkrar yaradıla bilən müqayisə lazımdır
-
-Ədalətli performans testi PHP versiyasını, SAPI və ya serveri, OPcache konfiqurasiyasını, asılılıqları, avadanlığı, sorğu məzmununu, paralelliyi, isinmə mərhələsini və iş yükünü göstərir. Minimal JSON marşrutu sorğunun əlavə yükünün dar hissəsini ölçür; verilənlər bazası ilə intensiv işləyən tətbiqi, növbə işçisini və ya əməliyyat etibarlılığını təmsil etmir.
-
-Elang hazırda Laravel üzərində ümumi üstünlüyü sübut edən yoxlanılmış nəticə yayımlamır. Performans ölçmə alətləri bir əlverişli mikrotesti ümumi iddiaya çevirmək əvəzinə xam nəticələri saxlamalı və dəqiq iş yükünü təsvir etməlidir.
-
-## Layihəni necə qiymətləndirməli
-
-Həqiqətən ehtiyac duyduğunuz kiçik funksiyanı seçin. Hər iki namizəddə eyni girişləri, cavabları, yoxlama davranışını, məlumat əməliyyatlarını və testləri reallaşdırın. Hazırlıq addımlarını, uğursuzluq hallarını, texniki xidmət zəhmətini və ölçülmüş resurs istifadəsini qeydə alın.
-
-Elang-da tələb olunan funksiya yoxdursa, onu qurmağın və ya inteqrasiya etməyin xərcini də daxil edin. Çatışmayan işi nəzərə almadan minimal ilkin versiyanı funksiyalarla zəngin texnologiyalar toplusu ilə müqayisə etmək yanıltıcı nəticə verər.
-
-## Hazırkı layihələrə uyğunluq
-
-Elang dizaynını öyrənmək, ilkin versiyanı sınamaq və nəzarət olunan təcrübələrlə rəy vermək üçün uyğundur. İstehsal tələbləri olan komandalar qərar verməzdən əvvəl dəyişən API-ləri, tamamlanmamış funksiya sahələrini və müstəqil təhlükəsizlik yoxlamasının yoxluğunu qiymətləndirməlidir.
-
-Daha yaxşı öyrənmə təcrübəsi və ölçülə bilən təkmilləşmələr üzərində işləyə biləcəyimiz məqsədlərdir. Növbəti faydalı addım ana səhifədə daha güclü sifət deyil, real nümunə və sübutdur.
+[Learn](/az/learn) · [ORM](/az/docs/v0.1/orm) · [Application testing](/az/docs/v0.1/application-testing)

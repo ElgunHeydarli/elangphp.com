@@ -60,7 +60,7 @@ Validation decides whether input is acceptable for a particular purpose. Escapin
 
 ## Database, query builder, and ORM
 
-A database stores records. A query builder constructs SQL through an API, but user values must still be bound as parameters. An ORM maps records to domain objects and adds a different set of abstractions. Elang currently includes Doctrine DBAL and a query builder, not a built-in ORM.
+A database stores records. A query builder constructs SQL through an API, but user values must still be bound as parameters. An ORM maps records to domain objects and adds a different set of abstractions. Elang provides core Doctrine DBAL repositories and an optional Doctrine ORM integration; choose the data model that fits the application.
 
 ## Migration and transaction
 

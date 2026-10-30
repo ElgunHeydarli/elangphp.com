@@ -65,7 +65,7 @@ foreach ($entries as [$name, $filename, $source, $composer, $allow]) {
     $addressed = $filename.'-'.$version.'-'.$sha.'.zip';
     rename($output.'/dist/'.$file, $output.'/dist/'.$addressed);
     $file = $addressed;
-    $entry = array_intersect_key($composer, array_flip(['name', 'version', 'description', 'type', 'license', 'require', 'autoload', 'bin']));
+    $entry = array_intersect_key($composer, array_flip(['name', 'version', 'description', 'type', 'license', 'require', 'suggest', 'autoload', 'bin']));
     $entry['dist'] = ['type' => 'zip', 'url' => $url.'/dist/'.$file, 'shasum' => $sha, 'reference' => $sha];
     $packages[$name][$version] = $entry;
 }

@@ -1,6 +1,6 @@
 # Database
 
-Elang uses Doctrine DBAL for database connections and its query builder. This is a database abstraction layer, not an ORM.
+Elang uses Doctrine DBAL for database connections and its query builder. This core database layer is separate from the optional Doctrine ORM integration.
 
 ## Configure a connection
 
@@ -47,3 +47,8 @@ $database->transaction(function ($connection) {
 ```
 
 An exception rolls back the transaction. Database-specific DDL behavior differs; review migration operations before deploying them.
+
+
+## Next step
+
+[Optional Doctrine ORM](/docs/v0.1/orm).

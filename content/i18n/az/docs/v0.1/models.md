@@ -61,3 +61,8 @@ Böyük kolleksiyalar üçün qabaqcadan yükləməni və sorğu sayını planla
 ## Fabriklər və ilkin məlumat yükləyiciləri
 
 Factory repozitoriya və təyinat geriçağırışı qəbul edir. Məhdud paket yaradılmasını və dəyərlərin əvəzlənməsini dəstəkləyir. Seeder sinifləri Elang\Data\Seeder interfeysini reallaşdırır və `php elang db:seed 'App\Database\DemoSeeder'` vasitəsilə işləyir. İstehsal mühitində ilkin məlumatların yüklənməsi nəzərdən keçirmə və --force bayrağı tələb edir.
+
+
+## Növbəti addım
+
+[Seçimə bağlı Doctrine ORM](/az/docs/v0.1/orm).

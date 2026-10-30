@@ -31,3 +31,8 @@ Use a temporary project directory for isolated storage. Test authorization, unsa
 ## Compatibility
 
 The CI workflow targets PHP 8.3 and 8.4. A passing suite verifies the behaviors covered by the tests; it is not a security audit or evidence of performance superiority over another framework.
+
+
+## Next step
+
+[Testing an application](/docs/v0.1/application-testing).

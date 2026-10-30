@@ -60,7 +60,7 @@ Yoxlama girişin müəyyən məqsəd üçün məqbul olub-olmadığını müəyy
 
 ## Verilənlər bazası, sorğu qurucusu və ORM
 
-Verilənlər bazası qeydləri saxlayır. Sorğu qurucusu API vasitəsilə SQL qurur, lakin istifadəçi dəyərləri yenə də parametr kimi bağlanmalıdır. ORM qeydləri domen obyektlərinə uyğunlaşdırır və fərqli abstraksiyalar dəsti əlavə edir. Elang hazırda daxili ORM deyil, Doctrine DBAL və sorğu qurucusu ehtiva edir.
+Verilənlər bazası qeydləri saxlayır. Sorğu qurucusu API vasitəsilə SQL qurur, lakin istifadəçi dəyərləri yenə də parametr kimi bağlanmalıdır. ORM qeydləri domen obyektlərinə uyğunlaşdırır və fərqli abstraksiyalar dəsti əlavə edir. Elang əsas Doctrine DBAL repository-ləri və seçimə bağlı Doctrine ORM verir; tətbiqə uyğun məlumat modelini seçin.
 
 ## Miqrasiya və tranzaksiya
 

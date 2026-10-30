@@ -61,3 +61,8 @@ Plan eager loading and query counts for large collections. Studio helps inspect 
 ## Factories and seeders
 
 Factory accepts a repository and a definition callback. It supports bounded batch creation and overrides. Seeder classes implement Elang\Data\Seeder and run through `php elang db:seed 'App\Database\DemoSeeder'`. Production seeding requires review and the --force flag.
+
+
+## Next step
+
+[Optional Doctrine ORM](/docs/v0.1/orm).

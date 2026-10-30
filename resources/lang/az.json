@@ -10,7 +10,6 @@
   "01 / SHARE WHAT YOU FOUND": "01 / TAPDIQLARINIZI PAYLAŞIN",
   "02 / MAKE A SMALL IMPROVEMENT": "02 / KİÇİK TƏKMİLLƏŞDİRMƏ EDİN",
   "03 / KEEP DETAILS PRIVATE": "03 / TƏFƏRRÜATLARI MƏXFİ SAXLAYIN",
-  "10 practical lessons": "10 praktik dərs",
   "200 OK": "200 OK",
   "<?php": "<?php",
   "A CLEAR DIRECTION": "AYDIN İSTİQAMƏT",
@@ -1092,7 +1091,6 @@
   "— Elang PHP Guides": "— Elang PHP bələdçiləri",
   "— Elang updates": "— Elang yenilikləri",
   "/ Development preview": "/ İlkin inkişaf versiyası",
-  "/ 10 lessons": "/ 10 dərs",
   "Keep slow work outside HTTP requests. Elang provides a database-backed JSON job queue, delayed jobs, bounded retries, failed-job inspection, and UTC scheduling.": "Yavaş işləri HTTP sorğularından kənarda icra edin. Elang verilənlər bazasına əsaslanan JSON tapşırıq növbəsi, gecikdirilən tapşırıqlar, məhdud təkrar cəhdlər, uğursuz tapşırıqların yoxlanması və UTC planlaşdırması təqdim edir.",
   "Use server-sent events for one-way updates and WebSockets for a persistent two-way connection. Elang includes durable database event history, private channel ca": "Birtərəfli yeniləmələr üçün server tərəfindən göndərilən hadisələrdən, daimi ikitərəfli bağlantı üçün WebSocket-lərdən istifadə edin. Elang davamlı hadisə tarixçəsi və özəl kanal imkanları təqdim edir.",
   "Elang can serve HTML or act as an API backend for React, Next.js, Vue, native mobile applications, and server clients. The official website uses HTML, CSS, and": "Elang HTML təqdim edə və ya React, Next.js, Vue, mobil tətbiqlər və server müştəriləri üçün API backend-i kimi işləyə bilər. Rəsmi sayt HTML və CSS istifadə edir.",
@@ -1341,5 +1339,7 @@
   "Account sessions, security controls, and the services you explicitly request work independently of optional analytics. The server processes requests and security logs to operate and protect the website. Browser preferences such as language, theme, and analytics choice stay on your device.": "Hesab sessiyaları, təhlükəsizlik mexanizmləri və açıq şəkildə istədiyiniz xidmətlər könüllü analitikadan asılı olmadan işləyir. Server saytı işlətmək və qorumaq üçün sorğuları və təhlükəsizlik jurnallarını emal edir. Dil, görünüş və analitika seçimi kimi brauzer ayarları cihazınızda qalır.",
   "Questions": "Suallar",
   "Google Privacy Policy ↗": "Google məxfilik siyasəti ↗",
-  "Packagist development packages": "Packagist inkişaf paketləri"
+  "Packagist development packages": "Packagist inkişaf paketləri",
+  "13 practical lessons": "13 praktik dərs",
+  "/ 13 lessons": "/ 13 dərs"
 }

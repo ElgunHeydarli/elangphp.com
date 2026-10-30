@@ -36,6 +36,7 @@ final class Application
     public readonly Router $router;
     public readonly Config $config;
     private array $middleware = [];
+    private array $commands = [];
     public function __construct(public readonly string $basePath, ?array $settings = null)
     {
         Dotenv::createImmutable($basePath)->safeLoad();
@@ -47,6 +48,7 @@ final class Application
             'key' => Config::secret('APP_KEY', ''),
             'database' => ['url' => Config::env('DATABASE_URL', 'sqlite:///'. $basePath.'/database/database.sqlite')],
             'redis'=>['url'=>Config::env('REDIS_URL','')],
+            'orm'=>['enabled'=>filter_var(Config::env('ORM_ENABLED','false'),FILTER_VALIDATE_BOOL)],
             'telemetry'=>['enabled'=>filter_var(Config::env('OTEL_ENABLED','false'),FILTER_VALIDATE_BOOL),'endpoint'=>Config::env('OTEL_EXPORTER_OTLP_TRACES_ENDPOINT','http://127.0.0.1:4318/v1/traces'),'service_name'=>Config::env('OTEL_SERVICE_NAME','elang'),'sample_rate'=>(float)Config::env('OTEL_SAMPLE_RATE','0.1')],
             'operations'=>['enabled'=>filter_var(Config::env('OPERATIONS_ENABLED','false'),FILTER_VALIDATE_BOOL)],
             'files'=>['disk'=>Config::env('FILES_DISK','local'),'s3'=>['bucket'=>Config::env('S3_BUCKET',''),'region'=>Config::env('S3_REGION','us-east-1'),'endpoint'=>Config::env('S3_ENDPOINT',''),'key'=>Config::env('S3_KEY',''),'secret'=>Config::env('S3_SECRET',''),'path_style'=>filter_var(Config::env('S3_PATH_STYLE','false'),FILTER_VALIDATE_BOOL)]],
@@ -63,6 +65,7 @@ final class Application
         $this->router = new Router();
         foreach ([self::class => $this, Container::class => $c, ContainerInterface::class => $c, Config::class => $this->config, Router::class => $this->router] as $id => $value) $c->instance($id, $value);
         $c->singleton(\Psr\Clock\ClockInterface::class,fn()=>new \Symfony\Component\Clock\NativeClock());
+        $c->singleton(\Elang\Http\Client\Client::class,fn()=>new \Elang\Http\Client\Client());
         $c->singleton(\Elang\Observability\Telemetry::class,fn()=>new \Elang\Observability\Telemetry($this->config));
         $c->singleton(\Elang\Infrastructure\Runtime::class,fn()=>new \Elang\Infrastructure\Runtime($this->config));
         $c->singleton(\Elang\Outbox\Outbox::class,fn()=>new \Elang\Outbox\Outbox($c->get(Database::class),$c->get(\Elang\Infrastructure\Runtime::class)));
@@ -109,9 +112,17 @@ final class Application
             $twig->addFunction(new TwigFunction('route', fn (string $name, array $parameters = []) => $this->router->url($name, $parameters)));
             return new View($twig);
         });
+        if($this->config->get('orm.enabled',false))$this->provider(new \Elang\Orm\Provider());
     }
     public static function create(string $basePath): self { return new self($basePath); }
     public function provider(ServiceProvider $provider): self { $provider->register($this->container); $provider->boot($this); return $this; }
+    public function command(\Symfony\Component\Console\Command\Command $command): self
+    {
+        $name=$command->getName();if(!$name)throw new \InvalidArgumentException('Application commands require a name.');
+        if(isset($this->commands[$name]))throw new \InvalidArgumentException('Application command is already registered: '.$name);
+        $this->commands[$name]=$command;return $this;
+    }
+    public function commands(): array { return array_values($this->commands); }
     public function middleware(string ...$classes): self { $this->middleware = array_merge($this->middleware, $classes); return $this; }
     public function handle(Request $request): HttpResponse
     {
@@ -132,9 +143,10 @@ final class Application
                 $match = $this->router->match($request);
                 $request->attributes->add($match);
                 $parameters = array_filter($match, fn ($key) => !str_starts_with($key, '_'), ARRAY_FILTER_USE_KEY);
-                return $this->pipeline($request, $match['_middleware'], function () use ($match, $parameters): HttpResponse {
+                return $this->pipeline($request, $match['_middleware'], function () use ($match, $parameters, $request): HttpResponse {
                     $result = $this->container->invoke($match['_handler'], $parameters);
                     return match (true) {
+                        $result instanceof \Elang\Contracts\Responsable => $result->toResponse($request),
                         $result instanceof HttpResponse => $result,
                         is_array($result) => Response::json($result),
                         is_string($result) => Response::html($result),

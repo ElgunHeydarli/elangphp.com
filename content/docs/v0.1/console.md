@@ -44,3 +44,8 @@ These commands run in the framework repository. GitHub Actions runs PHP compatib
 ## Create projects with the global installer
 
 After the [one-time CLI setup](/docs/v0.1/installation), run `elang new my-app` or `elang new task-board --example=task-board`. The global command delegates dependency installation and project setup to Composer. Inside a project, use `php elang` to run its own application console.
+
+
+## Next step
+
+[Application console commands](/docs/v0.1/custom-console).

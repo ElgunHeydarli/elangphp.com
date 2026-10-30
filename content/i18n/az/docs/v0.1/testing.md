@@ -31,3 +31,8 @@ Təcrid olunmuş saxlama üçün müvəqqəti layihə qovluğu istifadə edin. �
 ## Uyğunluq
 
 CI iş axını PHP 8.3 və 8.4 versiyalarını hədəfləyir. Keçən test dəsti testlərin əhatə etdiyi davranışları yoxlayır; bu, təhlükəsizlik auditi və ya başqa freymvork üzərində performans üstünlüyünə sübut deyil.
+
+
+## Növbəti addım
+
+[Tətbiqin test edilməsi](/az/docs/v0.1/application-testing).

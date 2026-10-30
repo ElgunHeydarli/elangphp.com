@@ -53,3 +53,8 @@ $router->get('/welcome', fn (View $view) =>
 ```
 
 Twig `name` dəyərini HTML-ə yerləşdirməzdən əvvəl ekranlaşdırır.
+
+
+## Növbəti addım
+
+[Kolleksiyalar və tənbəl axınlar](/az/docs/v0.1/collections).

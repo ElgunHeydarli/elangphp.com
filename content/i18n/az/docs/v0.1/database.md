@@ -1,6 +1,6 @@
 # Verilənlər bazası
 
-Elang verilənlər bazası bağlantıları və sorğu qurucusu üçün Doctrine DBAL istifadə edir. Bu, ORM deyil, verilənlər bazası abstraksiya qatıdır.
+Elang verilənlər bazası bağlantıları və sorğu qurucusu üçün Doctrine DBAL istifadə edir. Bu əsas verilənlər bazası qatı seçimə bağlı Doctrine ORM inteqrasiyasından ayrıdır.
 
 ## Bağlantını konfiqurasiya edin
 
@@ -47,3 +47,8 @@ $database->transaction(function ($connection) {
 ```
 
 İstisna tranzaksiyanı geri qaytarır. DDL davranışı verilənlər bazasından asılı olaraq fərqlənir; miqrasiya əməliyyatlarını yerləşdirməzdən əvvəl nəzərdən keçirin.
+
+
+## Növbəti addım
+
+[Seçimə bağlı Doctrine ORM](/az/docs/v0.1/orm).

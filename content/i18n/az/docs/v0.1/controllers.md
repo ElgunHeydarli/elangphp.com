@@ -46,3 +46,8 @@ Yönləndirmə köməkçisi lokal mütləq yolları qəbul edir və xarici və y
 ## Xətalar
 
 Status və ictimaiyyətə göstərilməsi təhlükəsiz olan mesajla `Elang\Http\HttpException` atın. API xətaları `message` və `request_id` olan JSON zərfindən istifadə edir. Daxili xətalar PSR-3 vasitəsilə jurnala yazılır; çağırış izi ziyarətçilərə göndərilmir.
+
+
+## Növbəti addım
+
+[API resursları və səhifələmə](/az/docs/v0.1/api-resources).

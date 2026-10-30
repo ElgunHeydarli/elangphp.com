@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased development expansion — 2026-10-30
+
+Added optional Doctrine ORM 3.7 integration sharing the core DBAL connection, attribute entities and relationships, UTC lifecycle timestamps, explicit soft deletion, optimistic-lock/rollback coverage and ORM console tools. Both installers accept --orm; existing applications can use orm:enable without replacing their keys.
+
+Added immutable/lazy collections, explicit API resources with core paginator metadata, a bounded TLS HTTP client with scoped credentials and strict fake transport, real-kernel application testing with isolated sessions and in-memory mail, and application console extensions. Added six EN/AZ/RU documentation chapters, three practical lessons in each language, and a disposable catalogue example exercised by the test suite. Existing core repositories and default non-ORM installations remain supported. This remains a development preview.
+
 ## 0.1.0-dev — 2026-10-29
 
 Initial development snapshot. Includes the application kernel, explicit routing/container API, modular services, CLI generators, and an English documentation website built on Elang with an HTML/CSS/JavaScript frontend.
