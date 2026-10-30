@@ -102,3 +102,12 @@ elang new notes-api --starter=api
 ```
 
 Hər başlanğıc layihəsinə öz miqrasiyaları və tam mənbə kodu daxildir. Composer layihənin qurulması zamanı başlanğıc layihəsinin sxemini tətbiq edir. İctimai tətbiqi yayımlamazdan əvvəl autentifikasiya, modellər, Studio, bloq, idarəetmə paneli və qorunan API təlimatlarını oxuyun.
+
+
+## ORM ilə yeni layihə
+
+```bash
+elang new my-app --orm
+```
+
+[ORM ayarları, miqrasiyalar və yoxlanmış nümunələr](/az/docs/v0.1/orm).

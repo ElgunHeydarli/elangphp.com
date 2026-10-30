@@ -10,7 +10,6 @@
   "01 / SHARE WHAT YOU FOUND": "01 / ПОДЕЛИТЕСЬ НАХОДКАМИ",
   "02 / MAKE A SMALL IMPROVEMENT": "02 / ВНЕСИТЕ НЕБОЛЬШОЕ УЛУЧШЕНИЕ",
   "03 / KEEP DETAILS PRIVATE": "03 / СОХРАНЯЙТЕ КОНФИДЕНЦИАЛЬНОСТЬ",
-  "10 practical lessons": "10 практических уроков",
   "200 OK": "200 OK",
   "<?php": "<?php",
   "A CLEAR DIRECTION": "ЯСНОЕ НАПРАВЛЕНИЕ",
@@ -1092,7 +1091,6 @@
   "— Elang PHP Guides": "— руководства Elang PHP",
   "— Elang updates": "— обновления Elang",
   "/ Development preview": "/ Предварительная версия",
-  "/ 10 lessons": "/ 10 уроков",
   "Keep slow work outside HTTP requests. Elang provides a database-backed JSON job queue, delayed jobs, bounded retries, failed-job inspection, and UTC scheduling.": "Выполняйте медленные операции вне HTTP-запросов. Elang предоставляет очередь JSON-задач на базе данных, отложенные задачи, ограниченные повторы, просмотр сбоев и планирование по UTC.",
   "Use server-sent events for one-way updates and WebSockets for a persistent two-way connection. Elang includes durable database event history, private channel ca": "Используйте серверные события для односторонних обновлений и WebSocket для постоянной двусторонней связи. Elang включает постоянную историю событий и возможности закрытых каналов.",
   "Elang can serve HTML or act as an API backend for React, Next.js, Vue, native mobile applications, and server clients. The official website uses HTML, CSS, and": "Elang может отдавать HTML или служить API-бэкендом для React, Next.js, Vue, мобильных приложений и серверных клиентов. Официальный сайт использует HTML и CSS.",
@@ -1341,5 +1339,7 @@
   "Account sessions, security controls, and the services you explicitly request work independently of optional analytics. The server processes requests and security logs to operate and protect the website. Browser preferences such as language, theme, and analytics choice stay on your device.": "Сеансы аккаунта, средства защиты и явно запрошенные услуги работают независимо от необязательной аналитики. Сервер обрабатывает запросы и журналы безопасности для работы и защиты сайта. Настройки языка, темы и аналитики остаются на вашем устройстве.",
   "Questions": "Вопросы",
   "Google Privacy Policy ↗": "Политика конфиденциальности Google ↗",
-  "Packagist development packages": "Пакеты для разработки в Packagist"
+  "Packagist development packages": "Пакеты для разработки в Packagist",
+  "13 practical lessons": "13 практических уроков",
+  "/ 13 lessons": "/ 13 уроков"
 }

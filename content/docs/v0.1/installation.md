@@ -102,3 +102,12 @@ elang new notes-api --starter=api
 ```
 
 Each starter includes its own migrations and complete source. Composer applies the starter schema during project setup. Read the authentication, models, Studio, blog, dashboard, and protected API guides before deploying a public application.
+
+
+## Optional ORM project
+
+```bash
+elang new my-app --orm
+```
+
+[ORM setup, migrations and tested examples](/docs/v0.1/orm).

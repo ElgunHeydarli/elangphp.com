@@ -53,3 +53,8 @@ $router->get('/welcome', fn (View $view) =>
 ```
 
 Twig экранирует `name` перед вставкой в HTML.
+
+
+## Следующий шаг
+
+[Коллекции и ленивые потоки](/ru/docs/v0.1/collections).

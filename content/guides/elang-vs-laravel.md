@@ -1,53 +1,38 @@
-# Elang vs Laravel: capabilities, learning, and maturity
+# Elang, Laravel, CodeIgniter and Symfony: choosing by evidence
 
-Elang and Laravel are PHP frameworks at very different stages. Elang is a 0.1 development preview that aims for an explicit application API and modular services. Laravel is an established framework with a much broader set of application features and supporting tools.
+This comparison describes the development preview available on 30 October 2026. Elang is an independent PHP framework using Symfony components and Doctrine; it is not a Laravel distribution and does not implement Laravel’s API.
 
-This page compares current behavior, not an imagined future release. It does not establish that Elang is faster, safer, or better overall.
+Laravel documents Eloquent models, relationships and collections as part of its application development approach. CodeIgniter documents Model CRUD, validation, pagination, timestamps and soft deletion. Symfony provides reusable components including HttpFoundation, Console, Cache and Clock. Those projects have their own conventions and ecosystems; a similar feature name does not imply source compatibility.
 
-## Compare the available features
+[Laravel Eloquent](https://laravel.com/framework/docs/13.x/eloquent), [CodeIgniter Model](https://codeigniter.com/user_guide/models/model.html), [Symfony components](https://symfony.com/doc/current/components/index.html), [Doctrine ORM](https://www.doctrine-project.org/projects/doctrine-orm/en/current/tutorials/getting-started.html).
 
-| Area | Elang 0.1 preview | Laravel |
+## Elang capabilities available now
+
+| Area | Implemented behavior | Learn it |
 | --- | --- | --- |
-| Routing | Named routes, parameters, groups, middleware | A mature routing system and extensive integrations |
-| Dependency injection | PSR-11 container and constructor injection | Service container and service providers |
-| Database | Doctrine DBAL, explicit model repositories, pagination, and query builder | Query builder and Eloquent ORM |
-| Views | Twig with HTML autoescaping | Blade and multiple frontend options |
-| Validation | Symfony Constraint objects | Laravel validation rules and form requests |
-| Authentication | Auth Starter with verification, recovery, roles, sessions, and scoped tokens | Authentication services and application starter kits |
-| Jobs and scheduling | Database queue, leases, retries, failed jobs, UTC scheduling | Queue and scheduling facilities |
-| AI tooling | Versioned Markdown, read-only MCP documentation server, and project guidance | Laravel Boost and related AI tooling |
-| Real-time | Private SSE and Workerman WebSockets with SQL event replay | Broadcasting and ecosystem integrations |
-| Frontends | HTML, React, Next.js, mobile clients, CORS, OpenAPI starter | Multiple official frontend integrations |
-| Release maturity | Early preview; APIs can change | Established release process and ecosystem |
+| HTTP and services | Routing, middleware, PSR-11 injection, Symfony validation | [routing](/docs/v0.1/routing) |
+| Accounts | Verified accounts, roles/policies, scoped tokens, MFA/passkeys | [account-security](/docs/v0.1/account-security) |
+| Database | DBAL repositories plus optional Doctrine ORM | [orm](/docs/v0.1/orm) |
+| Data transformations | Immutable collections and lazy streams | [collections](/docs/v0.1/collections) |
+| JSON output | Explicit public fields and core pagination metadata | [api-resources](/docs/v0.1/api-resources) |
+| Partner integrations | TLS client, bounded responses, scoped tokens, strict fakes | [http-client](/docs/v0.1/http-client) |
+| Testing | Kernel requests, sessions, CSRF, in-memory mail and HTTP assertions | [application-testing](/docs/v0.1/application-testing) |
+| Application commands | Symfony Console extensions and non-overriding registration | [custom-console](/docs/v0.1/custom-console) |
+| Background and live updates | Database jobs/schedules, SSE, authenticated WebSockets | [queues](/docs/v0.1/queues) |
+| Application foundations | Redis, teams, private storage, notifications, telemetry, starters | [fullstack-starters](/docs/v0.1/fullstack-starters) |
 
-Check [Laravel's official documentation](https://laravel.com/framework/docs) for its current capabilities. Check [Elang's roadmap](/roadmap) before relying on a planned Elang feature.
+## Choose a data approach
 
-## Where Elang aims to be approachable
+Keep the explicit DBAL repositories for small, direct data operations. Opt in to Doctrine ORM when relationships, a unit of work and an identity map suit the domain. The two share a DBAL connection, but core Model objects and Doctrine entities are separate models; do not assume their factories or pagination adapters are interchangeable.
 
-The Elang route file receives an explicit router object. Services are visible through typed constructor and handler parameters. Validation uses concrete constraint objects, and the database API exposes DBAL rather than introducing a new ORM model layer in the preview.
+## What remains work
 
-That can make the request lifecycle easier to inspect for someone who prefers explicit objects and a small surface. It does not mean every application takes fewer lines of code or that every learner will prefer the same conventions.
+Additional queue broker adapters, semantic documentation search, dedicated editor integrations and automated upgrade tooling remain planned. A stable release also needs API stabilization, a support policy, independent security review and broader application/workload evidence. Billing providers, search engines, OAuth vendors and other ecosystem integrations must be evaluated individually; Elang does not claim every third-party package from another framework.
 
-## What learning still requires
+## Evaluate a real project
 
-Both frameworks require PHP fundamentals and an understanding of HTTP, data, and application access rules. A smaller framework does not eliminate those concepts. Elang's learning path addresses them in sequence instead of assuming a beginner already understands namespaces, Composer, sessions, or CSRF.
+Implement the same feature, inputs, authorization rules, data operations and tests in each candidate. Record setup time, maintenance work and failures. A performance comparison must state PHP/SAPI, OPcache, hardware, dependencies, payload, warm-up and concurrency, with reproducible raw results. No universal speed, security or production-capacity superiority is established here.
 
-Try the [first route lesson](/learn/first-route), then the [complete task board](/learn/build-a-task-board). Judge the learning experience by whether you can explain the code and diagnose a failure after following it.
+Start with the task-board lesson, then the partner API, entities/resources and application-testing lessons. All three languages use the same executable code. The catalogue example is checked by the suite against a disposable database and fake partner API.
 
-## Performance needs a reproducible comparison
-
-A fair benchmark states the PHP version, SAPI or server, OPcache configuration, dependencies, hardware, request payload, concurrency, warm-up, and workload. A minimal JSON route measures a narrow part of request overhead; it does not represent a database-heavy application, a queue worker, or operational reliability.
-
-Elang does not currently publish a verified result proving general superiority over Laravel. Benchmark tooling should keep raw results and describe the exact workload instead of turning one favorable microbenchmark into a universal claim.
-
-## How to evaluate a project
-
-Choose a small feature you actually need. Implement the same inputs, responses, validation behavior, data operations, and tests in both candidates. Record setup steps, failure modes, maintenance effort, and the measured resource use.
-
-If a required feature is missing in Elang, include the cost of building or integrating it. Comparing a minimal preview with a feature-rich stack while ignoring the missing work would give a misleading result.
-
-## Current project fit
-
-Elang is suitable for learning its design, testing the preview, and giving feedback through controlled experiments. Teams with production requirements should evaluate the changing APIs, incomplete feature areas, and absence of an independent security review before making a commitment.
-
-A better learning experience and measurable improvements are goals we can work toward. The next useful step is a real example and evidence, not a stronger adjective on the homepage.
+[Learn](/learn) · [ORM](/docs/v0.1/orm) · [Application testing](/docs/v0.1/application-testing)

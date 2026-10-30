@@ -17,7 +17,7 @@ The official website is an Elang application: the backend uses this framework, w
 - Redis-backed or single-host filesystem API rate limits with locks, safe error responses, request IDs, and default security headers.
 - PSR-16 cache, PSR-3 logs, synchronous events, and a configurable mail transport.
 - A standalone application generator and controller/migration generators.
-- English, Azerbaijani, and Russian documentation, ten lessons, code examples, search, Atom, a sitemap, Markdown exports, and llms.txt.
+- English, Azerbaijani, and Russian documentation, thirteen lessons, code examples, search, Atom, a sitemap, Markdown exports, and llms.txt.
 
 - Account authentication, verified email, recovery, forced temporary-password rotation, roles, policies, and scoped API tokens.
 - Explicit model repositories, relations, pagination, factories, and seeders.
@@ -28,7 +28,7 @@ The official website is an Elang application: the backend uses this framework, w
 - CORS, OpenAPI, a fetch ES module, React/Next.js examples, and idempotency for buffered JSON writes.
 - A read-only documentation MCP endpoint over HTTP or stdio.
 
-Redis-backed infrastructure, transactional outbox notifications, MFA/passkeys/devices, teams, private files, notifications, OpenTelemetry, and React/Next/SaaS starters are implemented. A full ORM, additional broker integrations, and dedicated editor plugins remain future work. See [ROADMAP.md](ROADMAP.md).
+Redis-backed infrastructure, transactional outbox notifications, MFA/passkeys/devices, teams, private files, notifications, OpenTelemetry, and React/Next/SaaS starters are implemented. Optional Doctrine ORM, immutable/lazy collections, explicit API resources, an outbound HTTP client with strict fakes, application testing tools, and custom console commands are implemented. Additional broker integrations and dedicated editor plugins remain future work. See [ROADMAP.md](ROADMAP.md).
 
 ## Requirements
 

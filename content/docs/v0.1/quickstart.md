@@ -53,3 +53,8 @@ Create `resources/views/welcome.twig`:
 ```
 
 Twig escapes `name` before placing it in HTML.
+
+
+## Next step
+
+[Collections and lazy streams](/docs/v0.1/collections).

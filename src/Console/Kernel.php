@@ -13,6 +13,10 @@ final class Kernel
     public function __construct(private Application $app) {}
     public function run(): int
     {
+        return $this->console()->run();
+    }
+    public function console(): Console
+    {
         $console = new Console('Elang', Application::VERSION);
         $console->add((new Command('doctor'))->setDescription('Check requirements, configuration, storage, and database connectivity.')->addOption('json', null, InputOption::VALUE_NONE, 'Return machine-readable results without secrets.')->setCode(function ($input, $output) {
             $checks = (new Doctor())->inspect($this->app);
@@ -78,13 +82,17 @@ final class Kernel
             file_put_contents($directory.'/'.$file, "<?php\ndeclare(strict_types=1);\nuse Doctrine\\DBAL\\Connection;\nuse Elang\\Database\\Migration;\nreturn new class implements Migration {\n    public function up(Connection \$database): void {}\n    public function down(Connection \$database): void {}\n};\n");
             $output->writeln('<info>Created '.$file.'</info>'); return 0;
         }));
-        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Include a sanitized local framework source snapshot.')->addOption('example', null, InputOption::VALUE_REQUIRED, 'Include a complete example or starter.')->addOption('starter',null,InputOption::VALUE_REQUIRED,'auth, blog, dashboard, api, react, next, or saas')->setCode(function ($input, $output) {
+        $console->add((new Command('new'))->setDescription('Create a standalone Elang application.')->addArgument('directory', InputArgument::REQUIRED)->addOption('local', null, InputOption::VALUE_NONE, 'Include a sanitized local framework source snapshot.')->addOption('orm',null,InputOption::VALUE_NONE,'Include optional Doctrine ORM support.')->addOption('example', null, InputOption::VALUE_REQUIRED, 'Include a complete example or starter.')->addOption('starter',null,InputOption::VALUE_REQUIRED,'auth, blog, dashboard, api, react, next, or saas')->setCode(function ($input, $output) {
             $path = $input->getArgument('directory');
-            if (!str_starts_with($path, '/')) $path = getcwd().'/'.$path;
+            if (!\Symfony\Component\Filesystem\Path::isAbsolute($path)) $path = getcwd().'/'.$path;
             if($input->getOption('example')&&$input->getOption('starter')) throw new \InvalidArgumentException('Choose --example or --starter.');
-            (new ProjectGenerator())->generate($path, $input->getOption('local') ? dirname(__DIR__, 2) : null, ($input->getOption('starter')??$input->getOption('example')));
+            (new ProjectGenerator())->generate($path, $input->getOption('local') ? dirname(__DIR__, 2) : null, ($input->getOption('starter')??$input->getOption('example')),(bool)$input->getOption('orm'));
             $output->writeln('<info>Application created at '.$path.'</info>');
             $output->writeln('Next: cd into the application, then run composer install, php elang key:generate, and php elang serve.'); return 0;
+        }));
+        $console->add((new Command('orm:enable'))->setDescription('Enable an installed optional Doctrine ORM in this application.')->setCode(function($input,$output):int {
+            if(!class_exists(\Doctrine\ORM\EntityManager::class))throw new \LogicException('First run composer require doctrine/orm:^3.7.');
+            (new ProjectGenerator())->enableOrm($this->app->basePath);$output->writeln('<info>ORM enabled. Restart long-running workers and run php elang make:entity Product.</info>');return 0;
         }));
         $console->add((new Command('serve'))->setDescription('Run the local development server.')->addOption('host', null, InputOption::VALUE_REQUIRED, 'Listen address', '127.0.0.1')->addOption('port', null, InputOption::VALUE_REQUIRED, 'Listen port', '8000')->setCode(function ($input, $output) {
             $host = $input->getOption('host'); $port = filter_var($input->getOption('port'), FILTER_VALIDATE_INT);
@@ -129,6 +137,10 @@ final class Kernel
             $schema=$input->getOption('schema');$destination=$input->getOption('output');foreach(['schema','destination'] as $name) if(!str_starts_with($$name,'/')) $$name=$this->app->basePath.'/'.$$name;if(!is_file($schema)) throw new \InvalidArgumentException('OpenAPI schema file not found.');$document=require $schema;if(!is_array($document)) throw new \InvalidArgumentException('The schema must return an OpenAPI array.');$source=(new \Elang\OpenApi\TypeScript())->generate($document);if(!is_dir(dirname($destination))) mkdir(dirname($destination),0770,true);file_put_contents($destination,$source);$output->writeln('TypeScript client generated.');return 0;
         }));
         QueueCommands::register($console,$this->app);
-        return $console->run();
+        foreach($this->app->commands() as $command){
+            foreach([$command->getName(),...$command->getAliases()] as $name)if($console->has($name))throw new \LogicException('Application command conflicts with a framework command: '.$name);
+            $console->add($command);
+        }
+        return $console;
     }
 }

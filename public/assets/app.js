@@ -137,7 +137,7 @@ const elangText = (message, values = {}) => Object.entries(values).reduce((text,
 // Lesson completion stays in this browser; the server stores no progress profile.
 (() => {
   const key = 'elang-v0.1-learning-progress';
-  const known = ['environment','php-basics','first-route','json-api','validate-input','database','templates','build-a-task-board','debugging','ship'];
+  const known = ['environment','php-basics','first-route','json-api','validate-input','database','templates','build-a-task-board','debugging','ship','partner-api','entities-and-resources','test-your-application'];
   let completed = [];
   try { const saved = JSON.parse(localStorage.getItem(key) || '[]'); if (Array.isArray(saved)) completed = [...new Set(saved.filter(id => known.includes(id)))]; } catch (_) {}
   const button = document.querySelector('[data-lesson-id]');

@@ -14,6 +14,7 @@ final class Installer
         $console->add((new Command('new'))->setDescription('Create an Elang PHP application and install its dependencies.')
             ->addArgument('directory', InputArgument::REQUIRED, 'A new or empty application directory')
             ->addOption('starter', null, InputOption::VALUE_REQUIRED, 'Application starter: auth, blog, dashboard, api, react, next, saas')
+            ->addOption('orm',null,InputOption::VALUE_NONE,'Install and enable optional Doctrine ORM support')
             ->addOption('example', null, InputOption::VALUE_REQUIRED, 'Optional complete example: task-board')
             ->addOption('repository', null, InputOption::VALUE_REQUIRED, 'Optional self-hosted Composer repository; defaults to Packagist')
             ->setCode(function ($input, $output) use ($version): int {
@@ -38,6 +39,11 @@ final class Installer
                 $process->setTimeout(null);
                 $status = $process->run(fn ($type, $buffer) => $output->write($buffer));
                 if ($status !== 0) return $status;
+                if($input->getOption('orm')){
+                    foreach([[$composer,'require','doctrine/orm:^3.7','--no-interaction'],[PHP_BINARY,'elang','orm:enable']] as $arguments){
+                        $step=new Process($arguments,realpath($directory));$step->setTimeout(null);$status=$step->run(fn($type,$buffer)=>$output->write($buffer));if($status!==0)return $status;
+                    }
+                }
                 $output->writeln('<info>Ready. Open the new directory and run php elang serve.</info>');
                 return 0;
             }));

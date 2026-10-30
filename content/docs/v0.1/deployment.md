@@ -69,3 +69,8 @@ sqlite3 /srv/elang-backups/elang.sqlite 'PRAGMA integrity_check;'
 An integrity result of `ok` is only the first check. Restore into an isolated database and private storage directory. Compare all table counts against the completed backup, confirm migrations, administrator access, content, and the HMAC audit chain using the matching application key. Never point a restoration exercise at the live database or enable email/webhooks in the restored environment.
 
 Rehearse an application release rollback separately. Keep a known working source release and its dependencies. A source rollback does not reverse schema changes, delivered messages, or object-storage writes. The official host uses an atomic private release pointer; other deployments must provide their own release and worker-restart procedure. See [releases and upgrades](/docs/v0.1/releases) and [operations](/docs/v0.1/observability).
+
+
+## Next step
+
+[Optional Doctrine ORM](/docs/v0.1/orm).

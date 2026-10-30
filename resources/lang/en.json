@@ -10,7 +10,6 @@
   "01 / SHARE WHAT YOU FOUND": "01 / SHARE WHAT YOU FOUND",
   "02 / MAKE A SMALL IMPROVEMENT": "02 / MAKE A SMALL IMPROVEMENT",
   "03 / KEEP DETAILS PRIVATE": "03 / KEEP DETAILS PRIVATE",
-  "10 practical lessons": "10 practical lessons",
   "200 OK": "200 OK",
   "<?php": "<?php",
   "A CLEAR DIRECTION": "A CLEAR DIRECTION",
@@ -1092,7 +1091,6 @@
   "— Elang PHP Guides": "— Elang PHP Guides",
   "— Elang updates": "— Elang updates",
   "/ Development preview": "/ Development preview",
-  "/ 10 lessons": "/ 10 lessons",
   "Keep slow work outside HTTP requests. Elang provides a database-backed JSON job queue, delayed jobs, bounded retries, failed-job inspection, and UTC scheduling.": "Keep slow work outside HTTP requests. Elang provides a database-backed JSON job queue, delayed jobs, bounded retries, failed-job inspection, and UTC scheduling.",
   "Use server-sent events for one-way updates and WebSockets for a persistent two-way connection. Elang includes durable database event history, private channel ca": "Use server-sent events for one-way updates and WebSockets for a persistent two-way connection. Elang includes durable database event history, private channel ca",
   "Elang can serve HTML or act as an API backend for React, Next.js, Vue, native mobile applications, and server clients. The official website uses HTML, CSS, and": "Elang can serve HTML or act as an API backend for React, Next.js, Vue, native mobile applications, and server clients. The official website uses HTML, CSS, and",
@@ -1321,5 +1319,7 @@
   "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.": "Existing mail DNS records conflict with this plan. Review them in Fornex; no records were changed.",
   "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.": "Some DNS records may already have been created. Review Fornex and retry; existing records are preserved.",
   "Mail DNS publication is already running. Try again shortly.": "Mail DNS publication is already running. Try again shortly.",
-  "Integrations": "Integrations"
+  "Integrations": "Integrations",
+  "13 practical lessons": "13 practical lessons",
+  "/ 13 lessons": "/ 13 lessons"
 }

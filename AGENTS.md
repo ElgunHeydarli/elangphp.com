@@ -9,7 +9,7 @@ Elang is a PHP framework, not a separate language. The current version is 0.1.0-
 - Frontend: server-rendered HTML, CSS, and vanilla JavaScript. No SPA framework or Node build is required.
 - HTTP: Symfony HttpFoundation. This is not a PSR-7/PSR-15 implementation.
 - Container: PSR-11. Cache: PSR-16. Logs: PSR-3.
-- Database: Doctrine DBAL with explicit model repositories, not a full ORM. Bind values; never interpolate user SQL expressions.
+- Database: Doctrine DBAL with explicit model repositories; optional Doctrine ORM via Elang\Orm shares the same connection. Bind values; never interpolate user SQL expressions.
 - Validation: Symfony Constraint objects, not Laravel rule strings.
 - Templates: Twig, autoescaped and strict. Markdown conversion strips raw HTML.
 - Mail/events are synchronous unless explicitly dispatched through the database JSON job queue. Account auth, scoped tokens, policies, model repositories, local Studio, SSE/WebSockets, scheduling, and idempotency are implemented.

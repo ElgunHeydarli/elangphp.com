@@ -4,11 +4,32 @@ namespace Elang\Console;
 final class ProjectGenerator
 {
     public const STARTERS=['task-board','auth','blog','dashboard','api','react','next','saas'];
+    /** Explicitly opt in; preserve all keys and unrelated environment values. */
+    public function enableOrm(string $directory):void
+    {
+        if(!is_file($directory.'/composer.json'))throw new \InvalidArgumentException('Choose an Elang application directory.');
+        if(!is_dir($directory.'/app/Entities')&&!mkdir($directory.'/app/Entities',0770,true)&&!is_dir($directory.'/app/Entities'))throw new \RuntimeException('Cannot create the entity directory.');
+        foreach(['.env.example','.env'] as $name){
+            $file=$directory.'/'.$name;if(!is_file($file))continue;
+            if(is_link($file))throw new \LogicException('Set ORM_ENABLED=true in the authoritative environment configuration; linked environment files are not rewritten.');
+            $original=file_get_contents($file);$source=$original;
+            $source=preg_match('/^ORM_ENABLED=/m',$source)?preg_replace('/^ORM_ENABLED=[^\r\n]*/m','ORM_ENABLED=true',$source):rtrim($source)."\nORM_ENABLED=true\n";
+            if($source===$original)continue;
+            $temporary=tempnam($directory,'.orm-env-');if($temporary===false)throw new \RuntimeException('Cannot stage ORM configuration.');
+            try{
+                if(file_put_contents($temporary,$source,LOCK_EX)!==strlen($source))throw new \RuntimeException('Cannot write ORM configuration.');
+                if(function_exists('posix_geteuid')&&posix_geteuid()===0){
+                    $owner=stat($file);if(!chown($temporary,$owner['uid'])||!chgrp($temporary,$owner['gid']))throw new \RuntimeException('Cannot preserve environment file ownership.');
+                }
+                if(!chmod($temporary,$name==='.env'?0600:(fileperms($file)&0777))||!rename($temporary,$file))throw new \RuntimeException('Cannot replace ORM configuration; the original file was preserved.');
+            }finally{if(is_file($temporary))unlink($temporary);}
+        }
+    }
     private function files(string $source): array
     {
         if(!is_dir($source)) return [];$files=[];
         foreach(new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator(new \RecursiveDirectoryIterator($source,\FilesystemIterator::SKIP_DOTS),fn($file)=>!$file->isDir()||!in_array($file->getFilename(),['vendor','storage','node_modules','.next','.vite','dist','coverage','.git'],true))) as $file) {
-            if(!$file->isFile()) continue;$relative=substr($file->getPathname(),strlen($source)+1);
+            if(!$file->isFile()) continue;$relative=str_replace('\\','/',substr($file->getPathname(),strlen($source)+1));
             if(preg_match('~(^|/)(vendor|storage|node_modules|\.next|\.vite|dist|coverage|\.git)(/|$)|(^|/)\.env($|\.)~',$relative)&&basename($relative)!=='.env.example') continue;
             $files[]=$relative;
         }return $files;
@@ -28,12 +49,13 @@ final class ProjectGenerator
         foreach(['task-board.css','favicon.svg'] as $file) $files[]='public/assets/'.$file;
         $this->copy($source,$destination,$files);
     }
-    public function generate(string $directory,?string $frameworkPath=null,?string $example=null): void
+    public function generate(string $directory,?string $frameworkPath=null,?string $example=null,bool $orm=false): void
     {
         if($example!==null&&!in_array($example,self::STARTERS,true)) throw new \InvalidArgumentException('Available starters: '.implode(', ',self::STARTERS));
         if(is_dir($directory)&&count(scandir($directory))>2) throw new \RuntimeException('Destination must be empty.');
         if(!is_dir($directory)&&!mkdir($directory,0770,true)) throw new \RuntimeException('Could not create destination.');
         $composer=['name'=>'app/elang-project','type'=>'project','license'=>'MIT','require'=>['php'=>'^8.3','elang/framework'=>$frameworkPath?'dev-main':\Elang\Application::VERSION],'autoload'=>['psr-4'=>['App\\'=>'app/']],'repositories'=>[$frameworkPath?['type'=>'path','url'=>'./.elang/framework','options'=>['symlink'=>false,'versions'=>['elang/framework'=>'dev-main']]]:['type'=>'composer','url'=>'https://elangphp.com/packages']],'minimum-stability'=>'dev','prefer-stable'=>true,'config'=>['allow-plugins'=>false]];
+        if($orm)$composer['require']['doctrine/orm']='^3.7';
         if($frameworkPath) $this->stageFramework($frameworkPath,$directory.'/.elang/framework');
         $files=[
             'composer.json'=>json_encode($composer,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES)."\n",
@@ -55,6 +77,7 @@ final class ProjectGenerator
         if(in_array($example,['react','next'],true)) { $source=dirname(__DIR__,2).'/examples/frontend-'.$example;$this->copy($source,$directory.'/frontend',$this->files($source)); }
         if($example!==null&&!in_array($example,['react','next'],true)) { $source=dirname(__DIR__,2).'/examples/'.$example;$this->copy($source,$directory,$this->files($source)); }
         if(in_array($example,['react','next','saas'],true)) { $this->copy(dirname(__DIR__,2).'/devkit',$directory.'/devkit',$this->files(dirname(__DIR__,2).'/devkit'));copy(dirname(__DIR__,2).'/compose.yaml',$directory.'/compose.yaml');copy(dirname(__DIR__,2).'/.dockerignore',$directory.'/.dockerignore'); }
+        if($orm)$this->enableOrm($directory);
         chmod($directory.'/elang',0755);
     }
 }

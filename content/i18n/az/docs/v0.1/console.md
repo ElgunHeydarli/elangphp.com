@@ -44,3 +44,8 @@ Bu əmrlər freymvork repozitoriyasında işləyir. İş axını repozitoriyaya 
 ## Qlobal quraşdırıcı ilə layihələr yaradın
 
 [CLI-nin birdəfəlik hazırlanmasından](/docs/v0.1/installation) sonra `elang new my-app` və ya `elang new task-board --example=task-board` yerinə yetirin. Qlobal əmr asılılıqların quraşdırılmasını və layihənin hazırlanmasını Composer-ə həvalə edir. Layihə daxilində onun öz tətbiq konsolunu işə salmaq üçün `php elang` istifadə edin.
+
+
+## Növbəti addım
+
+[Tətbiqə məxsus konsol əmrləri](/az/docs/v0.1/custom-console).

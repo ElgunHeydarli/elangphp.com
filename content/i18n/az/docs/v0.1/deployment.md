@@ -69,3 +69,8 @@ sqlite3 /srv/elang-backups/elang.sqlite 'PRAGMA integrity_check;'
 Bütövlük yoxlamasının `ok` nəticəsi yalnız ilk yoxlamadır. Nüsxəni ayrıca baza və şəxsi yaddaş qovluğuna bərpa edin. Bütün cədvəllərin sətir saylarını tamamlanmış nüsxə ilə müqayisə edin; miqrasiyaları, administrator girişini, məzmunu və uyğun tətbiq açarı ilə HMAC audit zəncirini təsdiqləyin. Bərpa sınağını heç vaxt canlı bazaya yönəltməyin və bərpa mühitində email və webhook göndərişini aktiv etməyin.
 
 Tətbiq versiyasının geri qaytarılmasını ayrıca məşq edin. İşlədiyi məlum olan mənbə versiyasını və asılılıqlarını saxlayın. Mənbəni geri qaytarmaq sxem dəyişikliklərini, çatdırılmış məktubları və obyekt yaddaşına yazıları geri almır. Rəsmi hostinq atomik şəxsi versiya göstəricisindən istifadə edir; digər yerləşdirmələr versiya dəyişmə və işçiləri yenidən başlatma prosedurunu özləri təmin etməlidir. [Versiyalar və yeniləmələr](/docs/v0.1/releases) və [əməliyyatlar](/docs/v0.1/observability) bölmələrinə baxın.
+
+
+## Növbəti addım
+
+[Seçimə bağlı Doctrine ORM](/az/docs/v0.1/orm).

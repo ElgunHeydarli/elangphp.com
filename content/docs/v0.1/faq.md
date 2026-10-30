@@ -50,7 +50,7 @@ Usually the document root, rewrite rule, PHP version, extension set, or file per
 
 ## Does Elang already include login, queues, or an ORM?
 
-Authentication, verified accounts, password recovery, scoped API tokens, model repositories, and complete starters are available. Database jobs, UTC scheduling, SSE, WebSockets, frontend CORS, and retry-safe JSON writes are also available. Redis-backed cache, sessions, strict rate limits, locks, and transactional notifications are also available. A full ORM and additional broker integrations remain outside the current implementation. Check the [roadmap](/roadmap) before depending on a feature.
+Authentication, verified accounts, password recovery, scoped API tokens, model repositories, and complete starters are available. Database jobs, UTC scheduling, SSE, WebSockets, frontend CORS, and retry-safe JSON writes are also available. Redis-backed cache, sessions, strict rate limits, locks, and transactional notifications are also available. The optional Doctrine ORM integration is available; additional broker integrations remain planned. Check the [roadmap](/roadmap) before depending on a feature.
 
 ## Are the examples production applications?
 
@@ -63,3 +63,10 @@ Run `php elang doctor`. Then start the local server and open the exact URL shown
 ## How can I contribute or get help?
 
 Check the [troubleshooting guide](/docs/v0.1/troubleshooting), then prepare a small reproduction if needed. GitHub issues are suitable for ordinary bugs and questions. For vulnerabilities, follow the repository's security policy and keep sensitive details private.
+
+
+## Optional ORM update
+
+Optional Doctrine ORM is now available with entity relationships, a unit of work, soft deletion, UTC timestamps and ORM CLI tools. Core DBAL repositories remain supported. Additional broker integrations are still planned.
+
+[Setup and examples](/docs/v0.1/orm).

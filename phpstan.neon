@@ -4,4 +4,5 @@ parameters:
         - src
         - app
         - packages/installer/src
+        - tests/OrmFixtures
     tmpDir: .phpstan
