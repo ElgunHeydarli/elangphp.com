@@ -136,3 +136,8 @@ Read the versioned documentation at `/docs/v0.1/introduction`. Append `.md` for 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [LICENSE](LICENSE).
+
+## Author
+
+Created by **Elgün Heydərli**, a Full Stack Developer based in Baku, Azerbaijan. See the [professional portfolio (AZ)](https://elgunhaydarli.com/az) or [Russian version](https://elgunhaydarli.com/ru) for project case studies and contact details.
+
