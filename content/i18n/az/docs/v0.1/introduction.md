@@ -18,7 +18,7 @@ Bu veb-sayt Elang üzərində işləyir və ingilis, Azərbaycan və rus dillər
 - Sessiyalar, CSRF aralıq proqram təminatı, Argon2id ilə parol heşlənməsi və Sodium şifrələməsi.
 - PSR-16 keşləmə, PSR-3 jurnal qeydləri, hadisələr, poçt nəqli və konsol.
 
-## Hələ nələr daxil deyil
+## Hazırkı imkanlar və növbəti addımlar
 
 Autentifikasiya, rollar, səlahiyyətləri məhdudlaşdırılmış API tokenləri, model/repozitoriya qatı, lokal Studio və yalnız oxumağa imkan verən sənədləşmə MCP serveri bu ilkin versiyaya daxildir. Fon tapşırıqları, UTC üzrə planlaşdırma, SSE, autentifikasiyalı WebSockets, ön tərəf üçün CORS və JSON yazma əməliyyatlarının idempotentliyi də daxildir. Redis-ə əsaslanan infrastruktur, tranzaksiyalı çıxış qutusu bildirişləri, MFA/keçid açarları/cihaz idarəetməsi, təşkilatlar, şəxsi fayllar, gələn qutusu bildirişləri, OpenTelemetry və React/Next/SaaS başlanğıc layihələri reallaşdırılıb. Seçimə bağlı Doctrine ORM, kolleksiyalar, API resursları, HTTP müştərisi, tətbiq test alətləri və xüsusi əmrlər mövcuddur. Əlavə broker inteqrasiyaları və avtomatik yeniləmə alətləri hələ plandadır.
 

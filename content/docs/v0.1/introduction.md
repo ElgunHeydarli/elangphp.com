@@ -18,7 +18,7 @@ This website runs on Elang and offers English, Azerbaijani, and Russian content.
 - Sessions, CSRF middleware, Argon2id password hashing, and Sodium encryption.
 - PSR-16 caching, PSR-3 logging, events, mail transport, and a console.
 
-## What is not included yet
+## Current capabilities and next steps
 
 Authentication, roles, scoped API tokens, a model/repository layer, local Studio, and the read-only documentation MCP server are included in this preview. Background jobs, UTC scheduling, SSE, authenticated WebSockets, frontend CORS, and idempotency for JSON writes are included. Redis-backed infrastructure, transactional outbox notifications, MFA/passkeys/device management, organizations, private files, inbox notifications, OpenTelemetry, and React/Next/SaaS starters are implemented. Optional Doctrine ORM, collections, API resources, the outbound HTTP client, application test tools and custom commands are now included. Additional broker integrations and automated upgrade tooling remain planned.
 
